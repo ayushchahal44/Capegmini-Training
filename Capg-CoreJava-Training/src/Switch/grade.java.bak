@@ -1,0 +1,37 @@
+import java.util.Scanner;
+
+class grade {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+		System.out.print("Chose A,B,C,D or F for grade: ");
+		char choice = s.next().charAt(0);
+		System.out.println("---------------------------------------------------------------------------------------------------");
+		System.out.println("---------------------------------------------------------------------------------------------------");
+		System.out.print("Your overall performance is ");
+		switch(choice){
+			case 'A':{
+				System.out.println("Very Good");
+			}
+				break;
+			case 'B':{
+				System.out.println("Good");
+			}
+				break;
+			case 'C':{
+				System.out.println("Average");
+			}
+				break;
+			case 'D':{
+				System.out.println("Poor");
+			}
+                break;
+			case 'F':{
+				System.out.println("Fail.");
+			}
+                break;
+			default:{
+				System.out.println("Please chose only A,B,C,D or F");
+			}
+		}
+	}
+}

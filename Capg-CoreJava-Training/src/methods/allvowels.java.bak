@@ -1,0 +1,18 @@
+import java.util.Scanner;
+class allvowels{
+	public static void main(String[] args){
+		Scanner s = new Scanner(System.in);
+		System.out.print("Enter the string you want to check: ");
+		String inp = s.nextLine().toUpperCase();
+		boolean flag = print(inp);
+		if(flag) System.out.print("The string is consist only of vowels.");
+		else System.out.print("The string is not consist only of vowels.");
+	}
+	public static boolean print(String str){
+		for(int i=0;i<str.length();i++){
+			char c= str.charAt(i);
+			if(c!='A' || c!='E' || c!='I' || c!='O' || c!='U') return false;
+	}
+	return true;
+}
+}

@@ -1,0 +1,28 @@
+import java.util.*;
+class  Productalpha
+{
+	public static void main(String[] args) 
+	{
+		Scanner s = new Scanner(System.in);
+		System.out.print("The starting char is:");
+		char st = s.next().toUpperCase().charAt(0);
+		s.nextLine();
+		System.out.print("The Ending char is:");
+		char e = s.next().toUpperCase().charAt(0);
+		int count =1;
+		long odd_p=1;
+		long even_p=1;
+		for(char i=st;i<=e;i++){
+			if(i%2==0){
+				even_p*=count;
+	}else{
+		odd_p*=count;
+}
+count++;
+	}
+	System.out.println("Here is the product of even numbers between the range: "+even_p);
+	System.out.println("Here is the product of odd numbers  between the range: "+odd_p);
+}
+}
+
+ 

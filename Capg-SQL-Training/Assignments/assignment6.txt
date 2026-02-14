@@ -1,0 +1,132 @@
+SQL> -- Number of employees working in each department except PRESIDENT
+SQL> SELECT DEPTNO, COUNT(*) AS EMP_COUNT
+  2  FROM EMP
+  3  WHERE JOB <> 'PRESIDENT'
+  4  GROUP BY DEPTNO;
+
+    DEPTNO  EMP_COUNT                                                           
+---------- ----------                                                           
+        30          6                                                           
+        20          5                                                           
+        10          2                                                           
+
+SQL> -- Total salary needed to pay all employees in each job
+SQL> SELECT JOB, SUM(SAL) AS TOTAL_SALARY
+  2  FROM EMP
+  3  GROUP BY JOB;
+
+JOB       TOTAL_SALARY                                                          
+--------- ------------                                                          
+CLERK             4150                                                          
+SALESMAN          5600                                                          
+PRESIDENT         5000                                                          
+MANAGER           8275                                                          
+ANALYST           6000                                                          
+
+SQL> -- Number of employees working as MANAGER in each department
+SQL> SELECT DEPTNO, COUNT(*) AS MANAGER_COUNT
+  2  FROM EMP
+  3  WHERE JOB = 'MANAGER'
+  4  GROUP BY DEPTNO;
+
+    DEPTNO MANAGER_COUNT                                                        
+---------- -------------                                                        
+        30             1                                                        
+        20             1                                                        
+        10             1                                                        
+
+SQL> -- Average salary in each department excluding deptno 20
+SQL> SELECT DEPTNO, AVG(SAL) AS AVG_SALARY
+  2  FROM EMP
+  3  WHERE DEPTNO <> 20
+  4  GROUP BY DEPTNO;
+
+    DEPTNO AVG_SALARY                                                           
+---------- ----------                                                           
+        30 1566.66667                                                           
+        10 2916.66667                                                           
+
+SQL> -- Number of employees having character `A' in their names in each job
+SQL> SELECT JOB, COUNT(*) AS EMP_COUNT
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%A%'
+  4  GROUP BY JOB;
+
+JOB        EMP_COUNT                                                            
+--------- ----------                                                            
+SALESMAN           3                                                            
+CLERK              2                                                            
+MANAGER            2                                                            
+
+SQL> -- Number of employees and average salary (salary > 2000) in each department
+SQL> SELECT DEPTNO, COUNT(*) AS EMP_COUNT, AVG(SAL) AS AVG_SALARY
+  2  FROM EMP
+  3  WHERE SAL > 2000
+  4  GROUP BY DEPTNO;
+
+    DEPTNO  EMP_COUNT AVG_SALARY                                                
+---------- ---------- ----------                                                
+        30          1       2850                                                
+        20          3 2991.66667                                                
+        10          2       3725                                                
+
+SQL> -- Total salary and number of SALESMEN in each department
+SQL> SELECT DEPTNO, COUNT(*) AS SALESMAN_COUNT, SUM(SAL) AS TOTAL_SALARY
+  2  FROM EMP
+  3  WHERE JOB = 'SALESMAN'
+  4  GROUP BY DEPTNO;
+
+    DEPTNO SALESMAN_COUNT TOTAL_SALARY                                          
+---------- -------------- ------------                                          
+        30              4         5600                                          
+
+SQL> -- Number of employees and maximum salary in each job
+SQL> SELECT JOB, COUNT(*) AS EMP_COUNT, MAX(SAL) AS MAX_SALARY
+  2  FROM EMP
+  3  GROUP BY JOB;
+
+JOB        EMP_COUNT MAX_SALARY                                                 
+--------- ---------- ----------                                                 
+CLERK              4       1300                                                 
+SALESMAN           4       1600                                                 
+PRESIDENT          1       5000                                                 
+MANAGER            3       2975                                                 
+ANALYST            2       3000                                                 
+
+SQL> -- Maximum salary given to an employee in each department
+SQL> SELECT DEPTNO, MAX(SAL) AS MAX_SALARY
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+
+    DEPTNO MAX_SALARY                                                           
+---------- ----------                                                           
+        30       2850                                                           
+        20       3000                                                           
+        10       5000                                                           
+
+SQL> -- Number of times each salary appears in EMP table
+SQL> SELECT SAL, COUNT(*) AS SAL_COUNT
+  2  FROM EMP
+  3  GROUP BY SAL;
+
+       SAL  SAL_COUNT                                                           
+---------- ----------                                                           
+      2450          1                                                           
+      5000          1                                                           
+      1300          1                                                           
+      1250          2                                                           
+      2850          1                                                           
+      2975          1                                                           
+      1100          1                                                           
+      3000          2                                                           
+       800          1                                                           
+      1600          1                                                           
+      1500          1                                                           
+
+       SAL  SAL_COUNT                                                           
+---------- ----------                                                           
+       950          1                                                           
+
+12 rows selected.
+
+SQL> SPOOL OFF

@@ -1,0 +1,6 @@
+class isDigit{
+	 public static void main(String[] args) {
+		 char input = 'A';
+		 System.out.println((input>=48 && input<=57) ? "Is Digit" : "Not a Digit");
+	 }
+}

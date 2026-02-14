@@ -1,0 +1,14 @@
+import java.util.Scanner;
+class Scn1
+{
+	public static void main(String[] args) 
+	{
+		Scanner s = new Scanner(System.in);
+		System.out.print("Enter byte value: ");
+		byte b1 = s.nextByte();
+		int i1 = b1;
+		System.out.println("Your byte to int value: "+ i1);
+		float f1 = b1;
+		System.out.println("Your byte to float value: "+ i1);
+	}
+}

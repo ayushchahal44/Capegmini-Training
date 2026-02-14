@@ -1,0 +1,25 @@
+import java.util.Scanner;
+class palinarr{
+    public static void main(String[] args){
+        Scanner s=new Scanner(System.in);
+		System.out.print("Enter the size of the array: ");
+        int arr[]=new int[s.nextInt()];
+        for(int i=0;i<arr.length;i++){
+			System.out.print("Enter "+(i+1)+" element: ");
+            arr[i]=s.nextInt();
+        }
+		System.out.println("-------------------------");
+		System.out.print("Palindrome of the array: ");	
+        for(int i=0;i<arr.length;i++){
+            int n=arr[i];
+            int temp=Math.abs(n),rev=0;
+            if(temp==0) rev=0;
+            while(temp!=0){
+                rev=rev*10+temp%10;
+                temp/=10;
+            }
+            if(rev==Math.abs(n))
+                System.out.print(n+" ");
+        }
+    }
+}

@@ -1,0 +1,22 @@
+import java.util.Scanner;
+
+class grade {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+		System.out.println("Enter the name of the student: ");
+		String name = s.nextLine();
+		System.out.println("Enter the marks "+name+ " got : ");
+		int marks = s.nextInt();
+		System.out.println("Result:- ");
+		if(marks>=40){
+			System.out.println("Congratulations "+name+" you are Passed.");
+			if(marks >=80){
+				System.out.println(name+ " your grade is A");
+			}else if(marks>60 && marks<=79){
+				System.out.println(name+ " your grade is B");
+			}
+		}else{
+			System.out.println("Sorry "+name+" you are failed.");
+		}
+	}
+}

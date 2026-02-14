@@ -1,0 +1,21 @@
+class conditionalascii {
+    public static void main(String[] args) {
+        char c = '@';
+
+        boolean UC = c >= 'A' && c <= 'Z';
+        boolean LC = c >= 'a' && c <= 'z';
+        boolean Alp = UC || LC;
+        boolean Dig = c >= '0' && c <= '9';
+
+        boolean UCV = c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
+        boolean LCV = c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+
+        System.out.println(
+            Alp
+                ? (UC
+                    ? "Alphabet : Upper Case : " + (UCV ? "Vowel" : "Consonant")
+                    : "Alphabet : Lower Case : " + (LCV ? "Vowel" : "Consonant"))
+                : (Dig ? "Digit" : "Special Character")
+        );
+    }
+}

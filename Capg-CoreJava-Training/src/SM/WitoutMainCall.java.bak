@@ -1,0 +1,15 @@
+class WitoutMainCall
+{
+	static int a = 10;
+	public static method(){
+		System.out.println("Method");
+	}
+	public static void main(String[] args) 
+	{
+		//System.out.println("Hello World!");
+	}
+	static{
+		System.out.println(a);
+		method();
+	}
+}

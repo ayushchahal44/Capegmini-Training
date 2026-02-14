@@ -1,0 +1,21 @@
+import java.util.Scanner;
+
+class ticket {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+		System.out.println("Are Seats Available (true/false): ");
+		boolean seat = s.nextBoolean();
+        System.out.println("Is RAC availabe? (true/false): ");
+        boolean rac = s.nextBoolean();
+		System.out.println(" ");
+		System.out.println("Status of your Tickets:- ");
+		if(seat){
+			System.out.println("Confirmed.");
+		} else if(rac){
+			System.out.println("Waitlisted");
+		}else{
+		System.out.println("Cancelled");
+		}
+	}
+}
+

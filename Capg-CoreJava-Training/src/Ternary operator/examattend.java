@@ -1,0 +1,13 @@
+class  examattend
+{
+	public static void main(String[] args) 
+	{
+		boolean fees = true;
+		boolean cert = true;
+		double atd = 78;
+		System.out.println(
+			fees ? (cert ? (atd>=75 ? "You are eligible." : "Attendence is very low.") : "Please submit your Certificate.") : "Please submit your fees."
+			);
+	}
+}
+5

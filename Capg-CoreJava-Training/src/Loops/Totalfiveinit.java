@@ -1,0 +1,23 @@
+import java.util.*;
+class  Totalfiveinit
+{
+	public static void main(String[] args) 
+	{
+		Scanner s = new Scanner(System.in);
+		System.out.print("Starting number:");
+		int m = s.nextInt();
+		System.out.print("Ending number:");
+		int n = s.nextInt();
+		System.out.println("Count of numbers having 5 in it: ");
+		int count=0;
+		for(int i=m;i<=n;i++){
+			if(String.valueOf(i).contains("5")){
+				count++;
+			}
+		}
+				System.out.print(count);
+	}
+}
+
+
+ 

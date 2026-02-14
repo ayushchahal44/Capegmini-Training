@@ -1,0 +1,12 @@
+class loggedin
+{
+	public static void main(String[] args) 
+	{
+		boolean status = true;
+		String username = "Ayush";
+		String password = "Chahal"
+		System.out.println(
+			status ? (username!= " " ? (password != " " ? "Logged in." : "Password is empty") : "Username is empty") : "You are deactivated."
+			);
+	}
+}

@@ -1,0 +1,21 @@
+import java.util.*;
+class discalc {
+    public static void main(String[] args) {
+		Scanner s = new Scanner(System.in);
+		System.out.print("Enter the previous Unit: ");
+		double unit_p = s.nextDouble();
+		System.out.print("Enter the current Unit: ");
+		double unit_c = s.nextDouble();
+		double unit = unit_c-unit_p;
+		double bill = calc(unit);
+		if(bill>=0){
+			System.out.println("Bill: \nUnits: "+unit+"\nUnit Charges: "+bill+"\nMaintenance charges: 200.0\nTotal amount to pay: "+(bill+200));
+		}
+		else{
+			System.out.println("The units was negative check once again and try again. ");
+		}
+	}
+    public static double calc(double unit) {
+		return (unit*10);
+	}
+}

@@ -1,0 +1,14 @@
+class Student 
+{
+	public static void main(String[] args) 
+	{
+		Static String name;
+		Static int age;
+		static public void study(){
+			System.out.println("Study for 8 hours.");
+		}
+		static public void exam(){
+			System.out.println("Exam center in LPU.");
+		}
+	}
+}

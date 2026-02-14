@@ -1,0 +1,44 @@
+Data: A data is a raw fact which describes the attribute of an entity.
+raw fact - unchanged fact
+entity - object
+
+Database: A database is a place / medium which is used to store the data in a systematic and organized manner.
+Existence of DB in Realtime usage:- banking, mobile application, food delivery
+
+Database -> Data -> Store, Fetch / Retrieve, Update, Delete 
+
+CRUD:
+C - Create / Insert
+R - Read
+U - Update
+D - Delete
+
+DBMS (Database Management System): It is a software which is used to maintain and manage the data.
+Characteristic - Security and Authorization
+Types: - Hierarchical, Network, object oriented, RDBMS
+
+RDBMS (Relational Database Management System) - It is a type of DBMS software which is used to maintain and manage the Database.
+Characteristics :- 1. Security, 2. Authorization
+- It store data in the form of Table format.
+
+Relational Model:
+- It is a model where Data is stored in the form of Rows and Columns ---> Tables.
+- It is a Model Discovered by a Data Scientist Edgar Frank Codd (E.F. Codd)
+- Any DBMS which follows the Relational Model it will become RDBMS
+Tables -> Combination of rows and columns.
+
+DBMS :- Compared to RDBMS, it is difficult to perform CRUD operation in DBMS
+example - operation for searching phone no. -> open details file -> search each file by name -> open file -> search phone no. -> output
+RDBMS :- Compared to DBMS, it is more easy to perform CRUD operation in RDBMS
+example - open details table -> search by s.no -> output
+
+
+Data type :- Datatype is used to specify what type of data or which type of data to be stored in a particular memory location or in a particular column.
+types:- CHAR, VARCHAR / VARCHAR2, DATE, NUMBER, LARGE OBJECTS
+
+CHAR - 
+- 2000 limit
+- should be enclosed within single quotes('')
+- with char mention the size of it -> CHAR(size)
+- it follows Fixed length memory allocation
+

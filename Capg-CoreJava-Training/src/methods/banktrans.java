@@ -1,0 +1,22 @@
+import java.util.*;
+class banktrans {
+    public static void main(String[] args) {
+		Scanner s = new Scanner(System.in);
+		System.out.print("Enter the balance of the account: ");
+		double bal = s.nextDouble();
+		System.out.print("Enter the withdrwal amount: ");
+		double with =s.nextDouble();
+		boolean flag = valid(bal,with);
+		if(flag){
+			System.out.println("You can make this transaction.");
+		}else{
+			System.out.println("You cannot make this transaction.");
+		}
+	}
+    public static boolean valid(double bal, double with) {
+		if(bal-with>=0){
+			return true;
+	}
+	return false;
+	}
+}
