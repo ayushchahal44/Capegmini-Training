@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC
+    "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <!-- Constructor Injection -->
+    <bean id="employeeService1"
+          class="com.capg.spring.EmployeeServiceImpl">
+
+        <constructor-arg value="Ayush Chahal"/>
+        <constructor-arg value="75000"/>
+        <constructor-arg value="Gurugram"/>
+        <constructor-arg value="IT"/>
+
+    </bean>
+
+    <!-- Setter Injection -->
+    <bean id="employeeService2"
+          class="com.capg.spring.EmployeeServiceImpl">
+
+        <property name="name" value="Ayush Chahal"/>
+        <property name="salary" value="85000"/>
+        <property name="city" value="Bangalore"/>
+        <property name="dept" value="Development"/>
+
+    </bean>
+
+</beans>

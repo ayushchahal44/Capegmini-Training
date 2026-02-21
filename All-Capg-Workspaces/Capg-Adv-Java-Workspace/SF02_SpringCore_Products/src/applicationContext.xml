@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC
+    "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+           <!-- IOC : (Inversion of Controller) -->
+       <!-- ProductServiceImpl productService1=new ProductServiceImpl() -->  
+         <!-- Step-4 -->  
+    <bean id="productService1" class="com.springcore.ProductServiceImpl">
+       <!-- Step-5 -->  
+        <constructor-arg>
+                  <value>MacAirM12021</value>
+        </constructor-arg>  
+  
+    </bean>
+    <!-- ProductServiceImpl productService2=new ProductServiceImpl() -->
+            <!-- //Step-12 -->
+    <bean id="productService2" class="com.springcore.ProductServiceImpl">
+             <!-- //Step-13 -->
+            <property name="product">
+              <value>MacProM12021</value>            
+            </property>
+    </bean>
+</beans>
