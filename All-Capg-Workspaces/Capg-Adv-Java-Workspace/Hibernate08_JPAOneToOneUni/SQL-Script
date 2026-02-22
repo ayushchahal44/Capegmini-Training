@@ -1,0 +1,8 @@
+drop table USER_TABLE;
+
+
+
+  
+  CREATE TABLE USER_TABLE (
+  id DOUBLE,firstName VARCHAR(45),  middleName VARCHAR(45),
+  lastName VARCHAR(45),  email VARCHAR(45) ,  userId VARCHAR(45) ,  password VARCHAR(45));
