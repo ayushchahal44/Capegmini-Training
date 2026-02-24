@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Step-3 : execution moving to web.xml -->
+<web-app>
+	<servlet>
+		<servlet-name>disp1</servlet-name>  <!-- Step-6  should be match  disp1-->
+<servlet-class>org.springframework.web.servlet.DispatcherServlet 
+		               <!-- Step-7  ini  DispatcherServlet -->
+		</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>disp1</servlet-name> <!-- Step-5  disp1-->
+		<url-pattern>*.htm</url-pattern>  <!-- Step-4  should be match  htm-->
+	</servlet-mapping>
+</web-app>
