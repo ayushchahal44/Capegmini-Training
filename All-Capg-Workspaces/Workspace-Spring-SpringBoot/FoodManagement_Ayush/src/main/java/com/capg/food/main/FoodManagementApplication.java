@@ -23,88 +23,125 @@ public class FoodManagementApplication {
 
         Scanner sc = new Scanner(System.in);
 
-while (true) {
+        while (true) {
 
-    System.out.println("\n1.Add Category");
-    System.out.println("2.Add Food Item");
-    System.out.println("3.View Items By Category");
-    System.out.println("4.Place Order");
-    System.out.println("5.Calculate Total");
-    System.out.println("6.Exit");
+            System.out.println("\n===== FOOD MANAGEMENT SYSTEM =====");
+            System.out.println("1. Add Category");
+            System.out.println("2. Add Food Item");
+            System.out.println("3. View Items By Category");
+            System.out.println("4. Place Order");
+            System.out.println("5. Calculate Total");
+            System.out.println("6. Exit");
 
-    System.out.println("Enter choice:");
-    int ch = Integer.parseInt(sc.nextLine());
+            int ch = readInt(sc, "Enter choice:");
 
-    switch (ch) {
+            switch (ch) {
 
-        case 1:
-            System.out.println("Enter Category Name:");
-            String cname = sc.nextLine();
+                case 1:
+                    System.out.println("Enter Category Name:");
+                    String cname = sc.nextLine();
 
-            System.out.println("Enter Description:");
-            String cdesc = sc.nextLine();
+                    System.out.println("Enter Description:");
+                    String cdesc = sc.nextLine();
 
-            categoryService.addCategory(cname, cdesc);
-            System.out.println("Category Added Successfully!");
-            break;
+                    categoryService.addCategory(cname, cdesc);
+                    System.out.println("✅ Category Added Successfully!");
+                    break;
 
-        case 2:
-            System.out.println("Enter Category ID:");
-            Long catId = Long.parseLong(sc.nextLine());
+                case 2:
+                    Long catId = readLong(sc, "Enter Category ID:");
 
-            System.out.println("Enter Food Name:");
-            String fname = sc.nextLine();
+                    System.out.println("Enter Food Name:");
+                    String fname = sc.nextLine();
 
-            System.out.println("Enter Price:");
-            double price = Double.parseDouble(sc.nextLine());
+                    double price = readDouble(sc, "Enter Price:");
 
-            foodService.addFoodItem(catId, fname, price);
-            System.out.println("Food Item Added Successfully!");
-            break;
+                    foodService.addFoodItem(catId, fname, price);
+                    System.out.println("✅ Food Item Added Successfully!");
+                    break;
 
-        case 3:
-            System.out.println("Enter Category ID:");
-            Long cid = Long.parseLong(sc.nextLine());
+                case 3:
+                    Long cid = readLong(sc, "Enter Category ID:");
 
-            foodService.getItemsByCategory(cid)
-                    .forEach(f ->
-                            System.out.println(f.getId() + " "
-                                    + f.getItemName() + " "
-                                    + f.getPrice()));
-            break;
+                    foodService.getItemsByCategory(cid)
+                            .forEach(f ->
+                                    System.out.println(
+                                            f.getId() + " | "
+                                                    + f.getItemName() + " | "
+                                                    + f.getPrice()));
+                    break;
 
-        case 4:
-            System.out.println("Enter Customer Name:");
-            String cust = sc.nextLine();
+                case 4:
+                    System.out.println("Enter Customer Name:");
+                    String cust = sc.nextLine();
 
-            System.out.println("Enter Food Item IDs (comma separated):");
-            String input = sc.nextLine();
+                    System.out.println("Enter Food Item IDs (comma separated):");
+                    String input = sc.nextLine();
 
-            List<Long> ids = new ArrayList<>();
-            for (String s : input.split(",")) {
-                ids.add(Long.parseLong(s.trim()));
+                    List<Long> ids = new ArrayList<>();
+
+                    try {
+                        for (String s : input.split(",")) {
+                            ids.add(Long.parseLong(s.trim()));
+                        }
+                        orderService.placeOrder(ids, cust);
+                        System.out.println("✅ Order Placed Successfully!");
+                    } catch (NumberFormatException e) {
+                        System.out.println("❌ Invalid Food Item ID format.");
+                    }
+                    break;
+
+                case 5:
+                    Long orderId = readLong(sc, "Enter Order ID:");
+
+                    double total = orderService.calculateTotal(orderId);
+                    if (total != 0)
+                        System.out.println("💰 Total Bill: " + total);
+                    break;
+
+                case 6:
+                    context.close();
+                    System.out.println("Application Closed.");
+                    System.exit(0);
+
+                default:
+                    System.out.println("❌ Invalid Choice!");
             }
-
-            orderService.placeOrder(ids, cust);
-            System.out.println("Order Placed Successfully!");
-            break;
-
-        case 5:
-            System.out.println("Enter Order ID:");
-            Long orderId = Long.parseLong(sc.nextLine());
-
-            double total = orderService.calculateTotal(orderId);
-            System.out.println("Total Bill: " + total);
-            break;
-
-        case 6:
-            context.close();
-            System.out.println("Application Closed");
-            System.exit(0);
-
-        default:
-            System.out.println("Invalid Choice!");
+        }
     }
-}
-}
+
+    // ---------- Helper Methods ----------
+
+    private static int readInt(Scanner sc, String message) {
+        while (true) {
+            try {
+                System.out.println(message);
+                return Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter valid number!");
+            }
+        }
+    }
+
+    private static Long readLong(Scanner sc, String message) {
+        while (true) {
+            try {
+                System.out.println(message);
+                return Long.parseLong(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter valid numeric value!");
+            }
+        }
+    }
+
+    private static double readDouble(Scanner sc, String message) {
+        while (true) {
+            try {
+                System.out.println(message);
+                return Double.parseDouble(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter valid decimal value!");
+            }
+        }
+    }
 }
