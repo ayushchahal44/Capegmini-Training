@@ -2,12 +2,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.capg.java</groupId>
-  <artifactId>Maven3_Spring</artifactId>
+  <groupId>Maven5-Junit4-Mockito</groupId>
+  <artifactId>Mockito</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Maven3_Spring</name>
+  <name>Mockito</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -16,20 +16,18 @@
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.1</version>
-      <scope>test</scope>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+        <scope>test</scope>
     </dependency>
+
+    <!-- Mockito -->
     <dependency>
-    <groupId>commons-logging</groupId>
-    <artifactId>commons-logging</artifactId>
-    <version>1.1.1</version>
-</dependency>
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring</artifactId>
-    <version>2.5.6</version>
-</dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>5.8.0</version>
+        <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>

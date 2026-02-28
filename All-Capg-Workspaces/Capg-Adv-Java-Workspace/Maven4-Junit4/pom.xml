@@ -2,12 +2,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.capg.java</groupId>
-  <artifactId>Maven3_Spring</artifactId>
+  <groupId>com.capg.junit4</groupId>
+  <artifactId>Maven4-Junit4</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Maven3_Spring</name>
+  <name>Maven4-Junit4</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -21,15 +21,5 @@
       <version>4.8.1</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-    <groupId>commons-logging</groupId>
-    <artifactId>commons-logging</artifactId>
-    <version>1.1.1</version>
-</dependency>
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring</artifactId>
-    <version>2.5.6</version>
-</dependency>
   </dependencies>
 </project>
