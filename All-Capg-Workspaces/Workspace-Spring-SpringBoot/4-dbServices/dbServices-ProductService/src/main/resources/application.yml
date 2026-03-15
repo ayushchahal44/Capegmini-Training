@@ -7,7 +7,7 @@ spring:
 
   datasource:
     url: jdbc:oracle:thin:@localhost:1521:XE
-    username: CAPGDB
+    username: capgdb
     password: capgdb
     driver-class-name: oracle.jdbc.OracleDriver
 

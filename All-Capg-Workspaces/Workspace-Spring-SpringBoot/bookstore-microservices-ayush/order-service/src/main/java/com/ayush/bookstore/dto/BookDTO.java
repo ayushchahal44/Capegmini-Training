@@ -1,0 +1,34 @@
+package com.ayush.bookstore.dto;
+
+public class BookDTO {
+
+private Long id;
+private String title;
+private Double price;
+private Integer quantity;
+public Long getId() {
+	return id;
+}
+public void setId(Long id) {
+	this.id = id;
+}
+public String getTitle() {
+	return title;
+}
+public void setTitle(String title) {
+	this.title = title;
+}
+public Double getPrice() {
+	return price;
+}
+public void setPrice(Double price) {
+	this.price = price;
+}
+public Integer getQuantity() {
+	return quantity;
+}
+public void setQuantity(Integer quantity) {
+	this.quantity = quantity;
+}
+
+}
