@@ -1,0 +1,79 @@
+// PRODUCT CONTROLLER :
+
+GET METHOD:
+-----------
+http://localhost:9090/productController/viewAllProducts
+--------------------------------------------------------
+OUTPUT:
+-------
+{
+    {
+        "productId": "1",
+        "productName": "Realme XT",
+        "price": 17000.0,
+        "color": "White",
+        "dimension": "circle",
+        "specification": "i5",
+        "manufacturer": "Realme",
+        "quantity": 2
+    }
+}
+-----------------------------------------------------------
+
+POST METHOD:
+------------
+http://localhost:9090/productController/addProduct
+------------------------------------------------------------
+OUTPUT:
+-------
+{
+    "productId": "2",
+    "productName": "Samsung ",
+    "price": 27000.0,
+    "color": "Black",
+    "dimension": "Rectangle",
+    "specification": "M50",
+    "manufacturer": "Samsung",
+    "quantity": 3
+}
+---------------------------------------------------------------
+
+PUT METHOD:
+-----------
+http://localhost:9090/productController/updateProduct
+------------------------------------------------------------------
+OUTPUT:
+-------
+{
+    "productId": "2",
+    "productName": "Samsung ",
+    "price": 37000.0,
+    "color": "Yellow",
+    "dimension": "Rectangle",
+    "specification": "i9",
+    "manufacturer": "Samsung",
+    "quantity": 4,
+    "catId": null,
+    "cartId": null
+}
+
+
+---------------------------------------------------------------------
+
+DELETE METHOD:
+--------------
+http://localhost:9090/productController/removeProduct
+-----------------------------------------------------------------------
+OUTPUT:
+-------
+{
+        "productId": "1",
+        "productName": "iphone8",
+        "price": 30000.0,
+        "color": "red",
+        "dimension": "circle",
+        "specification": "i5",
+        "manufacturer": "Apple",
+        "quantity": 2
+ }
+ -------------------------------------------------------------------------

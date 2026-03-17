@@ -1,0 +1,92 @@
+// ORDER MODULE
+
+GET METHOD
+-----------
+http://localhost:9090/orderController/viewOrder
+-------------------------------------------------
+OUTPUT
+------
+
+[
+    {
+        "orderId": "1",
+        "orderStatus": "ordered",
+        "orderDate": "2022-01-13",
+        "customer": null,
+        "products": [
+            {
+                "productId": "1",
+                "productName": "iphone8",
+                "price": 30000.0,
+                "color": "red",
+                "dimension": "circle",
+                "specification": "i5",
+                "manufacturer": "Apple",
+                "quantity": 2
+            }
+        ],
+        "address": {
+            "addressId": "1",
+            "streetNo": "302",
+            "buildingName": "Amogh Apartment",
+            "city": "Nashik",
+            "state": "Maharashtra",
+            "country": "India",
+            "pincode": "423203",
+            "customer": null
+        }
+    }
+]
+
+--------------------------------------------------------------------------------
+
+PUT METHOD
+----------
+http://localhost:9090/orderController/updateOrder
+--------------------------------------------------------------------------------
+
+{
+    "orderId": "2",
+    "orderStatus": "ordered",
+    "orderDate": "2022-01-13",
+    "customer": null,
+    "products": null,
+    "address": null
+}
+----------------------------------------------------------------------------------
+
+POST METHOD
+----------
+http://localhost:9090/orderController/addOrder
+-------------------------------------------------------------------------------------
+
+{
+    "orderId": "23",
+    "orderStatus": "ordered",
+    "orderDate": "2022-01-13",
+    "customer": null,
+    "products": null,
+    "address": null
+}
+
+--------------------------------------------------------------------------------------
+DELETE METHOD
+-------------
+http://localhost:9090/orderController/removeOrder
+-----------------------------------------------------------------------------------
+
+
+{
+    "orderId": "23",
+    "orderStatus": "ordered",
+    "orderDate": "2022-01-13",
+    "customer": {
+        "customerId": "2",
+        "firstName": "siddharth",
+        "lastName": "Shitole",
+        "mobileNumber": "9623466397",
+        "email": "Siddhushitole.1999@gmail.com"
+    },
+    "products": null,
+    "address": null
+}

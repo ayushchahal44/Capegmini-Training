@@ -1,0 +1,16 @@
+1. Add all records insert into Database
+----------------------------------------
+
+mysql> create database onlineshopping;
+ 
+
+mysql> use onlineshopping;
+ 
+
+
+insert into order_table values ('1',current_date,'ordered');
+insert into address values ('1','HappyHome  Apartment','Nashik','India','423203','Maharashtra','302','1');
+insert into cart values('1');
+insert into category values('1','mobile');
+insert into product values('1','red','circle','Apple','30000','iphone8','2','i5','1','1','1');
+commit;
