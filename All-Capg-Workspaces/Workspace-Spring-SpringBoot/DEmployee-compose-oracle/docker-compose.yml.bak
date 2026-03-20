@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+
+  oracle-db:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle-db
+    ports:
+      - "1522:1521"
+    environment:
+      ORACLE_PASSWORD: oracle
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+
+  employee-service:
+    build: ./employee-service
+    ports:
+      - "7073:7073"
+    depends_on:
+      - oracle-db
+
+  address-service:
+    build: ./address-service
+    ports:
+      - "7074:7074"
+    depends_on:
+      - oracle-db
+
+volumes:
+  oracle-data:
