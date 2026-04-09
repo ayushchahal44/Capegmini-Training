@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student - Table</title>
+  </head>
+  <body>
+    <!-- cellspacing="2" cellspadding="5" can be used to control the spacing between cells -->
+     <!-- Colgroup can be also used instead of colspan -->
+    <table border="1" rules="all" style="border-collapse: collapse; width: 90%; margin: auto; text-align: center; height: 92vh;">
+        <caption>Student Information</caption>
+        <colgroup>
+            <col style="background-color: green;" span="1">
+            <col style="background-color:  orange;" span="2">
+            <col style="background-color: blue;" span="2">
+        </colgroup>
+      <thead style="background-color: aquamarine;">
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>City</th>
+        </tr>
+      </thead>
+      <tbody style="background-color: lightcyan;">
+        <tr>
+          <td>Ayush Chahal</td>
+          <td>21</td>
+          <td>Bijnor</td>
+        </tr>
+        <tr>
+          <td>Aryan Singh</td>
+          <td>20</td>
+          <td>Bijnor</td>
+        </tr>
+        <tr>
+          <td>Navdeep Rana</td>
+          <td colspan="2" rowspan="2">Unavailable</td>
+        <!-- <td>19</td> -->
+        <!-- <td>Bijnor</td> -->
+        </tr>
+        <tr>
+          <td>Subam</td>
+        </tr>
+      </tbody>
+      <tfoot style="background-color: cadetblue;">
+        <tr>
+          <td colspan="3">Checked.</td>
+        </tr>
+      </tfoot>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+import java.util.Scanner;
+
+class attend {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+		
+        System.out.println("Enter the hours attended:");
+        int hr = s.nextInt();
+		System.out.println(" ");
+		System.out.println("Status of your Attendence:- ");
+		if(hr<4){
+			System.out.println("Absent.");
+    }
+	else if(4<=hr && 8>hr){
+		System.out.println("Half-Day.");
+} else if(hr>=8){
+	System.out.println("Present");
+}
+	}
+}
+

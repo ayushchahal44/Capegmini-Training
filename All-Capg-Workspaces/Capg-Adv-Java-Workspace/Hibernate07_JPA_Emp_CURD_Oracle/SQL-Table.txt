@@ -1,0 +1,36 @@
+
+ 
+ 
+ 
+
+Oracle tABLE 
+
+CREATE TABLE EMP_RECORD(
+  empid number(6) NOT NULL,
+  firstname VARCHAR(45) NULL ,  
+  lastname VARCHAR(45) NULL ,  
+  email VARCHAR(45) NULL );
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+MYSQL
+
+ 
+
+CREATE  TABLE EMP_RECORD (  
+empid INT NOT NULL ,  
+firstname VARCHAR(45) NULL ,  
+lastname VARCHAR(45) NULL ,  
+email VARCHAR(45) NULL ,  
+PRIMARY KEY (empid) );
+
+
+

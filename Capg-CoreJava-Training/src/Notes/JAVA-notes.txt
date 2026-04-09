@@ -1,0 +1,870 @@
+Java is a high level programming language which is easily readable, understandable and instructible by programmer.
+Java is a platform independent lang.? - because in java source code is converted into byte code which is easily executable in any platform which has JVM.
+JVM- it stands for java virtual machine it is physically doesn't exist. it is used to convert byte code into binary code. it consist of JIT and interpreter
+JRE - it stands for Java Runtime environment it is physically exist it is used to provide environment to run java program.
+JDK - it stands for Java development kit. it is physically exists it provides an environment to run as well as to develop a java program.
+
+printing statements -
+System.out.print(data); - after printing the data the cursor is shifted to next position in same line.
+System.out.println(data); - after printing the data the cursor is shifted to next position in new line.
+
+
+
+Tokens:-
+The smallest part of java program is known as tokens.
+Types of tokens:-
+1. Keywords - the words which are having predefined meaning is known as keywords. it is also known as compiler aware words. Keywords are always should be in a lowercase. in java we have 50+ keywords. example - class, public, static, void.
+2. Identifiers - the name given by programmer is known as identifier.   i. we cannot use keywords as a identifier.   ii. we cannot use space.   iii. we can't start with numbers.   iv. special characters are not allowed except $ and _. examples - class Name, variable Name, method Name, package Name.
+3. Literals - the input provided by the programmer i. number ii. character iii. string iv. Boolean
+4. Separators - it used to separate java members.
+{} - blocks
+() - equations, methods declaration, condition
+; - end of the statements
+, - variables
+. - reference
+5. Operators -
+1. unary operator -
+i. new
+ii. increment -
+a. pre increment - ++variable;
+b. post increment - variable++;
+iii. decrement -
+a. pre
+b. post
+iv. logical not
+2. Binary operator -
+i. Arithmetic
+ii. relational
+iii. logical AND & logical OR 
+iv. Components of Assignment
+3. Ternary operator - i. Conditional
+
+
+
+Data Type:- it is used to define what type of data we are storing inside the memory.
+1. Primitive Datatype :-
+Integer number
+byte - 1 byte - 8 bits.
+short - 2 byte - 16 bits
+int - 4 byte - 32 bits
+long - 8 byte - 64 bits
+Floating number
+float - 4 byte - 32 bits
+double - 8 byte - 64 bits
+Character
+char - 2 byte - 16 bits
+Boolean True & False
+Boolean - 1 bit
+
+2. Non-primitive Datatype :-
+String
+Class Name
+Array
+
+
+
+Types of variable :-
+1. Based on datatype -
+i. Primitive variable
+ii. Non-Primitive variable
+2. Based on Scope -
+i. Local variable - a variable declare inside local area is known as local variable. we cannot use local variables without initialization. local variables are not assigned with default values. we cannot create 2 local variables with same name. local variable can be use only inside same local area. Note- We can use global variables inside global area as well as local area.
+ii. Global variable -
+a. static variable - a variable which is declared inside class area or global area prefix with static keyword is known as static variables.
+b. non-static variable - a variable which is declared inside class area or global area without static keyword is known as non-static variables.
+
+
+que. write a java program to calculate area of square. whose side is 4.2.
+solution:-
+public class areaofsquare {
+    public static void main(String[] args){
+        double side = 4.2;
+        System.out.println("Area of square is: "+ side*side);
+    }
+}
+
+
+que. write a java program to calculate area of circle whose radius is 5.
+solution:-
+public class areaofcircle {
+    public static void main(String[] args){
+        double radius = 5;
+        System.out.println("Area of circle is: "+ (22/7)*radius*radius);
+    }
+}
+
+
+que. write a java program to calculate area of rectangle whose length is 3.5 and breadth is 4.
+solution:-
+public class areaofrectangle {
+    public static void main(String[] args){
+        double length = 3.5;
+        double breadth = 4;
+        System.out.println("Area of rectangle is: "+ length*breadth);
+    }
+}
+
+
+que. write a java program to store and print the following data -
+1. 15
+2. "LPU"
+3. false
+4. 13.5f
+5. "true"
+6. '#'
+7. "123"
+8. "@"
+solution:-
+public class storeandprint {
+    public static void main(String[] args){
+        int a=15;
+        String b="LPU";
+        boolean c=false;
+        float d=13.5f;
+        String e="true";
+        char f='#';
+        String g="123";
+        String h="@";
+        System.out.println("The value of a is: "+a);
+        System.out.println("The value of b is: "+b);
+        System.out.println("The value of c is: "+c);
+        System.out.println("The value of d is: "+d);
+        System.out.println("The value of e is: "+e);
+        System.out.println("The value of f is: "+f);
+        System.out.println("The value of g is: "+g);
+        System.out.println("The value of h is: "+h);
+    }
+}
+
+
+que. write a java program to swap 2 numbers using 3rd variable.
+solution:-
+public class swaptwonumbers {
+    public static void main(String[] args){
+        int a =10;
+        int b=20;
+        int temp=a;
+        a=b;
+        b=temp;
+        System.out.println("After swapping a: "+a);
+        System.out.println("After swapping b: "+b);
+    }
+}
+
+
+que. write a java program to swap 2 numbers without using 3rd variable.
+solution:-
+public class swapnumbers {
+    public static void main(String[] args){
+        int a = 10;
+        int b = 20;
+        a = a + b;
+        b=a-b;
+        a=a-b;
+        System.out.println("After swapping a: "+a);
+        System.out.println("After swapping b: "+b);
+    }
+}
+
+
+
+solve:
+int a =10;
+++a;
+int b=++a - 5;
+int c=++b - ++a + 5;
+int a = ++c - ++b - b;
+
+
+Rules and Steps for pre increment:-
+1. Increase the value by 1.
+2. Update the incremented value in the same variable.
+3. If any operation is going on we will use incremented value.
+
+
+solve:
+int a = -10;
+int b = -5 + ++a;
+a = ++b + b - b + ++b;
+int c = ++a - ++b - 10 +5;
+b = ++a + ++c;
+to find: i. a? ii. b? operation(b++) iii. c?
+
+
+solve:
+int a = -5;
+int b = a++ + 5;
+int c = b++ + a++ +5;
+a = c++ + c +5;
+to show: a++, b, c++, a;
+
+
+Rules and Steps for post increment:-
+1. Increase the value by 1.
+2. Update the incremented value in the same variable.
+3. If any operation is going on we will use current value (previous of incremented value).
+
+
+int a = 10;
+int b = a++ - ++a;
+int c = a++ + ++b - ++a + b;
+a = c++ + ++b -c + ++c;
+to show: b, c++, a
+
+Some Quick Question And Answers :-
+1. write a difference between Primitive and non Primitive data type.
+--> Primitive data type are predefined as keywords where the size is fixed meanwhile non Primitive datatypes are defined by the programmer where data size can also be manipulated.
+2. write a difference between local and global variable.
+--> local variable are only accessible in the local scope where there is no default value is provided to them on the other hand global variables can be access through the global scope and have default value.
+3. write difference between compiler and interpreter.
+--> compiler works as the intermediate between high level language and the low level language it runs whole code in one go on the other hand the interpreter works line by line to complete the work.
+4. Difference between platform dependent and platform independent.
+--> the platform dependent can be described as when any of the source code or the work need to be done only on the specific specification machine meanwhile if the source code or the work can be done without the intervene of the platform is called platform independent. ex - java is platform independent.
+5. how does OOPS nature of java helps in software development?
+--> oops concept make it to use again and again and make it so readable and portable.
+6. why java is considered simple language compare to c or c++?
+-> java reduced the manual memory allocation and complex works to do manually and make it easy and simple.
+7. how does java provides security at the runtime?
+-> 
+8. what makes java as robust language?
+-> Java gives features like memory allocation, garbage collection, error handling make it robust language.
+9. how does java achieve high performance?
+--> Java uses Just in time compiler (JIT) to achieve high performance while compiling on the run time.
+10. what do you mean by portability in java?
+--> Portability means the java code can run anytime when written one time. A single code can you used many time.
+11. why does java have strong industry adoption and job opportunities?
+--> Java is mostly used in software industries, banking and development sectors make it to create more jobs and widely spread.
+
+
+
+
+Arithmetic Operation :-
+Addition - byte + byte , short + short , char + char = CTE others are success.
+
+
+Components of Assignment - Arithmetic + Assignment.
+a+=b -> a = a + b
+a-=b -> a = a - b
+a*=b -> a = a * b
+a/=b -> a = a / b
+a%=b -> a = a % b
+
+Relational Operator :-
+- Comparison
+- Binary
+- return type should be boolean type
+- example: <,>,<=,>=,==,!=
+- string with boolean will only supports == and !=.
+
+Logical Operator :-
+- Relational operator is Mandatory.
+    - Condition - > 2 operands
+- return type boolean
+- logical op it takes condition
+- Logical AND (&&), OR (||), NOT (!)
+
+
+
+Conditional operator :-
+- Ternary operator
+- syntax:
+   op1 ? op2 : op3 
+condition ? true : false
+
+
+Task: find largest between 3 values. by conditional operator.
+solution: 
+class Condition {
+        int a=10,b=20,c=30;
+        int result = (a>b && a>c) ? a : (b>a && b>c) ? b :c;
+        System.out.println(result);
+    }
+}
+
+Task: check weather it is uppercase alphabet or not.
+solution:
+class Upperchar{
+	 public static void main(String[] args) {
+		 char input = 'A';
+		 System.out.println((input>=65 && input<=90) ? "Upper-case" : "Lower-case");
+	 }
+}
+Task: check weather it is lowercase or not.
+solution:
+class Lowerchar{
+	 public static void main(String[] args) {
+		 char input = 'A';
+		 System.out.println((input>=97 && input<=122) ? "LowerCase" : "UpperCase");
+	 }
+}
+
+Task: check weather it is Alphabet or not.
+solution:
+class isAlpha{
+	 public static void main(String[] args) {
+		 char input = 'A';
+		 System.out.println((input>=65 && input<=90) ? "Is Alphabet" : (input>=97 && input<=122) ? "Is Alphabet" : "Not Alphabet");
+	 }
+}
+
+
+Task: To check weather it is Digit or Not.
+solution:
+class isDigit{
+	 public static void main(String[] args) {
+		 char input = 'A';
+		 System.out.println((input>=48 && input<=57) ? "Is Digit" : "Not a Digit");
+	 }
+}
+Task: uppercase vowels or consonants?
+solution:
+Class upperVowels{
+	public static void main(String[] args) 
+	{
+		char c = 'A';
+		System.out.println((c=='A' || c=='E' || c=='I' || c=='O' || c=='U') ? "Uppercase Vowel" : "Consonants");
+	}
+}
+
+Task: lowercase vowels or consonants?
+solution:
+Class lowerVowels{
+	public static void main(String[] args) 
+	{
+		char c = 'a';
+		System.out.println((c=='a' || c=='e' || c=='i' || c=='o' || c=='u') ? "Lowercase Vowel" : "Consonants");
+	}
+}
+
+Task: Vowel or not.
+solution:
+Class Vowels{
+	public static void main(String[] args) 
+	{
+		char c = 'a';
+		System.out.println((c=='a' || c=='e' || c=='i' || c=='o' || c=='u' || c=='A' || c=='E' || c=='I' || c=='O' || c=='U') ? "Vowel" : "Consonants");
+	}
+}
+
+
+
+Task: Weather amount can be withdrawn or not.
+Solution:
+class withdrawal
+{
+	public static void main(String[] args) 
+	{
+		int balance = 1000;
+		int amount = 500;
+		System.out.println((amount>0 && balance-amount>=0)? "Can withdrawal" : "Cannot be withdrawal");
+	}
+}
+
+
+Task: Even or not.
+solution:
+class evenornot
+{
+	public static void main(String[] args) 
+	{
+		int num = 2;
+		System.out.println((num%2==0)? "Even" : "Not Even");
+	}
+}
+
+
+Task Odd or not.
+solution:
+class oddornot
+{
+	public static void main(String[] args) 
+	{
+		int num = 3;
+		System.out.println((num%2!=0)? "Odd" : "Not Odd");
+	}
+}
+
+
+
+
+Type Casting :-
+2 types:- 
+1. Primitive typecasting [Not recommending] - Converting 1 Primitive data type to 2nd Primitive data type. 
+
+- Widening - (implicit) 
+byte < short/char < int < long < float < double                (increasing order :- small range to large range.)
+Cannot convert boolean
+Done by the compiler
+example :- byte b1 = 123;
+short s1 = b1;
+now, s1 is 123;
+
+- Narrowing -  (explicit) 
+double > float > long > int > short/char > byte                 (decreasing order :- large range to small range.)
+Done by programmer - use of typecast operator 
+example :- small primitive datatype var = (smaller range datatype) larger datatype var;
+-> int i=150;
+byte b = (byte) i; // now b = 106 (first go high to 127 then come start counting from -ve smallest and go on... like :- 0 to 127 then -128 then to -1 again 0 to 127 next -128 and carry on...)
+int 128 is byte -128;
+
+
+2. Non - Primitive typecasting [Highly recommending]
+
+
+
+
+Scanner Class :-
+steps:-
+- import java.util.Scanner;
+- Declare Scanner class object  - class block as well as method block. - can be static also.
+- Scanner object reference name = new Scanner(System.in);   // the address is static.
+
+-> inbuild Methods of Scanner class.
+- nextByte(), nextShort(), nextInt(), nextLong(), nextFloat(), nextDouble(), nextBoolean(), next().charAt(index), next() {only 1 word}, nextLine() {Group of word},
+-> datatype var = scanner obj.inbuild method
+
+-> Resource leak (warning)  {Method block}   to avoid it -> object.close();
+
+
+
+Control Statement :-
+
+1. Decision making Statement
+i. if
+ii. if else
+iii. if else ladder
+iv. switch
+v. Nested if
+2. Looping Statement
+i. do while - exit 
+ii. while - entry
+iii. for - entry
+iv. for each
+v. nested loops
+3. Jumping Statement
+i. break
+ii. continue
+iii. return
+
+
+switch:
+switch(value/var/expression){
+	case value/expression:
+		{}
+		break;
+	default:
+		{}
+}
+- few datatypes are not acceptable - boolean, float, double, long
+
+
+Looping Statement :-
+initialization - Starting value (dynamic), end value (static)
+condition - <,<=,>,>=
+updation
+ - forward <,<= (increment operator)
+ - backward >,>= (decrement operator)
+
+syntax:
+1. do loop :- 
+do {
+	//statement
+	updation
+} while(condition);
+
+
+2. while loop:-
+while(condition){
+	//statement
+	updation
+}
+
+
+3. for loop:-
+for(initialization; condition; updation){
+	//statement
+}
+
+
+
+--> System.exit(0); //inbuild function like break.   //can't use with single statement.
+
+
+
+
+--> A for loop can be written by declaring initialization inside the loop, outside the loop, or by keeping only the condition inside the loop.
+
+Examples:-
+
+for (int i = 1; i <= 5; i++) {
+    System.out.println(i);
+}
+----------------------------------------------------------------------------
+int i = 1;
+for (; i <= 5; i++) {
+    System.out.println(i);
+}
+----------------------------------------------------------------------------
+int i = 1;
+for (; i <= 5; ) {
+    System.out.println(i);
+    i++;
+}
+----------------------------------------------------------------------------
+for (;;) {
+    System.out.println("Infinite Loop");
+}
+----------------------------------------------------------------------------
+
+
+
+Methods :- 
+-> block of memory.
+
+syntax:-
+[Access modifier] [Modifier] [return type] [method name] ([formal args]){                     // using [] to show tokens together not for array.
+	//set of instructions
+}
+
+Method Terminology:-
+1. Method Signature {Method name(formal args) - method name with followed by formal args.}
+2. Method Declaration 
+3. Method Definition {i. Method declaration  ii. Method block(Implementation/Body)}
+
+
+Access Modifier - 
+i. keywords - private - can use only in local method., default - same package any class., protected - can access within the class can access drived class globally, public - can access anywhere.
+2. modifiers - static, final, synchronized, volatile, transient 
+3. return type - it is used to return the data back to method block - 
+i. void - a. it is an keyword.
+ii. datatype - a. class (user) b. Inbuild class - possible 
+
+
+
+User defined methods :-
+	non parameterized method
+i. method without argument and without return statement.
+[AM] [M] void [MN] (){}
+ii. method without argument but here with return statement
+[AM] [M] [Datatype] [method name](){
+	return statement;
+}
+	
+	parameterized method
+i. method with argument, but here without return statement
+[AM] [M] void [method name](datatype class obj / class obj / class obj){}
+
+void method() {
+    int a = 10;
+
+    class Inner {
+        void show() {
+            int a = 20;   //allowed (different scope)
+            System.out.println(a);
+        }
+    }
+
+    System.out.println(a);
+}
+
+
+
+ii. method with arguments, but here with return statement
+[AM] [M] [datatype /user defined class / inbuild class] [method name](datatype class obj / class obj / class obj){
+	return statement;
+}
+
+
+method chaining - when one method is called inside another method in same class.
+
+
+
+
+Array:-
+- fixed in size.
+- store same data type.
+- elements are homogeneous.
+- size can not be changed.
+- starts with 0 index to length -1.
+- it is an object.
+
+
+- it is ordered value.
+- there is no inbuilt functions in array (Have to move to collections).
+
+
+Syntax:-
+datatype array_var_name[]= {e1,e2,e3,e4....en};
+or,
+datatype []array_var_name = {v1,v2,v3,v4...vn};
+
+set the length of the array:-
+datatype array_var_name[] = new datatype[size]     //size should always in integer.
+|_____Array object______|    |-> get the value from user.
+or,
+datatype array_var_name[] = new datatype[] {e1,e2,e3,e4...en};
+|-> user declare the values while initializing 
+
+
+Class:-
+- class is the blueprint of object.
+- declare multiple object for a class.
+- every object works independently, if or more object destroy it will not affect another object.
+
+
+class Car{
+	Car c = new Car();               // c -> object ref / ref var   &    new Car() -> Anonymous object  | new will create a unique address in heap area
+}
+
+
+
+
+
+[AM] className(local_var){
+	super();  //compiler view
+	this attribute = local_val;
+}
++ public
+- private
+# protected
+
+
+getter()
+-> fetch the data.
+syntax:- 
+[AM]public datatype getVarName(){
+	return statement;
+}
+
+setter()
+-> update (or) modifying
+syntax:-
+[AM]public void setVarName(datatype / className){
+	this.private Datamem = local var;
+}
+
+
+
+Relationship:
+
+1. Has A  -> 
+- Aggregation - Loose coupling   -     Objects can exist independently of each other (weak HAS-A).
+- Composition - Tight coupling   -     Contained object cannot exist without the owner (strong HAS-A).
+2. Is A  ->
+extends keyword is used : Specialized class (child class) extends Generalized class (parent class).
+parent class :- Base class , super class
+child class :- Derived class , sub class
+
+can't be inherited:-
+- private member
+- constructor
+- initializers
+
+
+
+
+Inheritance:-  
+it will be achieved with the extends and implements keywords.
+5 types: 
+- Single level Inheritance   - extends
+- Multi level Inheritance    - extends - extends
+- Multiple Inheritance	     - java will not support multiple inheritance (subclass confuses to call which parent class.)
+- Hierarchal Inheritance     - extends - extends
+- Hybrid Inheritance         - extends - extends - 2 or more types together - extends - extends
+
+
+super() - keyword - does not have access to get parent class address.
+super() call statement must be the first statement in the constructure block.
+super() call statement by default generate by the constructer.
+
+
+Typecasting:- 
+
+Non - primitive typecasting - one class to another
+(Inheritance is must before Typecasting..)
+- Upcasting - Converting sub class refrence type to super class refrence type  -> super class (Alpha) and Sub class (Beta) so, Alpha a = new Beta();
+Will help in Abstraction , collections.
+
+- Downcasting - Converting super class refrence type to sub class refrence type -> super class (Alpha) and Sub class (Beta) so, use Typecast operator 
+first save address with upcasting -> Alpha a = new B(); then -> Beta b = new a;
+to check is address upcasted use -> instanceOf operator - keyword - boolean type.
+example:-
+S.o.p.ln(a instanceOf Beta){
+	// true means created.
+}
+
+Polymorphism:- 
+1 object which behave in multiple behaviour.
+2 Types:-
+i. Compile time polymorphism - Static polymorphism / Early binding.
+- CTP -> during on compile time [verify: Syntax]
+- 4 types CTP -> Method overloading and Constructor overloading and Variable shadowing and method shadowing.
+- Annotation is required to see is method override. "@override"
+ii. Run time polymorphism - Dynamic polymorphism / late or lazy binding.
+
+
+
+Abstraction:-
+Abstraction means hiding implementation details and showing only essential features.
+
+- Abstract Class
+   Declared using abstract keyword
+   Can have abstract + concrete methods
+   Supports inheritance
+   Supports method overloading
+- Interface 
+   Blueprint of a class
+   Contains abstract methods (and default / static methods)
+   Achieved using implements
+   Supports multiple inheritance
+
+- Terminology
+ Abstract Class
+   A class that cannot be instantiated
+   May contain abstract and concrete methods
+ Abstract Method
+   Method without body
+   Must be implemented by subclass
+ Concrete Class
+   A class that provides implementation of all abstract methods
+ Concrete Method
+   Method with implementation/body
+
+- Using Interface
+ Interface
+   A collection of abstract methods
+ Abstract Method
+   Declared without body inside interface
+ Concrete Class
+   Class that implements interface
+ Concrete Method
+   Implemented method of interface in class
+
+
+Syntax of Abstract Class:
+abstract class A {
+    abstract void show();   // abstract method
+    void display() {        // concrete method
+        System.out.println("Concrete method");
+    }
+}
+
+Syntax of Concrete Class:
+class B extends A {
+    void show() {           // implementation of abstract method
+        System.out.println("Abstract method implemented");
+    }
+}
+
+
+Abstract class in Inheritance:-
+
+1. 
+abstract class
+↑ extends
+subclass
+
+2.
+abstract class
+↑ extends
+abstract class 1
+↑ extends
+subclass 
+
+3.
+abstract class
+↑ extends
+subclass
+↓ extends
+abstract class 1
+
+4.
+sub class
+↓ extends
+abstract class   ← extends   subclass 3
+↑ extends
+abstract class
+↑ extends
+subclass 2
+
+
+Interface:-
+- 100% Abstraction
+- Multiple Inheritance
+
+Syntax:
+(Interface)
+interface interfaceName {
+	abstract[AM] return_type method(formal);
+	[AM] return_type method(formal);
+}
+
+(Concrete Class)
+class concrete implements interfaceName{
+	@Override
+	[AM] return_type method(formal){
+
+	}
+}
+
+
+interface with interface in Inheritance:
+
+1. 
+interface (super)
+↑ extends
+interface (sub)
+
+2.
+interface
+↑ extends
+interface
+↑ extends
+interface
+
+3.
+interface
+↑ extends
+interface
+↓ extends
+interface
+
+4.
+interface
+↓ extends
+interface   ← extends   interface
+↑ extends
+interface
+↑ extends
+interface
+
+
+interface with class in Inheritance:
+
+1. 
+interface 
+↑ implements
+class
+
+2.
+interface
+↑ extends
+sub interface
+↑ implements
+subclass
+
+3.
+interface 1
+↑ implements
+sub class   implements ->  interface
+↓ extends
+class
+
+4.
+subclass
+↓ interface
+interface   ← implements   subclass
+↑ extends
+interface
+↑ implements
+subclass

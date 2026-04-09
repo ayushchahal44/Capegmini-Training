@@ -1,0 +1,9 @@
+class cartValue 
+{
+	public static void main(String[] args) 
+	{
+		int items = 2;
+		int price = 150;
+		System.out.println((items*price>=499) ? "Delivery is free." : "You have to pay for delivery charges.");
+	}
+}

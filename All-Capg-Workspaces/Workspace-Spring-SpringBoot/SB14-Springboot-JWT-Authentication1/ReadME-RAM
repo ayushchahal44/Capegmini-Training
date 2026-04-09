@@ -1,0 +1,12 @@
+
+
+
+http://localhost:8087/hello
+
+http://localhost:8087/myData
+
+user name : user
+password   : jwt generted on console 
+
+
+http://localhost:8087/logouts

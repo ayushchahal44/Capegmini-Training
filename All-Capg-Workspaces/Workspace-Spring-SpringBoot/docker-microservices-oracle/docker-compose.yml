@@ -1,0 +1,28 @@
+services:
+
+  oracle-db:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle-db
+    ports:
+      - "1522:1521"
+    environment:
+      ORACLE_PASSWORD: oracle
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+
+  customer-service:
+    build: ./DMS1-CustomerService
+    ports:
+      - "7071:7071"
+    depends_on:
+      - oracle-db
+
+  order-service:
+    build: ./DMS2-OrderService
+    ports:
+      - "7072:7072"
+    depends_on:
+      - oracle-db
+
+volumes:
+  oracle-data:

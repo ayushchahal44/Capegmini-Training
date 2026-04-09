@@ -1,0 +1,233 @@
+# Common environment variables for Spring microservices
+x-spring-env: &spring-env
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://finflow-eureka:8761/eureka
+  SPRING_DATASOURCE_URL: jdbc:mysql://finflow-mysql:3306/finflowdb?allowPublicKeyRetrieval=true&useSSL=false
+  SPRING_DATASOURCE_USERNAME: finflow
+  SPRING_DATASOURCE_PASSWORD: finflow
+  FINFLOW_JWT_SECRET: ${FINFLOW_JWT_SECRET:-finflow-dev-secret-key-change-me-please-use-256-bits-minimum-for-hs256-algorithm}
+  SPRING_RABBITMQ_HOST: rabbitmq
+  MANAGEMENT_TRACING_SAMPLING_PROBABILITY: 1.0
+  MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://finflow-zipkin:9411/api/v2/spans
+
+networks:
+  finflow-network:
+    driver: bridge
+
+services:
+  finflow-zipkin:
+    image: openzipkin/zipkin
+    container_name: finflow-zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - finflow-network
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: finflow-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - finflow-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "check_running"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  finflow-mysql:
+    image: mysql:8.0
+    container_name: finflow-mysql
+    environment:
+      MYSQL_DATABASE: finflowdb
+      MYSQL_USER: finflow
+      MYSQL_PASSWORD: finflow
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - finflow-network
+    restart: unless-stopped
+
+  finflow-eureka:
+    build:
+      context: finflow-eureka-server
+      dockerfile: Dockerfile
+    container_name: finflow-eureka
+    ports:
+      - "8761:8761"
+    environment:
+      EUREKA_INSTANCE_HOSTNAME: finflow-eureka
+    networks:
+      - finflow-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+  finflow-auth-service:
+    build:
+      context: finflow-auth-service
+      dockerfile: Dockerfile
+    container_name: finflow-auth-service
+    ports:
+      - "8081:8081"
+    environment:
+      <<: *spring-env
+    depends_on:
+      finflow-mysql:
+        condition: service_healthy
+      finflow-eureka:
+        condition: service_healthy
+      finflow-zipkin:
+        condition: service_started
+    networks:
+      - finflow-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  finflow-application-service:
+    build:
+      context: finflow-application-service
+      dockerfile: Dockerfile
+    container_name: finflow-application-service
+    ports:
+      - "8082:8082"
+    environment:
+      <<: *spring-env
+    depends_on:
+      finflow-mysql:
+        condition: service_healthy
+      finflow-eureka:
+        condition: service_healthy
+      finflow-zipkin:
+        condition: service_started
+    networks:
+      - finflow-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  finflow-document-service:
+    build:
+      context: finflow-document-service
+      dockerfile: Dockerfile
+    container_name: finflow-document-service
+    ports:
+      - "8083:8083"
+    environment:
+      <<: *spring-env
+      FINFLOW_STORAGE_ROOT: /app/uploads
+      FINFLOW_SERVICES_APPLICATION_URL: http://finflow-application-service
+    volumes:
+      - document-uploads:/app/uploads
+    depends_on:
+      finflow-mysql:
+        condition: service_healthy
+      finflow-eureka:
+        condition: service_healthy
+      finflow-zipkin:
+        condition: service_started
+      finflow-application-service:
+        condition: service_healthy
+    networks:
+      - finflow-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  finflow-admin-service:
+    build:
+      context: finflow-admin-service
+      dockerfile: Dockerfile
+    container_name: finflow-admin-service
+    ports:
+      - "8084:8084"
+    environment:
+      <<: *spring-env
+      FINFLOW_SERVICES_AUTH_URL: http://finflow-auth-service
+      FINFLOW_SERVICES_APPLICATION_URL: http://finflow-application-service
+    depends_on:
+      finflow-mysql:
+        condition: service_healthy
+      finflow-eureka:
+        condition: service_healthy
+      finflow-zipkin:
+        condition: service_started
+      finflow-auth-service:
+        condition: service_healthy
+      finflow-application-service:
+        condition: service_healthy
+    networks:
+      - finflow-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8084/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  finflow-gateway:
+    build:
+      context: finflow-gateway
+      dockerfile: Dockerfile
+    container_name: finflow-gateway
+    ports:
+      - "8090:8090"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://finflow-eureka:8761/eureka
+      FINFLOW_JWT_SECRET: ${FINFLOW_JWT_SECRET:-finflow-dev-secret-key-change-me-please-use-256-bits-minimum-for-hs256-algorithm}
+      MANAGEMENT_TRACING_SAMPLING_PROBABILITY: 1.0
+      MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://finflow-zipkin:9411/api/v2/spans
+    depends_on:
+      finflow-eureka:
+        condition: service_healthy
+      finflow-zipkin:
+        condition: service_started
+      finflow-auth-service:
+        condition: service_healthy
+      finflow-application-service:
+        condition: service_healthy
+      finflow-document-service:
+        condition: service_healthy
+      finflow-admin-service:
+        condition: service_healthy
+    networks:
+      - finflow-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+
+volumes:
+  document-uploads:
+    driver: local

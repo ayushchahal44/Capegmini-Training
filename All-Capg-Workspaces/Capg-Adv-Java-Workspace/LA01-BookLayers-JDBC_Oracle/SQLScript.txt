@@ -1,0 +1,6 @@
+
+
+sql> create table book(bookid int,title varchar2(20),price float,grade varchar2(20));
+sql> insert into book values(100,'MyBookJava',350,'A');
+
+  

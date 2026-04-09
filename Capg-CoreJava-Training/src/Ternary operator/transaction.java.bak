@@ -1,0 +1,10 @@
+class transaction 
+{
+	public static void main(String[] args) 
+	{
+		boolean active = true;
+		double balance = 50000;
+		System.out.println(
+		(active && balance >0) ? "You can make transaction." : (active) "Balance not sufficiant." : "Your account are frozen");
+	}
+}

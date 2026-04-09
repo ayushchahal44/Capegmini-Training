@@ -1,0 +1,118 @@
+# FinFlow stack with H2 for testing
+# From this directory: docker compose -f docker-compose-h2.yml up --build
+
+x-finflow-jwt: &finflow-jwt
+  FINFLOW_JWT_SECRET: ${FINFLOW_JWT_SECRET:-finflow-dev-secret-key-change-me-please-use-256-bits-minimum-for-hs256-algorithm}
+
+services:
+  finflow-eureka:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.eureka
+    ports:
+      - "8761:8761"
+    environment:
+      EUREKA_INSTANCE_HOSTNAME: finflow-eureka
+
+  finflow-auth-service:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.auth
+    ports:
+      - "8081:8081"
+    environment:
+      <<: *finflow-jwt
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: 
+      SPRING_H2_CONSOLE_ENABLED: true
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://finflow-eureka:8761/eureka
+    depends_on:
+      finflow-eureka:
+        condition: service_started
+
+  finflow-application-service:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.application
+    ports:
+      - "8082:8082"
+    environment:
+      <<: *finflow-jwt
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: 
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://finflow-eureka:8761/eureka
+    depends_on:
+      finflow-eureka:
+        condition: service_started
+      finflow-auth-service:
+        condition: service_started
+
+  finflow-document-service:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.document
+    ports:
+      - "8083:8083"
+    environment:
+      <<: *finflow-jwt
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: 
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://finflow-eureka:8761/eureka
+      FINFLOW_STORAGE_ROOT: /app/uploads
+    volumes:
+      - document-uploads:/app/uploads
+    depends_on:
+      finflow-eureka:
+        condition: service_started
+      finflow-application-service:
+        condition: service_started
+
+  finflow-admin-service:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.admin
+    ports:
+      - "8084:8084"
+    environment:
+      <<: *finflow-jwt
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: 
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://finflow-eureka:8761/eureka
+    depends_on:
+      finflow-eureka:
+        condition: service_started
+      finflow-auth-service:
+        condition: service_started
+      finflow-application-service:
+        condition: service_started
+
+  finflow-gateway:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.gateway
+    ports:
+      - "8090:8090"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://finflow-eureka:8761/eureka
+    depends_on:
+      finflow-eureka:
+        condition: service_started
+      finflow-auth-service:
+        condition: service_started
+      finflow-application-service:
+        condition: service_started
+      finflow-document-service:
+        condition: service_started
+      finflow-admin-service:
+        condition: service_started
+
+volumes:
+  document-uploads:

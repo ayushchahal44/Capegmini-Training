@@ -1,0 +1,11 @@
+import java.io.File
+class makeDirectory {
+    public static void main(String[] args) {
+        File dir = new File("Parent/Child/SubChild")
+        if (dir.mkdirs()) {
+            System.out.println("Directories created");
+        } else {
+            System.out.println("Directories already exist or failed");
+        }
+    }
+}

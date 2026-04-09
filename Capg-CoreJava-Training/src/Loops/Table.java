@@ -1,0 +1,21 @@
+import java.util.*;
+class  Table
+{
+	public static void main(String[] args) 
+	{
+		Scanner s = new Scanner(System.in);
+		System.out.print("The char is:");
+		char st = s.next().toUpperCase().charAt(0);
+		s.nextLine();
+		int count = 1;
+		for(char i='A';i<=st;i++){
+			if(i==st) break;
+			count++;
+		}
+		for(int i=1;i<=10;i++){
+			System.out.println(count+ " * "+i+" = "+count*i );
+		}
+	}
+}
+
+ 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.capg.hibernate.Student" table="STUDENT">
+
+        <id name="sno" column="SNO" type="int">
+            <generator class="assigned"/>
+        </id>
+
+        <property name="sname" column="SNAME" type="string"/>
+        <property name="email" column="EMAIL" type="string" length="100"/>
+        <property name="mobile" column="MOBILE" type="long"/>
+
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,95 @@
+
+----------------------------I. Create New DataBase on MySQL------------------------
+Create database name :
+   mysql> create database onlineshopping;
+   mysql> use onlineshopping;
+   
+ ----------------------------II. Run  SpringBoot Server-----------------------------
+
+// Table was created by SpringBoot(After Start SpringBoot Server) 
+
+----------------------------III. Insert Record on MySQL Database--------------------
+//Below query  run on mysql>
+
+mysql> insert into user values('1','pass','user');
+mysql>   commit;
+
+
+
+
+----------------------------IV. Goto POSTMan --------------------------------------
+Get
+http://localhost:9090/loginController/getUser/1
+
+output is :
+User is Valid
+
+ we can see Execution flow.. 
+       
+       Postman  -> Controller  -> Service layer -> DAO(repo) -> MySQL
+       
+       Postman  <- Controller  <- Service layer <- DAO(repo)   <- MySQL
+        
+  
+----------------------------V. AddUser-On Postman for MySQL--------------------------
+
+POST METHOD
+-----------
+http://localhost:9090/loginController/addUser
+----------------------------------------------------------------------
+OUTPUT
+------
+
+{
+    "userId": "2",
+    "password": "ram",
+    "role": "admin"
+}
+
+       Postman  -> Controller  -> Service layer -> DAO(repo) -> MySQL
+       
+       Postman  <- Controller  <- Service layer <- DAO(repo)   <- MySQL
+        
+
+
+-----------------------------VI. DELETE Record ---------------------------------------
+
+DELETE METHOD
+------------
+http://localhost:9090/loginController/removeUser
+
+
+
+  Postman  -> Controller  -> Service layer -> DAO(repo) -> MySQL
+       
+       Postman  <- Controller  <- Service layer <- DAO(repo)   <- MySQL
+
+
+
+OUTPUT
+------
+
+{
+    "userId": "2",
+    "password": "ram",
+    "role": "2user"
+   
+}
+
+
+       Postman  -> Controller  -> Service layer -> DAO(repo)
+       
+       Postman  <- Controller  <- Service layer <- DAO(repo)
+
+------------------------------VII SignOut-----------------------------------------
+
+GET METHOD
+---------
+http://localhost:9090/loginController/signOut
+----------------------------------------------------------------------
+OUTPUT
+------
+LoggedOut
+-----------------------------------------------------------------------
+
+      

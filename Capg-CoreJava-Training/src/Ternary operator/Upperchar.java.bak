@@ -1,0 +1,6 @@
+class Upperchar{
+	 public static void main(String[] args) {
+		 char input = 'A';
+		 (input>=65 && input<=90) ? System.out.println("UpperCase") : System.out.println("Not a UpperCase");
+	 }
+}

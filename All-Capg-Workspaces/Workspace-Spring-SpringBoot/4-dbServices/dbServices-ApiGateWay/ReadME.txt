@@ -1,0 +1,1 @@
+lb:// → Load Balanced using Eureka

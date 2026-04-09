@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+ "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+ "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+ <session-factory>
+
+  <!-- Oracle Connection -->
+
+  <property name="hibernate.connection.driver_class">
+   oracle.jdbc.driver.OracleDriver
+  </property>
+
+  <property name="hibernate.connection.url">
+   jdbc:oracle:thin:@localhost:1521:XE
+  </property>
+
+  <property name="hibernate.connection.username">
+   capgdb
+  </property>
+
+  <property name="hibernate.connection.password">
+   capgdb
+  </property>
+
+  <!-- Dialect -->
+
+  <property name="hibernate.dialect">
+   org.hibernate.dialect.OracleDialect
+  </property>
+
+  <!-- Show SQL -->
+
+  <property name="hibernate.show_sql">false</property>
+
+  <!-- Mapping -->
+
+  <mapping resource="BankBean.hbm.xml"/>
+
+ </session-factory>
+
+</hibernate-configuration>

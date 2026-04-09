@@ -1,0 +1,91 @@
+spring:
+  application:
+    name: finflow-gateway
+  main:
+    web-application-type: reactive
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+
+            - id: finflow-auth
+              uri: lb://FINFLOW-AUTH-SERVICE
+              predicates:
+                - Path=/gateway/auth/**
+              filters:
+                - RewritePath=/gateway/auth/(?<segment>.*), /api/auth/${segment}
+
+            - id: finflow-products
+              uri: lb://FINFLOW-APPLICATION-SERVICE
+              predicates:
+                - Path=/gateway/products
+              filters:
+                - RewritePath=/gateway/products, /api/products
+
+            - id: finflow-applications-root
+              uri: lb://FINFLOW-APPLICATION-SERVICE
+              predicates:
+                - Path=/gateway/applications
+              filters:
+                - RewritePath=/gateway/applications, /api/applications
+
+            - id: finflow-applications
+              uri: lb://FINFLOW-APPLICATION-SERVICE
+              predicates:
+                - Path=/gateway/applications/**
+              filters:
+                - RewritePath=/gateway/applications/(?<segment>.*), /api/applications/${segment}
+
+            - id: finflow-documents
+              uri: lb://FINFLOW-DOCUMENT-SERVICE
+              predicates:
+                - Path=/gateway/documents/**
+              filters:
+                - RewritePath=/gateway/documents/(?<segment>.*), /api/documents/${segment}
+
+            - id: finflow-admin
+              uri: lb://FINFLOW-ADMIN-SERVICE
+              predicates:
+                - Path=/gateway/admin/**
+              filters:
+                - RewritePath=/gateway/admin/(?<segment>.*), /api/admin/${segment}
+
+server:
+  port: 8090
+
+finflow:
+  jwt:
+    secret: ${FINFLOW_JWT_SECRET:finflow-dev-secret-key-change-me-please-use-256-bits-minimum-for-hs256-algorithm}
+    expiration-ms: 86400000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://finflow-eureka:8761/eureka}
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: Auth Service
+        url: /gateway/auth/api-docs
+      - name: Application Service
+        url: /gateway/applications/api-docs
+      - name: Document Service
+        url: /gateway/documents/api-docs
+      - name: Admin Service
+        url: /gateway/admin/api-docs
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,tracing
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: ${MANAGEMENT_ZIPKIN_TRACING_ENDPOINT:http://finflow-zipkin:9411/api/v2/spans}

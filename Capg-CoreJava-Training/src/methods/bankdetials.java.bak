@@ -1,0 +1,53 @@
+include java.util.*;
+class  bankdetials
+{
+	public static void main(String[] args) 
+	{
+		Scanner s=new Scanner(System.in);
+		System.out.print("Enter name: ");
+		String name = s.nextLine();
+		System.out.print("IFSC Code: ");
+		String ifsc = s.nextLine();
+		System.out.print("Enter Balance: ");
+		double balance = s.nextDouble();
+		for(;;){
+			System.out.println("1. Withdraw \n2. Deposite \n3. Exit");
+			int inp = s.nextInt();
+			if(inp == 1){
+				System.out.print("Enter amount of withdrawl: ");
+				double with = s.nextDouble();
+				display(withdrawl(balance,inp),balance,name,ifsc);
+			}
+			if(inp ==2 ){
+				System.out.print("Enter amount to deposite: ");
+				double depo = s.nextDouble();
+				display(deposite(balance,inp),balance,name,ifsc);
+			}
+			if(inp == 3) {
+				break;
+			}
+		}
+	
+	}
+	public static void display(int bal, String name,String IFSC)
+		System.out.println("Name: "+name);
+		System.out.println("IFSC: "+IFSC);
+		System.out.println("Balance: "+bal);
+		
+	}
+	public static boolean withdraw(int &bal,int with)
+		if(bal-with>=0){
+			bal=bal-with;
+			return true;
+	}
+		return false;
+	}
+	public static boolean deposite(int &bal,int depo)
+		if(depo>=0){
+			bal=bal+depo;
+			return true;
+	}
+		return false;
+	}
+	
+}

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Shopping site for Mobiles, Electronics & More</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      #parentcontainer {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin-left: 50px;
+      }
+      #childcontainer01 {
+        background-color: rgb(221, 221, 6);
+        width: 8%;
+        border-radius: 10px;
+      }
+      #childcontainer02 {
+        margin-left: 20px;
+        background-color: rgb(219, 219, 219);
+        width: 7%;
+        border-radius: 10px;
+      }
+      #childcontainer03 {
+        margin-left: 45%;
+        margin-top: 10px;
+      }
+      #childcontainer03 a {
+        color: blue;
+      }
+
+      #parentcontainer02 {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+      }
+      #searchbar {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-start;
+        margin-left: 50px;
+        height: 40px;
+        border: 2px solid blue;
+        border-radius: 8px;
+      }
+      #login {
+        padding-left: 25%;
+      }
+      #login,
+      #more,
+      #cart {
+        margin-left: 30px;
+        margin-top: 30px;
+        text-decoration: black;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div id="parentcontainer">
+        <div id="childcontainer01">
+          <img
+            src="https://rukminim2.flixcart.com/fk-p-flap/92/36/image/31f7e3af490c225f.png?q=60"
+            alt="Flipkart"
+          />
+        </div>
+        <div id="childcontainer02">
+          <img
+            src="https://rukminim1.flixcart.com/fk-p-flap/72/36/image/5a9ff48eef96b876.png?q=60"
+            alt="Travel"
+          />
+        </div>
+        <div id="childcontainer03">
+          Location not set <a href="#">Select delivery location ></a>
+        </div>
+      </div>
+
+      <div id="parentcontainer02">
+        <div id="searchbar">
+          <input
+            type="text"
+            placeholder="Search for product brands and more"
+            size="100"
+          />
+        </div>
+        <div id="login"><a href="#">Login</a></div>
+        <div id="more"><a href="#">More</a></div>
+        <div id="cart"><a href="#">Cart</a></div>
+      </div>
+    </header>
+    <br />
+    <hr />
+  </body>
+</html>

@@ -1,0 +1,41 @@
+import java.util.*;
+class rescalc {
+    public static void main(String[] args) {
+		Scanner s = new Scanner(System.in);
+		System.out.print("Enter the marks of 1st subject: ");
+		double m1 = s.nextDouble();
+		System.out.print("Enter the marks of 2nd subject: ");
+		double m2 = s.nextDouble();
+		System.out.print("Enter the marks of 3rd subject: ");
+		double m3 = s.nextDouble();
+		char grade = calc(m1,m2,m3);
+		double per = ((m1+m2+m3)*100)/300;
+		if(grade=='A'){
+			System.out.println("Congratulation, you score A grade with "+per+" %");
+		}
+		else if(grade=='B'){
+			System.out.println("Congratulation, you score B grade with "+per+" %");
+		}else if (grade == 'C'){
+			System.out.println("Congratulation, you score C grade with "+per+" %");
+		}else if(grade=='D'){
+			System.out.println("Congratulation, you score D grade with "+per+" %");
+		}else if(grade == 'F'){
+			System.out.println("Failed, you score F grade with "+per+" %");
+		}else{
+			System.out.println("Something went wrong.");
+		}
+	}
+    public static char calc(double m1,double m2,double m3) {
+		double avg = (m1+m2+m3)/3;
+		if(avg>=90){
+			return 'A';
+		}else if(avg>=80){
+			return 'B';
+		}else if(avg>=60){
+			return 'C';
+		}else if(avg>=40){
+			return 'D';
+		}else{
+			return 'F';
+		}
+}

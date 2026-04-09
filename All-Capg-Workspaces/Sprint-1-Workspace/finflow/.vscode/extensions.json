@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "SonarSource.sonarlint-vscode",
+        "redhat.java",
+        "vscjava.vscode-java-pack"
+    ]
+}

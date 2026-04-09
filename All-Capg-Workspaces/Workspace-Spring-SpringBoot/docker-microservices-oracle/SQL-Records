@@ -1,0 +1,50 @@
+
+SELECT * FROM ORDERS;
+
+INSERT INTO ORDERS (ORDER_ID, PRODUCT, PRICE)
+VALUES (1, 'Laptop', 70000);
+
+
+INSERT INTO ORDERS (ORDER_ID, PRODUCT, PRICE)
+VALUES (2, 'Mobile', 30000);
+
+INSERT INTO ORDERS (ORDER_ID, PRODUCT, PRICE)
+VALUES (3, 'Tablet', 45000);
+
+INSERT INTO ORDERS (ORDER_ID, PRODUCT, PRICE)
+VALUES (4, 'Headphones', 3500);
+
+INSERT INTO ORDERS (ORDER_ID, PRODUCT, PRICE)
+VALUES (5, 'Keyboard', 2500);
+
+COMMIT;
+
+
+
+
+
+
+
+
+
+SQL> INSERT INTO CUSTOMER (
+  2    CUSTOMER_ID, FIRST_NAME, LAST_NAME, MOBILE_NUMBER, EMAIL, NAME
+  3  ) VALUES (
+  4    'CUST101', 'Ravi', 'Kumar', '9876543210', 'ravi.kumar@gmail.com', 'Ravi Kumar'
+  5  );
+
+1 row created.
+
+SQL> INSERT INTO CUSTOMER (
+  2    CUSTOMER_ID, FIRST_NAME, LAST_NAME, MOBILE_NUMBER, EMAIL, NAME
+  3  ) VALUES (
+  4    'CUST102', 'Anita', 'Sharma', '9123456780', 'anita.sharma@gmail.com', 'Anita Sharma'
+  5  );
+
+1 row created.
+
+SQL> commint;
+
+
+
+COMMIT;

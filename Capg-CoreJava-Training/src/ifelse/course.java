@@ -1,0 +1,21 @@
+import java.util.Scanner;
+
+class course {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+		System.out.println("Have you paid for the course? (true/false): ");
+		boolean pay = s.nextBoolean();
+        System.out.println("Do you have scholarship? (true/false): ");
+        boolean sch = s.nextBoolean();
+		boolean exp = false;
+		System.out.println(" ");
+		if((pay || sch) && !exp){
+			System.out.println("You can access the following course.");
+		} else if(exp){
+			System.out.println("The course you are looking for is expired.");
+		}else{
+		System.out.println("Kindly purchase this course to get access or you should have Scholarship.");
+		}
+	}
+}
+

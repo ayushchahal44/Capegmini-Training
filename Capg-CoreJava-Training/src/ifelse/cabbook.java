@@ -1,0 +1,31 @@
+import java.util.Scanner;
+
+class cabbook {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+
+        System.out.println("Is driver free:");
+        boolean driver = s.nextBoolean();
+        s.nextLine();
+
+        System.out.println("Enter address:");
+        String addr = s.nextLine();
+
+        System.out.println("UPI or Cash?");
+        String mode = s.next().toLowerCase();
+
+        if (!driver) {
+            System.out.println("Driver is not available.");
+        } 
+        else if (addr.isEmpty()) {
+            System.out.println("Address is not available. Check once again.");
+        } 
+        else if (!(mode.equals("upi") || mode.equals("cash"))) {
+            System.out.println("Invalid payment mode. Choose UPI or Cash.");
+        } 
+        else {
+            System.out.println("Your ride is successfully booked for " + addr);
+            System.out.println("Payment Mode: " + mode.toUpperCase());
+        }
+    }
+}

@@ -1,0 +1,10 @@
+http://localhost:8761
+  ApiGateWay 
+
+  1. dbServices-EurekaServer
+  2. dbServices-ApiGateWay
+  3. dbServices-ProductService
+               Spring-DataJPA 
+  4. dbServices-OrderService
+
+

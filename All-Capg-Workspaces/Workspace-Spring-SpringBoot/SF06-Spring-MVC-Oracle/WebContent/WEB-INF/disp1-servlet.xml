@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+             <!-- Step-12  :dataSource  -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName">    <!-- Step-13  :All DB properties has ini  -->
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:oracle:thin:@localhost:1521:XE</value>
+		</property>
+		<property name="username">
+			<value>capgdb</value>
+		</property>
+		<property name="password">
+			<value>capgdb</value>
+		</property>
+		<property name="initialSize">
+			<value>5</value>
+		</property>
+		<property name="maxActive">
+			<value>10</value>
+		</property>
+	</bean>
+	            <!-- Step-11  :jdbcTemplate  -->
+	<bean id="jdbcTemplate" 
+	       class="org.springframework.jdbc.core.JdbcTemplate">
+		<!-- constructor based IOC -->
+		<constructor-arg>
+			<ref bean="dataSource" />
+		</constructor-arg>
+	</bean>   <!-- Step-8  should be match  nc.htm-->
+	<bean name="/nc.htm" class="beans.NewCustomerController">  <!-- Step-14:Moving to NewCustomerController class   -->
+		<property name="jt">  <!-- Step-9 property name and NewCustomerController class property name
+		                            Should be same  -->
+			<ref bean="jdbcTemplate" />  <!-- Step-10 : jdbcTemplate  -->
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,65 @@
+
+
+\\	CUSTOMER MODULE
+
+Add custmer :
+POST :       Body  , raw   ,JSON
+
+http://localhost:9090/customerController/addCust
+{
+        "customerId": "2",
+        "firstName": "Ram",
+        "lastName": "kumar",
+        "mobileNumber": "9999999",
+        "email": "Ram@gmail.com"
+    }
+
+
+
+GET METHOD
+----------
+http://localhost:9090/customerController/viewAllCustomer
+---------------------------------------------------------------------------
+OUTPUT
+-----
+
+ 
+    {
+        "customerId": "1",
+        "firstName": "siddharth",
+        "lastName": "Shitole",
+        "mobileNumber": "9623466397",
+        "email": "Siddhushitole.1999@gmail.com"
+    },
+    {
+        "customerId": "2",
+        "firstName": "Ram",
+        "lastName": "kumar",
+        "mobileNumber": "9999999",
+        "email": "Ram@gmail.com"
+    }
+
+   
+ ---------------------------------------------------------------------------
+ 
+ 
+ 
+ 
+ 
+ 
+ REMOVE METHOD 
+ -------------
+ http://localhost:9090/customerController/removeCust
+ ----------------------------------------------------------------------------
+ OUTPUT
+ -------
+ 
+ 
+ {
+        "customerId": "2",
+        "firstName": "siddharth",
+        "lastName": "Shitole",
+        "mobileNumber": "9623466397",
+        "email": "Siddhushitole.1999@gmail.com"
+    }
+    

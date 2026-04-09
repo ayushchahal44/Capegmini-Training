@@ -1,0 +1,53 @@
+import java.util.Scanner;
+
+class atm {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+		System.out.println("Chose 1. Withdraw 2. Deposit 3. Balance Enquiry 4. Exit: ");
+		int choice = s.nextInt();
+		double balance = 5000.00;
+		System.out.println("---------------------------------------------------------------------------------------------------");
+		System.out.println("---------------------------------------------------------------------------------------------------");
+		switch(choice){
+			case 1:{
+				System.out.println("You chose 1. Withdraw: ");
+				System.out.println("Enter the amount you want to withdraw: ");
+				double with = s.nextDouble();
+				if(balance - with >=0){
+				System.out.println("Withdrawl of "+with+" is completed.");
+				balance-=with;
+				System.out.println("Your Balance is: "+balance);
+				}else{
+					System.out.println("Insufficiant balance.");
+			}
+			}
+				break;
+			case 2:{
+				System.out.println("You chose 2. Deposit: ");
+				System.out.println("Enter the amount you want to withdraw: ");
+				double dep = s.nextDouble();
+				if(dep >0){
+				System.out.println("Deposit of "+dep+" is completed.");
+				balance+=dep;
+				System.out.println("Your Balance is: "+balance);
+				}else{
+					System.out.println("Not a valid amount.");
+			}
+			}
+				break;
+			case 3:{
+				System.out.println("You chose 3. Balance Enquiry: ");
+				System.out.println("Your Balance is: "+balance);
+			}
+				break;
+			case 4:{
+				System.out.println("You chose 4. Exit: ");
+				System.out.println("Thank You for your time Visit again we are waiting for you...");
+			}
+                break;
+			default:{
+				System.out.println("Chose only the given 4 options.");
+			}
+		}
+	}
+}

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.capg.ayush</groupId>
+	<artifactId>finflow</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>finflow</name>
+	<description>FinFlow Loan Management — microservices</description>
+
+	<modules>
+		<module>finflow-common</module>
+		<module>finflow-common-web</module>
+		<module>finflow-common-webflux</module>
+		<module>finflow-eureka-server</module>
+		<module>finflow-gateway</module>
+		<module>finflow-auth-service</module>
+		<module>finflow-application-service</module>
+		<module>finflow-document-service</module>
+		<module>finflow-admin-service</module>
+	</modules>
+
+	<properties>
+		<java.version>17</java.version>
+		<sonar.java.binaries>**/target/classes</sonar.java.binaries>
+		<sonar.projectKey>finflow</sonar.projectKey>
+		<sonar.projectName>FinFlow Loan Management</sonar.projectName>
+		<sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
+	</properties>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>5.0.0.4389</version>
+				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.8.12</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
