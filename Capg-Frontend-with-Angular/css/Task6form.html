@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <fieldset>
+      <legend>Application Details</legend>
+      <form>
+        <br />
+        <!--first name-->
+        <label for="name"><strong>First Name</strong></label>
+        <input type="text" id="name" name="name" /><br /><br />
+
+        <!--last name-->
+        <label for="lastname"><strong>Last Name</strong></label>
+        <input type="text" id="lastname" name="lastname" /><br /><br />
+
+        <!--Email-->
+        <label for="email"><strong>Email:</strong></label>
+        <input type="email" id="email" name="email" /><br /><br />
+
+        <!--Gender-->
+        <label for="gender"><strong>Gender:</strong></label
+        ><br /><br />
+        <input type="radio" name="gender" value="Male" />Male<br />
+        <input type="radio" name="gender" value="Female" />Female<br /><br />
+
+        <!--Contact-->
+        <label for="contact"><strong>Contact:</strong></label>
+        <input type="number" id="contact" name="contact" /><br /><br />
+
+        <!--Qualification-->
+        <label for="qualification"><strong>Qualification:</strong></label>
+        <input
+          type="file"
+          id="qualification"
+          name="qualification"
+        /><br /><br />
+
+        <!--Joining date-->
+        <label for="joining date"><strong>Joining Date</strong></label>
+        <input type="date" id="joining date" name="joining date" /><br /><br />
+
+        <!--Skills-->
+        <label for="skills"><strong>Skills:</strong></label>
+
+        <label>
+          <input type="checkbox" name="skills" value="JavaScript" />
+          JavaScript
+        </label>
+
+        <label>
+          <input type="checkbox" name="skills" value="Java" />
+          Java
+        </label>
+        <br /><br />
+
+        <label>
+          <input type="checkbox" name="skills" value="React" />
+          React
+        </label>
+
+        <label>
+          <input type="checkbox" name="skills" value="Express" />
+          Express
+        </label>
+        <br /><br />
+
+        <label>
+          <input type="checkbox" name="skills" value="Python" />
+          Python
+        </label>
+
+        <label>
+          <input type="checkbox" name="skills" value="SQL" />
+          SQL
+        </label>
+        <br /><br />
+        <!--Experience-->
+        <label for="Experience"><strong>Years of Experience</strong></label>
+        <input type="range" id="Experience" name="Experience" /><br /><br />
+
+        <!--Work Location-->
+        <label for="work location"><strong>Work Location:</strong></label>
+        <select name="city">
+          <option value="default">-Default-</option>
+          <option value="delhi">Delhi</option>
+          <option value="chandigarh">Chandigarh</option>
+          <option value="ludhiana">Ludhiana</option>
+        </select>
+        <br /><br />
+
+        <!--Address-->
+        <label for="Address"><strong>Address</strong></label>
+        <input
+          type="text"
+          id="Address"
+          name="Address"
+          style="width: 200px; height: 40px"
+        /><br /><br />
+
+        <!--Submit Button-->
+        <input type="submit" id="submit" name="submit" value="Submit" />
+
+        <!--reset-->
+        <input type="reset" id="reset" name="reset" value="Reset" />
+      </form>
+    </fieldset>
+  </body>
+</html>

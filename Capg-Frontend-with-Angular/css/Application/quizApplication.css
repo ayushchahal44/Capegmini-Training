@@ -1,0 +1,89 @@
+*{
+
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+      #header {
+        width: 100%;
+        background-color: green;
+        height: 65px;
+        text-align: center;
+        color: yellow;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #footer {
+        width: 100%;
+        background-color: black;
+        height: 50px;
+        text-align: center;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #main {
+        height: 100vh;
+        display: flex;
+        width: 100vw;
+        background-color: lightblue;
+      }
+
+      p {
+        margin-top: 40px;
+        margin-left: 20px;
+        margin-bottom: 10px;
+      }
+
+      label {
+        margin-left: 20px;
+      }
+
+      .correct {
+        background-color: green;
+       display: none;
+       margin-left: 20px;
+      }
+
+      .incorrect {
+        background-color: red;
+        display: none;
+        margin-left: 20px;
+      }
+
+      /* for first ques */
+      #qns001:checked ~ #qns1ans {
+        display: inline;
+      }
+
+      #qns01:checked ~ #qns001ans , #qns02:checked ~ #qns001ans , #qns03:checked ~ #qns001ans
+      {
+        display: inline;
+      }
+      
+      /* for second question */
+
+       #qns04:checked ~ #qns2ans {
+        display: inline;
+      }
+
+       #qns05:checked ~ #qns002ans , #qns06:checked ~ #qns002ans , #qns07:checked ~ #qns002ans {
+        display: inline;
+      }
+
+      /* for third question */
+       #qns08:checked ~ #qns3ans {
+        display: inline;
+      }
+
+     #qns09:checked ~ #qns003ans , #qns10:checked~ #qns003ans , #qns11:checked ~ #qns003ans {
+        display: inline;
+      }
+
+     strong{
+        font-size: 18px;
+     }

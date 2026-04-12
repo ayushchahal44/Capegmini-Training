@@ -1,0 +1,23 @@
+#external{
+    margin: 12px;
+}
+
+#external > #pracExternal{
+    color: rgb(105, 49, 10);
+}
+
+#external > #pracExternal > .pracExternalChild > #ist{
+    color: rgba(255, 0, 76, 0.92);
+}
+
+#external > #pracExternal > .pracExternalChild > #second{
+    color:cadetblue
+}
+
+#external > #pracExternal:hover{
+    color: rgba(212, 0, 255, 0.566);
+}
+
+#external > #pracExternal:active{
+    color: rgb(0, 255, 0);
+}   

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>form with css </title>
+<link rel="stylesheet" href="Task4April.css">
+<style>
+
+    #internal{
+        margin: 12px;
+    }
+
+    #internal > #pracInternal{
+        color: rgb(115, 0, 255);
+    }
+
+</style>
+
+</head>
+
+<body>
+
+    <div style="margin: 12px;">
+         <h1>Ingedients for Biryani</h1>
+    <ul>
+        <li>Rice</li>
+        <li>Chicken</li>
+         <ul style="list-style-type: circle;">
+          <li style="color: grey;">Fried</li>
+          <li style="color: red;">Grilled</li>
+          <li style="color: blue;">Roasted</li>
+         </ul>
+        <li style="color: green;">Paneer</li>
+    </ul>
+    </div>
+
+    <div id="internal">
+        <h1>Fighter Jet</h1>
+        <ul id="pracInternal">
+            <li>Spices</li>
+            <li>Gas/Electric</li>
+        </ul>
+    </div>
+
+    <div id="external">
+        <h1>Ingedients for Lassi</h1>
+        <ul id="pracExternal">
+            <li>Curd</li>
+            <li>Water</li>
+            <li>Sugar</li>
+                <ul class="pracExternalChild">
+                    <li id="ist">White Sugar</li>
+                    <li id="second">Brown Sugar</li>
+                </ul>
+            <li>Malai</li>
+            <li>Kova</li>
+        </ul>
+    </div>
+
+</body>
+</html>
