@@ -2,6 +2,8 @@ import './style.css'
 import { setupCounter } from './counter.ts'
 import { populateLaptops } from './populateLaptops.ts'
 import { populateUsers } from './populateUsers.ts'
+import type {User} from './User.ts'
+import type {Laptop} from './Laptop.ts'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <section id="center">
@@ -38,3 +40,41 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
 populateLaptops(document.querySelector<HTMLTableElement>('#laptops')!, 'http://localhost:3000/laptops');
 populateUsers(document.querySelector<HTMLTableElement>('#users')!, 'http://localhost:3000/users');
+
+function getData() : Promise<User> | string {
+  // if data is ready from localstorage return it.
+  // else fetch data from server, then return Promise
+  const data = localStorage.getItem('mydata');
+
+  if (data) {
+    return data;
+  }
+
+  return fetch('http://localhost:3000/users/1').then(Response=>Response.json());
+}
+
+function showdata() {
+  const data = getData();
+
+  if (typeof data === 'string') {
+    console.log(`from localstorage: ${data}`);
+  } 
+  else {
+    data
+      .then(json => console.log(`from server: ${JSON.stringify(json)}`));
+  }
+}
+showdata();
+
+function getLaptopsData() : Promise<Laptop[]> {
+  return fetch('http://localhost:3000/laptops').then(res=>res.json());
+}
+
+function showLaptops() {
+  getLaptopsData().then(laptops => {
+    for(const laptop of laptops) {
+      console.log(`Laptop: ${laptop.brand} ${laptop.model} costs ₹${laptop.price}`);
+    }
+  });
+}
+showLaptops();
