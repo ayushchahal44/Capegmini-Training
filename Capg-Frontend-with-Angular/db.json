@@ -1,0 +1,33 @@
+{"users" : [
+    {
+        "id": 1,
+        "name": "John Doe",
+        "email": "johndoe@example.com"
+    },
+    {
+        "id": 2,
+        "name": "Jane Smith",
+        "email": "janesmith@example.com"
+    }
+],
+"laptops": [
+    {
+        "id": 1,
+        "brand": "Dell",
+        "model": "XPS 13",
+        "price": 90000
+    },
+    {
+        "id": 2,
+        "brand": "Apple",
+        "model": "MacBook Pro",
+        "price": 120000
+    },
+    {
+        "id": 3,
+        "brand": "HP",
+        "model": "Spectre x360",
+        "price": 87000
+    }
+]
+}

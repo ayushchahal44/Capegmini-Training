@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laptop Table</title>
+  </head>
+  <body>
+    <h1 onclick="TableMethod1()">Populate Laptops using method 1</h1>
+    <h1 onclick="TableMethod2()">Populate Laptops using method 2</h1>
+
+    <table id="laptopTable" border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Price</th>
+          <th>Screen Size</th>
+          <th>Like</th>
+          <th>Dislike</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows will be dynamically added here -->
+      </tbody>
+    </table>
+    <button
+      class="button1"
+      onclick="showLikedLaptops()"
+      style="margin-left: 80px; margin-top: 10px"
+    >
+      Liked
+    </button>
+    <button
+      class="button1"
+      onclick="showAllLaptops()"
+      style="margin-left: 60px; margin-top: 10px"
+    >
+      All
+    </button>
+
+    <script>
+      var laptops = [
+        {
+          id: 1,
+          brand: "Dell",
+          model: "Inspiron 15",
+          price: 55000,
+          screenSize: "15.6 inch",
+          status: "",
+        },
+        {
+          id: 2,
+          brand: "HP",
+          model: "Pavilion",
+          price: 62000,
+          screenSize: "14 inch",
+          status: "",
+        },
+        {
+          id: 3,
+          brand: "Lenovo",
+          model: "ThinkPad",
+          price: 70000,
+          screenSize: "15 inch",
+          status: "",
+        },
+      ];
+
+      var tableBody = document.querySelector("#laptopTable tbody");
+
+      function getRowColor(status) {
+        if (status === "like") {
+          return "lightgreen";
+        } else if (status === "dislike") {
+          return "orange";
+        } else {
+          return "";
+        }
+      }
+
+      function renderTable(data) {
+    tableBody.innerHTML = '';
+
+    for (let laptop of data) {
+      let row = `
+        <tr style="background-color:${getRowColor(laptop.status)}">
+          <td>${laptop.id}</td>
+          <td>${laptop.brand}</td>
+          <td>${laptop.model}</td>
+          <td>${laptop.price}</td>
+          <td>${laptop.screenSize}</td>
+          <td><button onclick="likeLaptop(${laptop.id})">Like</button></td>
+          <td><button onclick="dislikeLaptop(${laptop.id})">Dislike</button></td>
+        </tr>
+      `;
+      tableBody.innerHTML += row;
+    }
+  }
+
+  function TableMethod1() {
+    renderTable(laptops);
+  }
+
+  function TableMethod2() {
+    tableBody.innerHTML = '';
+
+    for (let laptop of laptops) {
+      let tr = document.createElement('tr');
+      tr.style.backgroundColor = getRowColor(laptop.status);
+
+      tr.innerHTML = `
+        <td>${laptop.id}</td>
+        <td>${laptop.brand}</td>
+        <td>${laptop.model}</td>
+        <td>${laptop.price}</td>
+        <td>${laptop.screenSize}</td>
+        <td><button onclick="likeLaptop(${laptop.id})">Like</button></td>
+        <td><button onclick="dislikeLaptop(${laptop.id})">Dislike</button></td>
+      `;
+
+      tableBody.appendChild(tr);
+    }
+  }
+      function likeLaptop(id) {
+        for (const element of laptops) {
+          if (element.id === id) {
+            element.status = "like";
+            console.log("Liked: " + element.brand + " " + element.model);
+          }
+        }
+        renderTable(laptops);
+      }
+
+      function dislikeLaptop(id) {
+        for (const element of laptops) {
+          if (element.id === id) {
+            element.status = "dislike";
+            console.log("Disliked: " + element.brand + " " + element.model);
+          }
+        }
+        renderTable(laptops);
+      }
+
+      function showLikedLaptops() {
+        console.log("Rendering liked laptops...");
+        var liked = [];
+
+        for (const element of laptops) {
+          if (element.status === "like") {
+            liked.push(element);
+          }
+        }
+
+        renderTable(liked);
+      }
+
+      function showAllLaptops() {
+        console.log("Rendering All laptops...");
+        renderTable(laptops);
+      }
+    </script>
+  </body>
+</html>
