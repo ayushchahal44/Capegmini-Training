@@ -1,0 +1,30 @@
+@if (viewType === 'card') {
+  <div class="user-details-card">
+    <p>Name: {{ name }}</p>
+    <p>Age: {{ age }}</p>
+    <p>Address: {{ address }}</p>
+    <p>Gender: {{ gender }}</p>
+  </div>
+} @else {
+  <table class="user-details-list">
+    <div class="user-details-list">
+    <tr>
+      <span id="user-name">{{ name }} -</span
+      ><span id="user-age"> {{ age }} -</span
+      ><span id="user-address"> {{ address }} - </span
+      ><span id="user-gender"> {{ gender }}</span>
+    </tr>
+    </div>
+  </table>
+}
+  
+
+ <!-- <div class="user-details-card">
+      <p>Name: <input type="text" value="{{name}}" [readOnly]="! editMode"></p>
+    <p>Age: {{ age }}</p>
+    <p>Address: {{ address }}</p>
+    <p>Gender: {{ gender }}</p>
+      <p><img [src]="pic" alt="" width="50" height="50"></p>
+      <button (click)="informParents()">Delete and Inform</button>
+      <button (click)="toggleEditMode()">Edit</button>
+    </div> -->

@@ -1,0 +1,16 @@
+<input 
+  type="text" 
+  placeholder="Search by name"
+  [(ngModel)]="searchText"
+  (input)="onSearchChange()"
+/>
+<div>
+  <app-customer-details 
+    *ngFor="let customer of paginatedCustomers" 
+    [customer]="customer">
+  </app-customer-details>
+  <div class="button-container">
+  <button id="prevBtn" (click)="prev()" [disabled]="isFirstPage()">Previous</button>
+  <button id="nextBtn" (click)="next()" [disabled]="isLastPage()">Next</button>
+  </div>
+</div>

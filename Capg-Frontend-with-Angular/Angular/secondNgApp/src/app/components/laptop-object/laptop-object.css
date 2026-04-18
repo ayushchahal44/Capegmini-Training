@@ -1,0 +1,11 @@
+.laptop-card{
+  display: inline-block;
+    background-color: grey;
+    width: 40%;
+    margin: 20px;
+    padding: 10px;
+    text-align: center; 
+    border-radius: 10px;
+    border: 2px solid black;
+
+}

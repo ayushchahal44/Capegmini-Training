@@ -1,0 +1,32 @@
+.app-container{
+    margin-top: 0%;
+    background-color: #f6f8fc;
+    font-family: Arial, sans-serif;
+}
+.user-details{
+    background-color: lightblue;
+    width: 40%;
+    margin: 2px;
+    padding: 5px;
+    border-radius: 2px;
+}
+.user-details img{
+    width: 100%;
+    height: 200px;
+    border-radius: 5px;
+}
+.outside-container{
+    text-align: center;
+    position: sticky;
+    width: 100%;
+    top: 0;
+}
+
+.inside-container{
+    margin-top: 20px;
+    height: 60vh;
+    overflow-y: auto;
+    padding-top: 10px;
+}
+
+

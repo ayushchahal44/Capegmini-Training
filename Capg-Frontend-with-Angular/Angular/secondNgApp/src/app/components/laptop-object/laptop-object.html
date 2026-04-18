@@ -1,0 +1,16 @@
+<!-- <div class="laptop-card">
+  <h3>Id: {{ laptop.id | number: 2.0-0}} </h3>
+  <h3>Brand: {{ laptop.brand }} </h3>
+  <h3>Model: {{ laptop.model }}</h3>
+  <p>Price: ${{ laptop.price }}</p>
+</div> -->
+
+
+<div class="laptop-card">
+  <h3>Id: {{ laptop.id | number:'1.0-0' }}</h3>
+  <h3>Brand: {{ laptop.brand | uppercase }}</h3>
+  <h3>Model: {{ laptop.model | lowercase }}</h3>
+  <p>Price: {{ laptop.price | currency:'INR' }}</p>
+  <p>Price (USD): {{ laptop.price | currency:'USD' }}</p>
+  <p>Discounted (10% off): {{ laptop.price * 0.9 | currency:'INR' }}</p>
+</div>

@@ -1,0 +1,113 @@
+<!-- <div><h1>My first Angular App</h1>
+<h2>{{title}}</h2>
+<button (click)="changeTitle()">change Title</button>
+<br>
+Enter the Title: <input [(ngModel)]="title" />
+<br>
+Select card view or list view:
+<button (click)="card()">Card</button>
+<button (click)="list()">List</button>
+</div> -->
+
+
+<!-- <div class="user-details">
+    <h4>Single User Detail: </h4>
+    <p>Name: {{user.name}}</p>
+    <p>Email: {{user.email}}</p>
+    <p>Age: {{user.age}}</p>
+    <p>Address: {{user.address}}</p>
+    <p>Phone Numbers: {{user.phoneNo}}</p>
+
+    <h4>All Users: </h4>
+    </div>
+    @for(u of users ; track u.name){
+        <div class="user-details">
+        <p>Name: {{u.name}}</p>
+        <p>Email: {{u.email}}</p>
+        <p>Age: {{u.age}}</p>
+        <p>Address: {{u.address}}</p>
+        <p>Phone Numbers: {{u.phoneNo}}</p>
+        <p>Gender: {{u.gender}}</p>
+        <p>Picture: <img [src]="u.pic" alt="{{u.name}}"></p>
+
+        <input type="text" disabled="{{u.edit}}">
+        <input type="text" [disabled]="u.edit">
+
+        @if(u.gender === 'Male'){
+            <p>You are eligible to go faraway.</p>
+        }
+        @else{
+            <p>You are not eligible to go faraway.</p>
+        }
+        </div>
+    } -->
+<!-- @for(u of users; track u.name){<app-user-details [name]="u.name" [age]="u.age" [address]="u.address" [gender]="u.gender"/>} -->
+
+
+<!-- <div class="app-container">
+<div class="outside-container">
+<div><h1>My first Angular App</h1>
+<h2>{{title}}</h2>
+<button (click)="changeTitle()">change Title</button>
+Select card view or list view:
+<button (click)="card()">Card</button>
+<button (click)="list()">List</button>
+</div>
+</div>
+<div class="inside-container">
+ @for(u of users; track u.name){
+<app-user-details 
+  [name]="u.name" 
+  [age]="u.age" 
+  [address]="u.address" 
+  [gender]="u.gender"
+  [viewType]="viewType"
+  pic="{{u.pic}}">
+</app-user-details>}
+</div>
+</div> -->
+
+
+
+<!-- <div><h2 style="text-align: center;">Update and Delete Users: </h2></div>
+@for (u of users; track u.name) {
+  <app-user-details
+    [name]="u.name"
+    [age]="u.age"
+    [address]="u.address"
+    [gender]="u.gender"
+    [viewType]="viewType"
+    [pic]="u.pic"
+    (onupdate)="parentAction($event)">
+  </app-user-details>
+} -->
+
+
+
+<div class="app-container">
+<div class="outside-container">
+<div><h1>My first Angular App</h1>
+<h2>{{title}}</h2>
+<button (click)="changeTitle()">change Title</button>
+Select card view or list view:
+<button (click)="card()">Card</button>
+<button (click)="list()">List</button>
+</div>
+</div>
+<div class="inside-container">
+  @for (user of users.slice(start, start + jump); track user.name) {
+    <app-user-details 
+    [name]="user.name" 
+      [age]="user.age" 
+      [address]="user.address" 
+      [gender]="user.gender"
+      [viewType]="viewType">
+    </app-user-details>
+  }
+</div>
+
+<button (click)="previous()">Previous</button>
+<button (click)="next()" style="margin-left: 90%;">Next</button>
+</div>
+
+<router-outlet />
