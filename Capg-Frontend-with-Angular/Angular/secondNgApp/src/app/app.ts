@@ -92,4 +92,5 @@ export class App {
     "price": 65000
   }
 ];
+  truncValue = 'This is a long string that needs to be truncated.';
 }
