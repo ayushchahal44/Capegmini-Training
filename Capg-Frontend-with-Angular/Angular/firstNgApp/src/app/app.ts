@@ -1,11 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UserDetails } from './components/user-details/user-details';
 import { FormsModule } from '@angular/forms';
+import { Highlight } from './highlight';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, UserDetails,FormsModule],
+  imports: [RouterOutlet, UserDetails,FormsModule,Highlight],
   templateUrl: './app.html',
   // template: `
   // <h3> I can also work. </h3>
@@ -154,6 +155,19 @@ export class App {
       edit: false,
     },
   ];
+
+@ViewChild(UserDetails) user0!: UserDetails;
+// ngOnInit(){
+//   console.log("After view init user0 is ",this.user0);
+// };
+
+@ViewChildren('oneuser') lst!: QueryList<UserDetails>
+ngAfterViewInit() {
+  console.log("Single:", this.user0);
+  this.lst.forEach(user => console.log("List:", user));
+}
+
+
   change = true;
 
   changeTitle() {

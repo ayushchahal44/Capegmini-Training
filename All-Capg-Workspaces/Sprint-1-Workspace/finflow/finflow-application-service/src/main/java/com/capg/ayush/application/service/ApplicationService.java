@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,19 +15,19 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.capg.ayush.application.config.RabbitMQConfig;
-import com.capg.ayush.application.domain.ApplicationStatus;
-import com.capg.ayush.application.domain.ApplicationStatusEvent;
-import com.capg.ayush.application.domain.LoanApplication;
+import com.capg.ayush.application.entity.ApplicationStatusEvent;
+import com.capg.ayush.application.dto.AdminDecisionRequest;
+import com.capg.ayush.application.dto.AdminStatsDto;
+import com.capg.ayush.application.dto.ApplicationStatusResponse;
+import com.capg.ayush.application.dto.LoanApplicationDto;
+import com.capg.ayush.application.dto.NotifyDocVerifiedRequest;
+import com.capg.ayush.application.dto.UpdateLoanApplicationRequest;
+import com.capg.ayush.application.entity.ApplicationStatus;
+import com.capg.ayush.application.entity.LoanApplication;
 import com.capg.ayush.application.messaging.ApplicationStatusChangedEvent;
-import com.capg.ayush.application.repo.ApplicationStatusEventRepository;
-import com.capg.ayush.application.repo.LoanApplicationRepository;
+import com.capg.ayush.application.repository.ApplicationStatusEventRepository;
+import com.capg.ayush.application.repository.LoanApplicationRepository;
 import com.capg.ayush.application.security.SecurityUtils;
-import com.capg.ayush.application.web.dto.AdminDecisionRequest;
-import com.capg.ayush.application.web.dto.AdminStatsDto;
-import com.capg.ayush.application.web.dto.ApplicationStatusResponse;
-import com.capg.ayush.application.web.dto.LoanApplicationDto;
-import com.capg.ayush.application.web.dto.NotifyDocVerifiedRequest;
-import com.capg.ayush.application.web.dto.UpdateLoanApplicationRequest;
 
 /**
  * Service class for managing loan applications.
@@ -33,6 +35,7 @@ import com.capg.ayush.application.web.dto.UpdateLoanApplicationRequest;
  */
 @Service
 public class ApplicationService {
+	private static final Logger log = LoggerFactory.getLogger(ApplicationService.class);
 
 	private final LoanApplicationRepository loanApplicationRepository;
 	private final ApplicationStatusEventRepository eventRepository;
@@ -156,11 +159,22 @@ public class ApplicationService {
 	}
 
 	@Transactional(readOnly = true)
+	public LoanApplicationDto getApplicationById(Long id) {
+		Long userId = SecurityUtils.currentUserId();
+		LoanApplication app = loanApplicationRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		if (!SecurityUtils.hasRole("ADMIN") && !app.getUserId().equals(userId)) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		return toDto(app);
+	}
+
+	@Transactional(readOnly = true)
 	public ApplicationStatusResponse statusForApplicant(Long id) {
 		Long userId = SecurityUtils.currentUserId();
 		LoanApplication app = loanApplicationRepository.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-		if (!app.getUserId().equals(userId)) {
+		if (!SecurityUtils.hasRole("ADMIN") && !app.getUserId().equals(userId)) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 		}
 		return buildStatusResponse(app);
@@ -272,8 +286,7 @@ public class ApplicationService {
 			String routingKey = "application.status." + newStatus.name().toLowerCase();
 			rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, routingKey, event);
 		} catch (Exception e) {
-			
-			System.err.println("[RabbitMQ] Failed to publish status event for application " + app.getId() + ": " + e.getMessage());
+			log.error("Failed to publish status event for application {}", app.getId(), e);
 		}
 	}
 

@@ -18,7 +18,6 @@ public class RestClientConfig {
 	 * @return A load-balanced RestTemplate instance
 	 */
 	@Bean
-	@LoadBalanced
 	@Profile("!test")
 	public RestTemplate loadBalancedRestTemplate() {
 		return new RestTemplate();

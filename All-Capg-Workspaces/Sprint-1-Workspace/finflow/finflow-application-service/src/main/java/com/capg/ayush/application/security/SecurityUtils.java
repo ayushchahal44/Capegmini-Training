@@ -27,4 +27,18 @@ public final class SecurityUtils {
 		}
 		return Long.parseLong(authentication.getPrincipal().toString());
 	}
+
+	/**
+	 * Checks if the current authenticated user has the specified role.
+	 * @param role The role to check (e.g., "ADMIN")
+	 * @return true if the user has the role, false otherwise
+	 */
+	public static boolean hasRole(String role) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication == null) {
+			return false;
+		}
+		return authentication.getAuthorities().stream()
+				.anyMatch(a -> a.getAuthority().equals("ROLE_" + role));
+	}
 }

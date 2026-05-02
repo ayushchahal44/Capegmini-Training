@@ -18,13 +18,13 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.capg.ayush.application.domain.ApplicationStatus;
-import com.capg.ayush.application.domain.ApplicationStatusEvent;
-import com.capg.ayush.application.domain.LoanApplication;
-import com.capg.ayush.application.repo.ApplicationStatusEventRepository;
-import com.capg.ayush.application.repo.LoanApplicationRepository;
+import com.capg.ayush.application.entity.ApplicationStatus;
+import com.capg.ayush.application.entity.ApplicationStatusEvent;
+import com.capg.ayush.application.entity.LoanApplication;
+import com.capg.ayush.application.repository.ApplicationStatusEventRepository;
+import com.capg.ayush.application.repository.LoanApplicationRepository;
 import com.capg.ayush.application.security.SecurityUtils;
-import com.capg.ayush.application.web.dto.LoanApplicationDto;
+import com.capg.ayush.application.dto.LoanApplicationDto;
 
 /**
  * Unit tests for {@link ApplicationService}.
@@ -112,7 +112,7 @@ class ApplicationServiceTest {
         loanApplication.setStatus(ApplicationStatus.DOCS_PENDING);
         when(loanApplicationRepository.findById(1L)).thenReturn(Optional.of(loanApplication));
         
-        com.capg.ayush.application.web.dto.NotifyDocVerifiedRequest req = new com.capg.ayush.application.web.dto.NotifyDocVerifiedRequest();
+        com.capg.ayush.application.dto.NotifyDocVerifiedRequest req = new com.capg.ayush.application.dto.NotifyDocVerifiedRequest();
         req.setAllRequiredVerified(true);
         
         applicationService.notifyDocumentsVerified(1L, req);
@@ -127,7 +127,7 @@ class ApplicationServiceTest {
         loanApplication.setStatus(ApplicationStatus.DOCS_VERIFIED);
         when(loanApplicationRepository.findById(1L)).thenReturn(Optional.of(loanApplication));
         
-        com.capg.ayush.application.web.dto.AdminDecisionRequest req = new com.capg.ayush.application.web.dto.AdminDecisionRequest();
+        com.capg.ayush.application.dto.AdminDecisionRequest req = new com.capg.ayush.application.dto.AdminDecisionRequest();
         req.setApproved(true);
         req.setTerms("Standard Interest");
         
@@ -142,7 +142,7 @@ class ApplicationServiceTest {
         loanApplication.setStatus(ApplicationStatus.UNDER_REVIEW);
         when(loanApplicationRepository.findById(1L)).thenReturn(Optional.of(loanApplication));
         
-        com.capg.ayush.application.web.dto.AdminDecisionRequest req = new com.capg.ayush.application.web.dto.AdminDecisionRequest();
+        com.capg.ayush.application.dto.AdminDecisionRequest req = new com.capg.ayush.application.dto.AdminDecisionRequest();
         req.setApproved(false);
         req.setRejectionReason("Low credit score");
         

@@ -40,13 +40,13 @@ public class ApplicationServiceClient {
 	 * @param authorizationHeader The JWT authorization header to pass along
 	 */
 	public void notifyDocumentsVerified(Long applicationId, boolean allRequiredVerified, String authorizationHeader) {
-		String url = applicationBaseUrl + "/api/applications/admin/" + applicationId + "/notify-doc-verified";
+		String url = applicationBaseUrl + "/api/applications/admin/" + applicationId + "/notify-verified";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		if (authorizationHeader != null && !authorizationHeader.isBlank()) {
 			headers.set(HttpHeaders.AUTHORIZATION, authorizationHeader);
 		}
 		Map<String, Object> body = Map.of("allRequiredVerified", allRequiredVerified);
-		restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(body, headers), Void.class);
+		restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(body, headers), Void.class);
 	}
 }

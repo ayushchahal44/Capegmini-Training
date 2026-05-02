@@ -1,7 +1,7 @@
 /* Build by: Ayush chahal | ayushchahal44@gmail.com */
 package com.capg.ayush.admin.messaging;
 
-import com.capg.ayush.admin.domain.ApplicationStatus;
+import com.capg.ayush.admin.entity.ApplicationStatus;
 
 
 /**

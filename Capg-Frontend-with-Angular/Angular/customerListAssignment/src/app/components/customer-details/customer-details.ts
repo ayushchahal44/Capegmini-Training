@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { Customer } from '../../customer';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-customer-details',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './customer-details.html',
   styleUrl: './customer-details.css',
 })

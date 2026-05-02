@@ -1,0 +1,17 @@
+/* USER MANAGEMENT STYLES */
+.users-container { max-width: 1100px; margin: 0 auto; }
+.users-header { margin-bottom: 2rem; }
+.users-header h1 { font-size: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+.users-header p { color: var(--text-secondary); }
+
+.table-container { overflow-x: auto; padding: 0; }
+.users-table { width: 100%; border-collapse: collapse; }
+.users-table th { padding: 1rem 1.5rem; font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); border-bottom: 1px solid var(--border); text-align: left; font-weight: 600; }
+.users-table td { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); font-size: 0.8125rem; }
+.user-id { font-family: monospace; font-weight: 600; color: var(--accent); }
+
+.role-select { padding: 0.3rem 0.6rem; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 0.75rem; font-weight: 600; cursor: pointer; appearance: auto; }
+.role-select.admin { color: var(--purple); border-color: rgba(168,85,247,0.3); }
+.role-select.applicant { color: var(--info); border-color: rgba(59,130,246,0.3); }
+
+.empty-table { text-align: center; padding: 3rem !important; color: var(--text-tertiary); }

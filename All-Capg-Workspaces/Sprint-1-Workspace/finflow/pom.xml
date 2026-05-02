@@ -19,6 +19,7 @@
 		<module>finflow-application-service</module>
 		<module>finflow-document-service</module>
 		<module>finflow-admin-service</module>
+		<module>finflow-notification-service</module>
 	</modules>
 
 	<properties>

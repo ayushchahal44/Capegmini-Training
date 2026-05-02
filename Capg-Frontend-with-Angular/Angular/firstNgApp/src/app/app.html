@@ -84,7 +84,7 @@ Select card view or list view:
 
 
 
-<div class="app-container">
+<!-- <div class="app-container">
 <div class="outside-container">
 <div><h1>My first Angular App</h1>
 <h2>{{title}}</h2>
@@ -108,6 +108,43 @@ Select card view or list view:
 
 <button (click)="previous()">Previous</button>
 <button (click)="next()" style="margin-left: 90%;">Next</button>
+</div>  -->
+
+
+<div class="app-container">
+<div class="outside-container">
+<div><h1>My first Angular App</h1>
+<p id="para" appHighlight="yellow">This is the para with highlight actions.</p>
+<input type="text" name="searchItem" id="searchItem" #searchElement>
+</div>
+<!-- <div class="inside-container">
+  @for (user of users.slice(start, start + jump); track user.name) {
+    <app-user-details 
+    [name]="user.name" 
+      [age]="user.age" 
+      [address]="user.address" 
+      [gender]="user.gender"
+      [viewType]="viewType">
+    </app-user-details>
+  }
+</div> -->
+
+<!-- <div class="inside-container">
+    <app-user-details #user0 [userObject] ="users[0]"></app-user-details>
+    <app-user-details #user0 [userObject] ="users[1]"></app-user-details>
+</div> -->
+
+
+<div class="inside-container">
+  @for (user of users; track user.name) {
+    <app-user-details 
+      #oneuser
+      [userObject]="oneuser">
+    </app-user-details>
+  }
 </div>
 
+<button (click)="previous()">Previous</button>
+<button (click)="next()" style="margin-left: 90%;">Next</button>
+</div>
 <router-outlet />

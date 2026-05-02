@@ -20,10 +20,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.capg.ayush.admin.repo.DecisionRepository;
+import com.capg.ayush.admin.repository.DecisionRepository;
 import com.capg.ayush.admin.security.SecurityUtils;
-import com.capg.ayush.admin.web.dto.AdminDecisionRequest;
-import com.capg.ayush.admin.web.dto.LoanApplicationDto;
+import com.capg.ayush.admin.dto.AdminDecisionRequest;
+import com.capg.ayush.admin.dto.LoanApplicationDto;
 
 /**
  * Unit tests for {@link AdminService}.

@@ -14,15 +14,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.capg.ayush.admin.domain.Decision;
-import com.capg.ayush.admin.repo.DecisionRepository;
+import com.capg.ayush.admin.dto.AdminDecisionRequest;
+import com.capg.ayush.admin.dto.LoanApplicationDto;
+import com.capg.ayush.admin.dto.AdminStatsDto;
+import com.capg.ayush.admin.dto.ReportResponse;
+import com.capg.ayush.admin.dto.UpdateUserRequest;
+import com.capg.ayush.admin.dto.UserResponse;
+import com.capg.ayush.admin.dto.VerifyDocumentRequest;
+import com.capg.ayush.admin.entity.Decision;
+import com.capg.ayush.admin.repository.DecisionRepository;
 import com.capg.ayush.admin.security.SecurityUtils;
-import com.capg.ayush.admin.web.dto.AdminDecisionRequest;
-import com.capg.ayush.admin.web.dto.AdminStatsDto;
-import com.capg.ayush.admin.web.dto.LoanApplicationDto;
-import com.capg.ayush.admin.web.dto.ReportResponse;
-import com.capg.ayush.admin.web.dto.UpdateUserRequest;
-import com.capg.ayush.admin.web.dto.UserResponse;
 
 /**
  * Service class for administrative operations.
@@ -36,6 +37,7 @@ public class AdminService {
 
 	private final String authBaseUrl;
 	private final String applicationBaseUrl;
+	private final String documentBaseUrl;
 
 	/**
 	 * Constructs a new AdminService with necessary dependencies and service URLs.
@@ -46,11 +48,13 @@ public class AdminService {
 	 */
 	public AdminService(RestTemplate restTemplate, DecisionRepository decisionRepository,
 			@Value("${finflow.services.auth.url:http://finflow-auth-service}") String authBaseUrl,
-			@Value("${finflow.services.application.url:http://finflow-application-service}") String applicationBaseUrl) {
+			@Value("${finflow.services.application.url:http://finflow-application-service}") String applicationBaseUrl,
+			@Value("${finflow.services.document.url:http://finflow-document-service}") String documentBaseUrl) {
 		this.restTemplate = restTemplate;
 		this.decisionRepository = decisionRepository;
 		this.authBaseUrl = (authBaseUrl != null ? authBaseUrl : "http://finflow-auth-service").replaceAll("/$", "");
 		this.applicationBaseUrl = (applicationBaseUrl != null ? applicationBaseUrl : "http://finflow-application-service").replaceAll("/$", "");
+		this.documentBaseUrl = (documentBaseUrl != null ? documentBaseUrl : "http://finflow-document-service").replaceAll("/$", "");
 	}
 
 	/**
@@ -136,6 +140,13 @@ public class AdminService {
 		String url = authBaseUrl + "/api/auth/users/" + id;
 		return restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(request, headers), UserResponse.class)
 				.getBody();
+	}
+
+	public void verifyDocument(Long documentId, VerifyDocumentRequest request, String authorizationHeader) {
+		HttpHeaders headers = authHeaders(authorizationHeader);
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		String url = documentBaseUrl + "/api/documents/" + documentId + "/verify";
+		restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(request, headers), Void.class);
 	}
 
 	private HttpHeaders authHeaders(String authorizationHeader) {

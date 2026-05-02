@@ -17,12 +17,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.capg.ayush.auth.domain.Role;
-import com.capg.ayush.auth.domain.User;
-import com.capg.ayush.auth.repo.UserRepository;
-import com.capg.ayush.auth.web.dto.AuthResponse;
-import com.capg.ayush.auth.web.dto.LoginRequest;
-import com.capg.ayush.auth.web.dto.SignupRequest;
+import com.capg.ayush.auth.entity.Role;
+import com.capg.ayush.auth.entity.User;
+import com.capg.ayush.auth.repository.UserRepository;
+import com.capg.ayush.auth.dto.AuthResponse;
+import com.capg.ayush.auth.dto.LoginRequest;
+import com.capg.ayush.auth.dto.SignupRequest;
 import com.capg.ayush.finflow.common.jwt.JwtTokenProvider;
 
 /**
@@ -126,7 +126,7 @@ class AuthServiceTest {
     void listUsers_Success() {
         when(userRepository.findAll()).thenReturn(java.util.List.of(user));
         
-        java.util.List<com.capg.ayush.auth.web.dto.UserResponse> result = authService.listUsers();
+        java.util.List<com.capg.ayush.auth.dto.UserResponse> result = authService.listUsers();
         
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
@@ -138,11 +138,11 @@ class AuthServiceTest {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(user);
         
-        com.capg.ayush.auth.web.dto.UpdateUserRequest req = new com.capg.ayush.auth.web.dto.UpdateUserRequest();
+        com.capg.ayush.auth.dto.UpdateUserRequest req = new com.capg.ayush.auth.dto.UpdateUserRequest();
         req.setFirstName("Updated");
         req.setRole(Role.ADMIN);
         
-        com.capg.ayush.auth.web.dto.UserResponse result = authService.updateUser(1L, req);
+        com.capg.ayush.auth.dto.UserResponse result = authService.updateUser(1L, req);
         
         assertNotNull(result);
         assertEquals("Updated", user.getFirstName());

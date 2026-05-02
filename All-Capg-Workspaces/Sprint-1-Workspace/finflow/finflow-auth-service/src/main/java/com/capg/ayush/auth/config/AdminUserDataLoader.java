@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.capg.ayush.auth.repo.UserRepository;
-import com.capg.ayush.auth.domain.Role;
-import com.capg.ayush.auth.domain.User;
+import com.capg.ayush.auth.repository.UserRepository;
+import com.capg.ayush.auth.entity.Role;
+import com.capg.ayush.auth.entity.User;
 
 /**
  * Configuration class to seed initial administrative user data.

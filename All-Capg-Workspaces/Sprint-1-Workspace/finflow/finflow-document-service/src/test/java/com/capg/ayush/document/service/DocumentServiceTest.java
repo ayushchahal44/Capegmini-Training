@@ -20,13 +20,13 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.capg.ayush.document.client.ApplicationServiceClient;
-import com.capg.ayush.document.domain.DocStatus;
-import com.capg.ayush.document.domain.DocType;
-import com.capg.ayush.document.domain.DocumentEntity;
-import com.capg.ayush.document.repo.DocumentRepository;
+import com.capg.ayush.document.entity.DocStatus;
+import com.capg.ayush.document.entity.DocType;
+import com.capg.ayush.document.entity.DocumentEntity;
+import com.capg.ayush.document.repository.DocumentRepository;
 import com.capg.ayush.document.security.SecurityUtils;
-import com.capg.ayush.document.web.dto.DocumentDto;
-import com.capg.ayush.document.web.dto.VerifyDocumentRequest;
+import com.capg.ayush.document.dto.DocumentDto;
+import com.capg.ayush.document.dto.VerifyDocumentRequest;
 
 /**
  * Unit tests for {@link DocumentService}.

@@ -16,6 +16,8 @@ export class UserDetails {
   @Input() pic = '';
   @Output() onupdate = new EventEmitter<any>();
 
+  @Input() userObject : any = {};
+
   newName =""
 
   informParents(){

@@ -1,0 +1,19 @@
+<div class="toast-container">
+  @for (toast of notificationService.toasts(); track toast.id) {
+    <div class="toast" [class]="toast.type">
+      <div class="toast-icon">
+        @if (toast.type === 'success') {
+          <lucide-icon [name]="CheckCircleIcon" size="20"></lucide-icon>
+        } @else if (toast.type === 'error') {
+          <lucide-icon [name]="AlertCircleIcon" size="20"></lucide-icon>
+        } @else {
+          <lucide-icon [name]="InfoIcon" size="20"></lucide-icon>
+        }
+      </div>
+      <div class="toast-content">{{ toast.message }}</div>
+      <button class="toast-close" (click)="notificationService.remove(toast.id)">
+        <lucide-icon [name]="XIcon" size="16"></lucide-icon>
+      </button>
+    </div>
+  }
+</div>

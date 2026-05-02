@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.capg.ayush.application.web.dto.LoanApplicationDto;
+import com.capg.ayush.application.dto.LoanApplicationDto;
 
 /**
  * Integration tests for the Loan Application flow.

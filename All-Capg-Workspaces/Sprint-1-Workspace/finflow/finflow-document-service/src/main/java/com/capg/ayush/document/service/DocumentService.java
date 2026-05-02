@@ -20,13 +20,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.capg.ayush.document.client.ApplicationServiceClient;
-import com.capg.ayush.document.domain.DocStatus;
-import com.capg.ayush.document.domain.DocType;
-import com.capg.ayush.document.domain.DocumentEntity;
-import com.capg.ayush.document.repo.DocumentRepository;
+import com.capg.ayush.document.dto.DocumentDto;
+import com.capg.ayush.document.dto.VerifyDocumentRequest;
+import com.capg.ayush.document.entity.DocStatus;
+import com.capg.ayush.document.entity.DocType;
+import com.capg.ayush.document.entity.DocumentEntity;
+import com.capg.ayush.document.repository.DocumentRepository;
 import com.capg.ayush.document.security.SecurityUtils;
-import com.capg.ayush.document.web.dto.DocumentDto;
-import com.capg.ayush.document.web.dto.VerifyDocumentRequest;
 
 /**
  * Service class for managing KYC documents.
@@ -136,6 +136,32 @@ public class DocumentService {
 			}
 		}
 		return true;
+	}
+
+	@Transactional(readOnly = true)
+	public org.springframework.http.ResponseEntity<org.springframework.core.io.Resource> download(Long id) {
+		DocumentEntity doc = documentRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		
+		Long userId = SecurityUtils.currentUserId();
+		if (!SecurityUtils.hasRole("ADMIN") && !doc.getUserId().equals(userId)) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+
+		try {
+			Path file = Paths.get(doc.getStoredPath());
+			org.springframework.core.io.Resource resource = new org.springframework.core.io.UrlResource(file.toUri());
+			if (resource.exists() || resource.isReadable()) {
+				return org.springframework.http.ResponseEntity.ok()
+						.header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + doc.getOriginalName() + "\"")
+						.contentType(org.springframework.http.MediaType.parseMediaType(doc.getContentType()))
+						.body(resource);
+			} else {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not read file");
+			}
+		} catch (java.net.MalformedURLException e) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error reading file", e);
+		}
 	}
 
 	private DocumentDto toDto(DocumentEntity d) {

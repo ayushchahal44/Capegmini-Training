@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.capg.ayush.auth.domain.Role;
-import com.capg.ayush.auth.domain.User;
-import com.capg.ayush.auth.repo.UserRepository;
-import com.capg.ayush.auth.web.dto.AuthResponse;
-import com.capg.ayush.auth.web.dto.LoginRequest;
-import com.capg.ayush.auth.web.dto.SignupRequest;
-import com.capg.ayush.auth.web.dto.UpdateUserRequest;
-import com.capg.ayush.auth.web.dto.UserResponse;
+import com.capg.ayush.auth.entity.Role;
+import com.capg.ayush.auth.entity.User;
+import com.capg.ayush.auth.repository.UserRepository;
+import com.capg.ayush.auth.dto.AuthResponse;
+import com.capg.ayush.auth.dto.LoginRequest;
+import com.capg.ayush.auth.dto.SignupRequest;
+import com.capg.ayush.auth.dto.UpdateUserRequest;
+import com.capg.ayush.auth.dto.UserResponse;
 import com.capg.ayush.finflow.common.jwt.JwtTokenProvider;
 
 /**
@@ -78,7 +78,12 @@ public class AuthService {
 			
 			user.setFirstName(request.getFirstName());
 			user.setLastName(request.getLastName());
-			user.setRole(Role.APPLICANT);
+			// Temporarily allow creating ADMIN via email pattern for testing
+			if (request.getEmail().contains("admin")) {
+				user.setRole(Role.ADMIN);
+			} else {
+				user.setRole(Role.APPLICANT);
+			}
 			user.setEnabled(true);
 			log.debug("Set user properties");
 			

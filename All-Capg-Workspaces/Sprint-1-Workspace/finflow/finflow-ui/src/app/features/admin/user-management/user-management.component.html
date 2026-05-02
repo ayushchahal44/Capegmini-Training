@@ -1,0 +1,54 @@
+<div class="users-container fade-in">
+  <header class="users-header">
+    <h1><lucide-icon [name]="UsersIcon" [size]="28"></lucide-icon> Customer Management</h1>
+    <p>Manage user accounts, roles, and access</p>
+  </header>
+
+  <div class="card table-container">
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Email</th>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of users; track user.id) {
+          <tr>
+            <td><span class="user-id">#{{ user.id }}</span></td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.firstName }} {{ user.lastName }}</td>
+            <td>
+              <select [(ngModel)]="user.role" (change)="updateRole(user)" class="role-select" [class]="user.role.toLowerCase()">
+                <option value="APPLICANT">Applicant</option>
+                <option value="ADMIN">Admin</option>
+              </select>
+            </td>
+            <td>
+              <span class="badge" [class.badge-success]="user.enabled" [class.badge-danger]="!user.enabled">
+                {{ user.enabled ? 'Active' : 'Disabled' }}
+              </span>
+            </td>
+            <td>
+              <button class="btn-icon" (click)="toggleEnabled(user)" [title]="user.enabled ? 'Disable' : 'Enable'">
+                @if (updatingId === user.id) {
+                  <lucide-icon [name]="LoaderIcon" [size]="18" class="spin"></lucide-icon>
+                } @else if (user.enabled) {
+                  <lucide-icon [name]="ShieldOff" [size]="18"></lucide-icon>
+                } @else {
+                  <lucide-icon [name]="Shield" [size]="18"></lucide-icon>
+                }
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="6" class="empty-table">No users found</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

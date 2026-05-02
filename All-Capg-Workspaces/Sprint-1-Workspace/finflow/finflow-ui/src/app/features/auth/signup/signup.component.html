@@ -1,0 +1,99 @@
+<div class="auth-container fade-in">
+  <div class="auth-card card">
+    @if (!success) {
+      <div class="auth-header">
+        <div class="logo-circle">F</div>
+        <h1>Create Account</h1>
+        <p>Join FinFlow to start your loan application</p>
+      </div>
+
+      @if (error) {
+        <div class="error-alert">{{ error }}</div>
+      }
+
+      <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="auth-form">
+        <div class="name-grid">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input 
+              type="text" 
+              id="firstName" 
+              name="firstName" 
+              [(ngModel)]="data.firstName" 
+              required 
+              placeholder="John"
+            >
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input 
+              type="text" 
+              id="lastName" 
+              name="lastName" 
+              [(ngModel)]="data.lastName" 
+              required 
+              placeholder="Doe"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrapper">
+            <lucide-icon [name]="icons.mail" [size]="18" class="input-icon"></lucide-icon>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              [(ngModel)]="data.email" 
+              required 
+              placeholder="john@example.com"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <lucide-icon [name]="icons.lock" [size]="18" class="input-icon"></lucide-icon>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              [(ngModel)]="data.password" 
+              required 
+              placeholder="••••••••"
+              minlength="6"
+            >
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          class="btn btn-primary btn-block" 
+          [disabled]="signupForm.invalid || loading"
+        >
+          @if (loading) {
+            <lucide-icon [name]="icons.loader" [size]="18" class="spin"></lucide-icon>
+            Creating Account...
+          } @else {
+            Create Account
+          }
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Already have an account? <a routerLink="/auth/login">Sign in</a>
+      </div>
+    } @else {
+      <div class="success-view">
+        <div class="success-icon-wrap">
+          <lucide-icon [name]="icons.circleCheck" [size]="48"></lucide-icon>
+        </div>
+        <h2>Registration Successful!</h2>
+        <p>Your account has been created. You can now log in to start your application.</p>
+        <a routerLink="/auth/login" class="btn btn-primary btn-block">Go to Login</a>
+      </div>
+    }
+  </div>
+</div>
