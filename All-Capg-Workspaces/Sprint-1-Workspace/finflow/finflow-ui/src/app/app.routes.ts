@@ -24,6 +24,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/applicant/dashboard/dashboard.component').then(m => m.DashboardComponent)
       },
       {
+        path: 'applications',
+        loadComponent: () => import('./features/applicant/applications-list/applications-list.component').then(m => m.ApplicationsListComponent)
+      },
+      {
         path: 'loan-wizard/:id',
         loadComponent: () => import('./features/applicant/loan-wizard/loan-wizard.component').then(m => m.LoanWizardComponent)
       },

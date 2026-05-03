@@ -1,0 +1,37 @@
+# IDEs and Editors
+.vscode/
+.idea/
+.eclipse/
+*.swp
+*.swo
+*.DS_Store
+
+# Build Artifacts
+target/
+bin/
+out/
+dist/
+.angular/
+node_modules/
+
+# Logs and Runtime Data
+logs/
+uploads/
+*.log
+
+# Environment Variables and Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Docker
+.dockerignore
+docker/mysql/data/
+docker/rabbitmq/data/
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini

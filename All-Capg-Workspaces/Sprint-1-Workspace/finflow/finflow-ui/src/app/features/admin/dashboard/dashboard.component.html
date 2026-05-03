@@ -69,7 +69,7 @@
   </div>
 
   <!-- Filters & Table -->
-  <div class="content-section card">
+  <div id="applications-list" class="content-section card">
     <div class="section-header">
       <h3>Recent Applications</h3>
       <div class="section-filters">
@@ -79,7 +79,7 @@
         </div>
         <div class="filter-box">
           <lucide-icon [name]="icons.filter" [size]="16"></lucide-icon>
-          <select (change)="onFilter($event)">
+          <select [value]="statusFilter" (change)="onFilter($event)">
             <option value="ALL">All Status</option>
             <option value="SUBMITTED">Submitted</option>
             <option value="UNDER_REVIEW">Review</option>

@@ -3,13 +3,13 @@
     <button class="menu-toggle" (click)="toggleSidebar.emit()">
       <lucide-icon [name]="icons.menu" [size]="20"></lucide-icon>
     </button>
-    <h1 class="page-title">Admin Dashboard</h1>
+    <h1 class="page-title">{{ authService.isAdmin() ? 'Admin Dashboard' : 'Applicant Portal' }}</h1>
   </div>
 
   <div class="top-bar-right">
     <div class="search-bar">
       <lucide-icon [name]="icons.search" [size]="18" class="search-icon"></lucide-icon>
-      <input type="text" placeholder="Search anything...">
+      <input type="text" placeholder="Search anything..." (input)="onSearch($event)">
     </div>
 
     <button class="icon-btn">
@@ -20,8 +20,9 @@
     <div class="user-profile">
       <div class="user-info">
         <span class="user-name">{{ authService.currentUser()?.firstName }} {{ authService.currentUser()?.lastName }}</span>
-        <span class="user-role">Administrator</span>
+        <span class="user-role">{{ authService.isAdmin() ? 'Administrator' : 'Applicant' }}</span>
       </div>
+
       <div class="user-avatar">
         <lucide-icon [name]="icons.user" [size]="18"></lucide-icon>
       </div>

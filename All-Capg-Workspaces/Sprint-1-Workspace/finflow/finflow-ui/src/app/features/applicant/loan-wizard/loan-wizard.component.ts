@@ -13,16 +13,17 @@ import { LucideAngularModule, User, Briefcase, Banknote, Check, ArrowLeft, Arrow
   template: `
     <div class="wizard-container fade-in">
       <div class="wizard-header">
-        <button (click)="goBack()" class="btn btn-ghost">
+        <button (click)="goBack()" class="btn-icon">
           <lucide-icon [name]="ArrowLeft" [size]="18"></lucide-icon>
-          Back
         </button>
-        <h1>Loan Application</h1>
-        <p>Application #{{ applicationId }}</p>
+        <div class="header-text">
+          <h1>Loan Application</h1>
+          <p class="text-muted">Application #{{ applicationId }}</p>
+        </div>
       </div>
 
       <!-- Step Indicator -->
-      <div class="glass step-indicator">
+      <div class="glass-card step-indicator">
         @for (step of steps; track step.index; let i = $index) {
           <div class="step" [class.active]="currentStep === i" [class.completed]="currentStep > i">
             <div class="step-circle">
@@ -40,30 +41,40 @@ import { LucideAngularModule, User, Briefcase, Banknote, Check, ArrowLeft, Arrow
         }
       </div>
 
-      <div class="glass wizard-form">
+      <div class="glass-card wizard-form">
         <!-- Step 1: Personal Info -->
         @if (currentStep === 0) {
           <div class="step-content fade-in">
             <div class="step-title">
-              <lucide-icon [name]="UserIcon" [size]="24"></lucide-icon>
+              <div class="icon-box">
+                <lucide-icon [name]="UserIcon" [size]="20"></lucide-icon>
+              </div>
               <h2>Personal Information</h2>
             </div>
             <div class="form-grid">
               <div class="form-group">
-                <label for="fullName">Full Name *</label>
-                <input type="text" id="fullName" [(ngModel)]="formData.fullName" required placeholder="Enter your full legal name">
+                <label>Full Name</label>
+                <div class="input-wrapper">
+                  <input type="text" [(ngModel)]="formData.fullName" required placeholder="Enter your full legal name">
+                </div>
               </div>
               <div class="form-group">
-                <label for="phone">Phone Number *</label>
-                <input type="tel" id="phone" [(ngModel)]="formData.phone" required placeholder="+91 XXXXX XXXXX">
+                <label>Phone Number</label>
+                <div class="input-wrapper">
+                  <input type="tel" [(ngModel)]="formData.phone" required placeholder="+91 XXXXX XXXXX">
+                </div>
               </div>
               <div class="form-group full-width">
-                <label for="address">Address *</label>
-                <textarea id="address" [(ngModel)]="formData.address" required placeholder="Enter your full address" rows="3"></textarea>
+                <label>Permanent Address</label>
+                <div class="input-wrapper">
+                  <textarea [(ngModel)]="formData.address" required placeholder="Enter your full residential address" rows="3"></textarea>
+                </div>
               </div>
               <div class="form-group">
-                <label for="dob">Date of Birth *</label>
-                <input type="date" id="dob" [(ngModel)]="formData.dateOfBirth" required>
+                <label>Date of Birth</label>
+                <div class="input-wrapper">
+                  <input type="date" [(ngModel)]="formData.dateOfBirth" required>
+                </div>
               </div>
             </div>
           </div>
@@ -73,26 +84,34 @@ import { LucideAngularModule, User, Briefcase, Banknote, Check, ArrowLeft, Arrow
         @if (currentStep === 1) {
           <div class="step-content fade-in">
             <div class="step-title">
-              <lucide-icon [name]="Briefcase" [size]="24"></lucide-icon>
+              <div class="icon-box">
+                <lucide-icon [name]="Briefcase" [size]="20"></lucide-icon>
+              </div>
               <h2>Employment Details</h2>
             </div>
             <div class="form-grid">
               <div class="form-group">
-                <label for="employer">Employer / Business Name *</label>
-                <input type="text" id="employer" [(ngModel)]="formData.employer" required placeholder="Company name">
+                <label>Employer / Business Name</label>
+                <div class="input-wrapper">
+                  <input type="text" [(ngModel)]="formData.employer" required placeholder="Company name">
+                </div>
               </div>
               <div class="form-group">
-                <label for="employmentType">Employment Type *</label>
-                <select id="employmentType" [(ngModel)]="formData.employmentType" required>
-                  <option value="">Select type</option>
-                  <option value="SALARIED">Salaried</option>
-                  <option value="SELF_EMPLOYED">Self Employed</option>
-                  <option value="BUSINESS">Business</option>
-                </select>
+                <label>Employment Type</label>
+                <div class="input-wrapper">
+                  <select [(ngModel)]="formData.employmentType" required>
+                    <option value="">Select type</option>
+                    <option value="SALARIED">Salaried</option>
+                    <option value="SELF_EMPLOYED">Self Employed</option>
+                    <option value="BUSINESS">Business</option>
+                  </select>
+                </div>
               </div>
               <div class="form-group">
-                <label for="annualIncome">Annual Income (₹) *</label>
-                <input type="number" id="annualIncome" [(ngModel)]="formData.annualIncome" required placeholder="e.g. 600000" min="0">
+                <label>Annual Income (₹)</label>
+                <div class="input-wrapper">
+                  <input type="number" [(ngModel)]="formData.annualIncome" required placeholder="e.g. 600000" min="0">
+                </div>
               </div>
             </div>
           </div>
@@ -102,36 +121,44 @@ import { LucideAngularModule, User, Briefcase, Banknote, Check, ArrowLeft, Arrow
         @if (currentStep === 2) {
           <div class="step-content fade-in">
             <div class="step-title">
-              <lucide-icon [name]="Banknote" [size]="24"></lucide-icon>
+              <div class="icon-box">
+                <lucide-icon [name]="Banknote" [size]="20"></lucide-icon>
+              </div>
               <h2>Loan Details</h2>
             </div>
             <div class="form-grid">
               <div class="form-group">
-                <label for="loanAmount">Loan Amount (₹) *</label>
-                <input type="number" id="loanAmount" [(ngModel)]="formData.loanAmount" required placeholder="e.g. 500000" min="10000">
+                <label>Loan Amount (₹)</label>
+                <div class="input-wrapper">
+                  <input type="number" [(ngModel)]="formData.loanAmount" required placeholder="e.g. 500000" min="10000">
+                </div>
               </div>
               <div class="form-group">
-                <label for="tenureMonths">Tenure (Months) *</label>
-                <select id="tenureMonths" [(ngModel)]="formData.tenureMonths" required>
-                  <option [ngValue]="null">Select tenure</option>
-                  <option [ngValue]="12">12 Months</option>
-                  <option [ngValue]="24">24 Months</option>
-                  <option [ngValue]="36">36 Months</option>
-                  <option [ngValue]="48">48 Months</option>
-                  <option [ngValue]="60">60 Months</option>
-                </select>
+                <label>Tenure (Months)</label>
+                <div class="input-wrapper">
+                  <select [(ngModel)]="formData.tenureMonths" required>
+                    <option [ngValue]="null">Select tenure</option>
+                    <option [ngValue]="12">12 Months</option>
+                    <option [ngValue]="24">24 Months</option>
+                    <option [ngValue]="36">36 Months</option>
+                    <option [ngValue]="48">48 Months</option>
+                    <option [ngValue]="60">60 Months</option>
+                  </select>
+                </div>
               </div>
               <div class="form-group full-width">
-                <label for="loanPurpose">Purpose of Loan *</label>
-                <textarea id="loanPurpose" [(ngModel)]="formData.loanPurpose" required placeholder="Describe the purpose..." rows="3"></textarea>
+                <label>Purpose of Loan</label>
+                <div class="input-wrapper">
+                  <textarea [(ngModel)]="formData.loanPurpose" required placeholder="Describe the purpose..." rows="3"></textarea>
+                </div>
               </div>
             </div>
 
             @if (formData.loanAmount && formData.tenureMonths) {
-              <div class="emi-preview">
+              <div class="emi-preview mesh-blue">
                 <span class="emi-label">Estimated Monthly EMI</span>
                 <span class="emi-value">{{ calculateEMI() | currency:'INR':'symbol':'1.0-0' }}</span>
-                <span class="emi-note">&#64; 10.5% p.a. (indicative)</span>
+                <p class="emi-note">&#64; 10.5% p.a. (indicative rate)</p>
               </div>
             }
           </div>
@@ -147,14 +174,10 @@ import { LucideAngularModule, User, Briefcase, Banknote, Check, ArrowLeft, Arrow
 
         <!-- Navigation -->
         <div class="wizard-nav">
-          @if (currentStep > 0) {
-            <button (click)="previousStep()" class="btn btn-ghost">
-              <lucide-icon [name]="ArrowLeft" [size]="18"></lucide-icon>
-              Previous
-            </button>
-          } @else {
-            <div></div>
-          }
+          <button (click)="previousStep()" class="btn btn-icon" *ngIf="currentStep > 0">
+            <lucide-icon [name]="ArrowLeft" [size]="18"></lucide-icon>
+          </button>
+          <div class="spacer" *ngIf="currentStep === 0"></div>
 
           @if (currentStep < steps.length - 1) {
             <button (click)="nextStep()" class="btn btn-primary" [disabled]="saving">
@@ -162,7 +185,7 @@ import { LucideAngularModule, User, Briefcase, Banknote, Check, ArrowLeft, Arrow
                 <lucide-icon [name]="LoaderIcon" [size]="18" class="spin"></lucide-icon>
                 Saving...
               } @else {
-                Next
+                Next Step
                 <lucide-icon [name]="ArrowRight" [size]="18"></lucide-icon>
               }
             </button>
@@ -170,7 +193,7 @@ import { LucideAngularModule, User, Briefcase, Banknote, Check, ArrowLeft, Arrow
             <button (click)="submitApplication()" class="btn btn-primary btn-submit" [disabled]="saving || submitting">
               @if (submitting) {
                 <lucide-icon [name]="LoaderIcon" [size]="18" class="spin"></lucide-icon>
-                Submitting...
+                Finalizing...
               } @else {
                 Submit Application
                 <lucide-icon [name]="Check" [size]="18"></lucide-icon>
@@ -182,76 +205,184 @@ import { LucideAngularModule, User, Briefcase, Banknote, Check, ArrowLeft, Arrow
     </div>
   `,
   styles: [`
-    .wizard-container { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
-    .wizard-header { margin-bottom: 2rem; }
-    .wizard-header h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
-    .wizard-header p { color: var(--text-muted); font-size: 0.875rem; }
-
+    .wizard-container { 
+      max-width: 800px; 
+      margin: 0 auto; 
+      padding: var(--gap-md); 
+    }
+    
+    .wizard-header { 
+      display: flex; 
+      align-items: center; 
+      gap: 1.5rem; 
+      margin-bottom: var(--gap-lg); 
+    }
+    
+    .header-text h1 { font-size: 1.75rem; margin-bottom: 2px; }
+    
     .step-indicator {
-      display: flex; align-items: center; justify-content: center;
-      padding: 1.5rem 2rem; margin-bottom: 2rem; border-radius: var(--radius-xl); gap: 0;
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      padding: 1.5rem 2rem; 
+      margin-bottom: var(--gap-lg); 
+      gap: 0;
     }
+    
     .step {
-      display: flex; flex-direction: column; align-items: center; gap: 0.5rem; z-index: 1;
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      gap: 8px; 
+      z-index: 1;
     }
+    
     .step-circle {
-      width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center;
-      justify-content: center; font-weight: 700; font-size: 0.875rem;
-      background: var(--surface-color); border: 2px solid var(--border-color); color: var(--text-muted);
-      transition: all 0.3s;
+      width: 40px; 
+      height: 40px; 
+      border-radius: 50%; 
+      display: flex; 
+      align-items: center;
+      justify-content: center; 
+      font-weight: 800; 
+      font-size: 0.935rem;
+      background: var(--bg-tertiary); 
+      border: 2px solid var(--border); 
+      color: var(--text-muted);
+      transition: var(--transition);
     }
-    .step.active .step-circle { border-color: var(--primary-color); color: var(--primary-color); background: rgba(16,185,129,0.1); }
-    .step.completed .step-circle { background: var(--primary-color); color: white; border-color: var(--primary-color); }
-    .step-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; white-space: nowrap; }
-    .step.active .step-label { color: var(--primary-color); }
-    .step.completed .step-label { color: var(--text-main); }
+    
+    .step.active .step-circle { 
+      border-color: var(--accent); 
+      color: var(--accent); 
+      background: var(--accent-soft);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+    
+    .step.completed .step-circle { 
+      background: var(--accent); 
+      color: white; 
+      border-color: var(--accent); 
+    }
+    
+    .step-label { 
+      font-size: 0.75rem; 
+      color: var(--text-muted); 
+      font-weight: 700; 
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .step.active .step-label { color: var(--accent); }
+    .step.completed .step-label { color: var(--text-primary); }
+    
     .step-line {
-      flex: 1; height: 2px; background: var(--border-color); min-width: 40px; margin: 0 0.5rem;
-      margin-bottom: 1.5rem; transition: background 0.3s;
+      flex: 1; 
+      height: 2px; 
+      background: var(--border); 
+      min-width: 40px; 
+      margin: 0 10px;
+      margin-bottom: 24px; 
+      transition: var(--transition);
     }
-    .step-line.completed { background: var(--primary-color); }
+    
+    .step-line.completed { background: var(--accent); }
 
-    .wizard-form { padding: 2rem; border-radius: var(--radius-xl); }
-    .step-title { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; color: var(--primary-color); }
-    .step-title h2 { font-size: 1.25rem; color: var(--text-main); }
+    .wizard-form { padding: 2.5rem; }
+    
+    .step-title { 
+      display: flex; 
+      align-items: center; 
+      gap: 1rem; 
+      margin-bottom: 2.5rem; 
+    }
+    
+    .icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .step-title h2 { font-size: 1.35rem; }
 
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
     .full-width { grid-column: 1 / -1; }
 
-    textarea, select {
-      width: 100%; padding: 0.75rem 1rem; background: var(--surface-color);
-      border: 1px solid var(--border-color); border-radius: var(--radius-md);
-      color: var(--text-main); font-family: inherit; transition: border-color 0.2s, box-shadow 0.2s;
-      resize: vertical;
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
     }
-    textarea:focus, select:focus {
-      outline: none; border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+
+    .input-wrapper input, .input-wrapper textarea, .input-wrapper select {
+      width: 100%; 
+      padding: 0.875rem 1.25rem; 
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border); 
+      border-radius: var(--radius-md);
+      color: var(--text-primary); 
+      font-family: inherit; 
+      transition: var(--transition);
+      outline: none;
     }
-    select option { background: var(--surface-color); color: var(--text-main); }
+    
+    .input-wrapper input:focus, .input-wrapper textarea:focus, .input-wrapper select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+      background: var(--bg-secondary);
+    }
 
     .emi-preview {
-      margin-top: 2rem; padding: 1.5rem; border-radius: var(--radius-lg);
-      background: rgba(16,185,129,0.05); border: 1px solid rgba(16,185,129,0.15);
-      display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+      margin-top: 2.5rem; 
+      padding: 2rem; 
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--glass-border);
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      gap: 4px;
+      text-align: center;
     }
-    .emi-label { font-size: 0.875rem; color: var(--text-muted); }
-    .emi-value { font-size: 1.75rem; font-weight: 700; color: var(--primary-color); }
-    .emi-note { font-size: 0.75rem; color: var(--text-muted); }
+    
+    .mesh-blue { background: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1), transparent 70%), var(--glass-bg); }
+    
+    .emi-label { font-size: 0.935rem; color: var(--text-secondary); font-weight: 600; }
+    .emi-value { font-size: 2.5rem; font-weight: 800; color: var(--accent-bright); letter-spacing: -1px; }
+    .emi-note { font-size: 0.815rem; color: var(--text-muted); margin-top: 8px; }
 
     .wizard-nav {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      margin-top: 3rem; 
+      padding-top: 2rem; 
+      border-top: 1px solid var(--border);
     }
-    .btn-submit { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); }
-    .spin { animation: spin 1s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .spacer { flex: 1; }
+    
     .error-alert {
-      margin-top: 1.5rem; padding: 1rem; border-radius: var(--radius-md);
-      background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2);
-      color: #ef4444; display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500;
+      margin-top: 2rem; 
+      padding: 1rem 1.5rem; 
+      border-radius: var(--radius-md);
+      background: rgba(239, 68, 68, 0.1); 
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: var(--danger); 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      font-size: 0.935rem; 
+      font-weight: 600;
     }
   `]
+
 })
 export class LoanWizardComponent implements OnInit {
   private route = inject(ActivatedRoute);

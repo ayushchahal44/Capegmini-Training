@@ -1,6 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule, ViewportScroller } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { SearchService } from '../../../core/services/search.service';
 import { AdminService } from '../../../core/services/admin.service';
 import { LoanApplication } from '../../../core/models/application.model';
 import { LucideAngularModule, Search, Filter, Eye, CircleCheck, CircleX, FileText, Clock, Inbox, Loader2 } from 'lucide-angular';
@@ -12,9 +14,13 @@ import { LucideAngularModule, Search, Filter, Eye, CircleCheck, CircleX, FileTex
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   private readonly adminService = inject(AdminService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly scroller = inject(ViewportScroller);
+  private readonly searchService = inject(SearchService);
+  private searchSub?: Subscription;
 
   readonly icons = {
     search: Search,
@@ -37,7 +43,45 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.loadApplications();
+
+    // Handle status filtering from query params
+    this.route.queryParams.subscribe(params => {
+      this.statusFilter = params['status'] || 'ALL';
+      this.applyFilters();
+    });
+
+    // Handle scroll and initial fragment filter
+    const initialFrag = this.route.snapshot.fragment;
+    if (initialFrag === 'applications-list') {
+      this.statusFilter = 'APPROVED';
+      this.applyFilters();
+    }
+
+    this.route.fragment.subscribe(frag => {
+      if (frag === 'applications-list') {
+        this.statusFilter = 'APPROVED';
+        this.applyFilters();
+      }
+      if (frag) {
+        setTimeout(() => {
+          const element = document.getElementById(frag);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 500);
+      }
+    });
+
+    this.searchSub = this.searchService.searchTerm$.subscribe(term => {
+      this.searchTerm = term.toLowerCase();
+      this.applyFilters();
+    });
   }
+
+  ngOnDestroy() {
+    this.searchSub?.unsubscribe();
+  }
+
 
   loadApplications() {
     this.isLoading = true;

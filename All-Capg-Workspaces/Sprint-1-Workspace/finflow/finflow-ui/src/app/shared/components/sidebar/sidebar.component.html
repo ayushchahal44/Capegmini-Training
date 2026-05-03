@@ -7,22 +7,38 @@
   </div>
 
   <nav class="sidebar-nav">
-    <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-item">
-      <lucide-icon [name]="icons.dashboard" [size]="20"></lucide-icon>
-      <span>Dashboard</span>
-    </a>
-    <a routerLink="/admin/loans" routerLinkActive="active" class="nav-item">
-      <lucide-icon [name]="icons.loans" [size]="20"></lucide-icon>
-      <span>Loans</span>
-    </a>
-    <a routerLink="/admin/users" routerLinkActive="active" class="nav-item">
-      <lucide-icon [name]="icons.customers" [size]="20"></lucide-icon>
-      <span>Customers</span>
-    </a>
-    <a routerLink="/admin/reports" routerLinkActive="active" class="nav-item">
-      <lucide-icon [name]="icons.reports" [size]="20"></lucide-icon>
-      <span>Reports</span>
-    </a>
+    <!-- Admin Links -->
+    @if (isAdmin()) {
+      <a routerLink="/admin/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" (click)="clearSearch()">
+        <lucide-icon [name]="icons.dashboard" [size]="20"></lucide-icon>
+        <span>Dashboard</span>
+      </a>
+      <a [routerLink]="['/admin/dashboard']" fragment="applications-list" routerLinkActive="active" class="nav-item" (click)="clearSearch()">
+        <lucide-icon [name]="icons.loans" [size]="20"></lucide-icon>
+        <span>Active Loans</span>
+      </a>
+      <a routerLink="/admin/users" routerLinkActive="active" class="nav-item">
+        <lucide-icon [name]="icons.customers" [size]="20"></lucide-icon>
+        <span>Customers</span>
+      </a>
+      <a routerLink="/admin/reports" routerLinkActive="active" class="nav-item">
+        <lucide-icon [name]="icons.reports" [size]="20"></lucide-icon>
+        <span>Reports</span>
+      </a>
+    } @else {
+      <!-- Applicant Links -->
+      <a routerLink="/applicant/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" (click)="clearSearch()">
+        <lucide-icon [name]="icons.dashboard" [size]="20"></lucide-icon>
+        <span>My Dashboard</span>
+      </a>
+      <a routerLink="/applicant/applications" routerLinkActive="active" class="nav-item" (click)="clearSearch()">
+        <lucide-icon [name]="icons.loans" [size]="20"></lucide-icon>
+        <span>My Applications</span>
+      </a>
+
+    }
+
+
   </nav>
 
   <div class="sidebar-footer">
