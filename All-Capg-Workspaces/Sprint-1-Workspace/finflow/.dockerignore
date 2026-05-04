@@ -1,5 +1,17 @@
-**/target
-**/.idea
-**/.git
-**/*.iml
-.git
+# **/target/ - Removed to allow local build copy
+**/node_modules/
+**/.angular/
+**/.mvn/
+**/bin/
+**/out/
+**/.gradle/
+# **/build/ - Removed to allow local build copy
+docker-compose.yml
+Dockerfile
+.dockerignore
+.env
+README.md
+docs/
+scripts/
+tools/
+uploads/

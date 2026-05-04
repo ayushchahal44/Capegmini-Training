@@ -1,5 +1,5 @@
 node_modules
-dist
+# dist - Removed to allow local build copy
 .angular
 .git
 .gitignore

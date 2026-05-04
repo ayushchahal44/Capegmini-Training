@@ -29,7 +29,9 @@ export class AuthService {
   }
 
   signup(data: SignupRequest) {
-    return this.api.post<any>('/auth/signup', data);
+    return this.api.post<AuthResponse>('/auth/signup', data).pipe(
+      tap(res => this.handleAuthResponse(res))
+    );
   }
 
   logout() {

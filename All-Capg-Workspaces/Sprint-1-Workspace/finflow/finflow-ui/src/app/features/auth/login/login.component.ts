@@ -37,7 +37,15 @@ export class LoginComponent {
         this.router.navigate([returnUrl]);
       },
       error: (err) => {
-        this.error = 'Invalid email or password. Please try again.';
+        if (err.status === 401) {
+          this.error = 'Invalid email or password. Please try again.';
+        } else if (err.status === 403) {
+          this.error = 'Account is disabled. Please contact support.';
+        } else if (err.status === 0) {
+          this.error = 'Unable to connect to server. Please check your connection.';
+        } else {
+          this.error = err.error?.message || 'Login failed. Please try again.';
+        }
         this.loading = false;
       }
     });

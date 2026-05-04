@@ -50,7 +50,7 @@ class AdminServiceTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "null"})
     void applicationQueue_Success() {
         LoanApplicationDto dto = new LoanApplicationDto();
         dto.setId(1L);
@@ -69,6 +69,7 @@ class AdminServiceTest {
     }
 
     @Test
+    @SuppressWarnings("null")
     void decide_Success() {
         AdminDecisionRequest request = new AdminDecisionRequest();
         request.setApproved(true);

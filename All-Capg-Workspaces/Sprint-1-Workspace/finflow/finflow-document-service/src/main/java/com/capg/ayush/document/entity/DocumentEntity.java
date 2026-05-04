@@ -3,8 +3,6 @@ package com.capg.ayush.document.entity;
 
 import java.time.Instant;
 
-import com.capg.ayush.document.entity.DocStatus;
-import com.capg.ayush.document.entity.DocType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

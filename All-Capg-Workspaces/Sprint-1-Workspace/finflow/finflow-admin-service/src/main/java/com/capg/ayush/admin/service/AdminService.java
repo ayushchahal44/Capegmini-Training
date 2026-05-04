@@ -62,6 +62,7 @@ public class AdminService {
 	 * @param authorizationHeader The authorization header for the request
 	 * @return A list of loan application DTOs
 	 */
+	@SuppressWarnings("null")
 	public List<LoanApplicationDto> applicationQueue(String authorizationHeader) {
 		HttpHeaders headers = authHeaders(authorizationHeader);
 		String url = applicationBaseUrl + "/api/applications/admin/queue";
@@ -77,6 +78,7 @@ public class AdminService {
 	 * @param authorizationHeader The authorization header for the request
 	 */
 	@Transactional
+	@SuppressWarnings("null")
 	public void decide(Long applicationId, AdminDecisionRequest request, String authorizationHeader) {
 		HttpHeaders headers = authHeaders(authorizationHeader);
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -98,6 +100,7 @@ public class AdminService {
 	 * @param authorizationHeader The authorization header for the request
 	 * @return A ReportResponse containing aggregated stats
 	 */
+	@SuppressWarnings("null")
 	public ReportResponse reports(String authorizationHeader) {
 		HttpHeaders headers = authHeaders(authorizationHeader);
 		String url = applicationBaseUrl + "/api/applications/admin/stats";
@@ -119,6 +122,7 @@ public class AdminService {
 	 * @param authorizationHeader The authorization header for the request
 	 * @return A list of user responses
 	 */
+	@SuppressWarnings("null")
 	public List<UserResponse> listUsers(String authorizationHeader) {
 		HttpHeaders headers = authHeaders(authorizationHeader);
 		String url = authBaseUrl + "/api/auth/users";
@@ -134,6 +138,7 @@ public class AdminService {
 	 * @param authorizationHeader The authorization header for the request
 	 * @return The updated user response
 	 */
+	@SuppressWarnings("null")
 	public UserResponse updateUser(Long id, UpdateUserRequest request, String authorizationHeader) {
 		HttpHeaders headers = authHeaders(authorizationHeader);
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -142,6 +147,7 @@ public class AdminService {
 				.getBody();
 	}
 
+	@SuppressWarnings("null")
 	public void verifyDocument(Long documentId, VerifyDocumentRequest request, String authorizationHeader) {
 		HttpHeaders headers = authHeaders(authorizationHeader);
 		headers.setContentType(MediaType.APPLICATION_JSON);

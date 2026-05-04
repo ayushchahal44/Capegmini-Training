@@ -39,6 +39,7 @@ public class ApplicationServiceClient {
 	 * @param allRequiredVerified Whether all required docs are verified
 	 * @param authorizationHeader The JWT authorization header to pass along
 	 */
+	@SuppressWarnings("null")
 	public void notifyDocumentsVerified(Long applicationId, boolean allRequiredVerified, String authorizationHeader) {
 		String url = applicationBaseUrl + "/api/applications/admin/" + applicationId + "/notify-verified";
 		HttpHeaders headers = new HttpHeaders();

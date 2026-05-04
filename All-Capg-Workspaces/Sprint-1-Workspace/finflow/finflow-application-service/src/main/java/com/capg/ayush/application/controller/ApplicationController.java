@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import com.capg.ayush.application.dto.ApplicationStatusResponse;
 import com.capg.ayush.application.dto.LoanApplicationDto;
 import com.capg.ayush.application.dto.UpdateLoanApplicationRequest;
-import com.capg.ayush.application.entity.LoanApplication;
 import com.capg.ayush.application.service.ApplicationService;
 
 import jakarta.validation.Valid;

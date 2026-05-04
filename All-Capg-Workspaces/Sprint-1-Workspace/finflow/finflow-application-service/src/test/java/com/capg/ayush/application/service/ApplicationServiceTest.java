@@ -31,6 +31,7 @@ import com.capg.ayush.application.dto.LoanApplicationDto;
  * Covers core application logic including creation, validation, and status transitions.
  */
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 class ApplicationServiceTest {
 
     @Mock

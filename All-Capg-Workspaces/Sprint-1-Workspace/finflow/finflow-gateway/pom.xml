@@ -56,14 +56,11 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- ⚠️ WebFlux Common Module -->
-        <!-- 
         <dependency>
             <groupId>com.capg.ayush</groupId>
             <artifactId>finflow-common-webflux</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        -->
 
         <!-- ✅ Test -->
         <dependency>

@@ -3,6 +3,11 @@
     "target": "http://localhost:8090",
     "secure": false,
     "changeOrigin": true,
-    "logLevel": "debug"
+    "logLevel": "debug",
+    "headers": {
+      "Origin": "http://localhost:4200",
+      "Access-Control-Request-Method": "GET,POST,PUT,DELETE,OPTIONS",
+      "Access-Control-Request-Headers": "Content-Type,Authorization"
+    }
   }
 }

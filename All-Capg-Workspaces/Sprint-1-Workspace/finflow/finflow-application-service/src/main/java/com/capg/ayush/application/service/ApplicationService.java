@@ -78,6 +78,7 @@ public class ApplicationService {
 	 * @return The updated loan application as a DTO
 	 */
 	@Transactional
+	@SuppressWarnings("null")
 	public LoanApplicationDto updateDraft(Long id, UpdateLoanApplicationRequest req) {
 		Long userId = SecurityUtils.currentUserId();
 		LoanApplication app = loanApplicationRepository.findById(id)
@@ -128,6 +129,7 @@ public class ApplicationService {
 	 * @return The submitted loan application as a DTO
 	 */
 	@Transactional
+	@SuppressWarnings("null")
 	public LoanApplicationDto submit(Long id) {
 		Long userId = SecurityUtils.currentUserId();
 		LoanApplication app = loanApplicationRepository.findById(id)
@@ -159,6 +161,7 @@ public class ApplicationService {
 	}
 
 	@Transactional(readOnly = true)
+	@SuppressWarnings("null")
 	public LoanApplicationDto getApplicationById(Long id) {
 		Long userId = SecurityUtils.currentUserId();
 		LoanApplication app = loanApplicationRepository.findById(id)
@@ -170,6 +173,7 @@ public class ApplicationService {
 	}
 
 	@Transactional(readOnly = true)
+	@SuppressWarnings("null")
 	public ApplicationStatusResponse statusForApplicant(Long id) {
 		Long userId = SecurityUtils.currentUserId();
 		LoanApplication app = loanApplicationRepository.findById(id)
@@ -210,6 +214,7 @@ public class ApplicationService {
 	}
 
 	@Transactional
+	@SuppressWarnings("null")
 	public void notifyDocumentsVerified(Long applicationId, NotifyDocVerifiedRequest req) {
 		LoanApplication app = loanApplicationRepository.findById(applicationId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -224,6 +229,7 @@ public class ApplicationService {
 	}
 
 	@Transactional
+	@SuppressWarnings("null")
 	public void applyAdminDecision(Long applicationId, AdminDecisionRequest req) {
 		LoanApplication app = loanApplicationRepository.findById(applicationId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -246,6 +252,7 @@ public class ApplicationService {
 	}
 
 	@Transactional
+	@SuppressWarnings("null")
 	public void moveToUnderReview(Long applicationId) {
 		LoanApplication app = loanApplicationRepository.findById(applicationId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

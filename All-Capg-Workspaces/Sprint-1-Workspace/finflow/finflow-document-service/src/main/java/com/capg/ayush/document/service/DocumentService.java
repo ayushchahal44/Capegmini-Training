@@ -62,12 +62,13 @@ public class DocumentService {
 	 * @throws ResponseStatusException if the file is empty or storage fails
 	 */
 	@Transactional
+	@SuppressWarnings("null")
 	public DocumentDto upload(Long applicationId, DocType docType, MultipartFile file) {
 		if (file == null || file.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File is required");
 		}
 		Long userId = SecurityUtils.currentUserId();
-		String original = file.getOriginalFilename() != null ? file.getOriginalFilename() : "upload.bin";
+		String original = java.util.Objects.requireNonNullElse(file.getOriginalFilename(), "upload.bin");
 		String safeName = UUID.randomUUID() + "_" + original.replaceAll("[^a-zA-Z0-9._-]", "_");
 		Path dir = Paths.get(storageRoot, String.valueOf(applicationId));
 		try {
@@ -102,6 +103,7 @@ public class DocumentService {
 	 * @throws ResponseStatusException if the document is not found
 	 */
 	@Transactional
+	@SuppressWarnings("null")
 	public DocumentDto verify(Long id, VerifyDocumentRequest request, String authorizationHeader) {
 		DocumentEntity doc = documentRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		if (Boolean.TRUE.equals(request.getVerified())) {
@@ -139,6 +141,7 @@ public class DocumentService {
 	}
 
 	@Transactional(readOnly = true)
+	@SuppressWarnings("null")
 	public org.springframework.http.ResponseEntity<org.springframework.core.io.Resource> download(Long id) {
 		DocumentEntity doc = documentRepository.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

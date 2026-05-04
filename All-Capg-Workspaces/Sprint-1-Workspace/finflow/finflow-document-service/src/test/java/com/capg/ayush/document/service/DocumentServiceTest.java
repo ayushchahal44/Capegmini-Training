@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockMultipartFile;
@@ -24,7 +22,6 @@ import com.capg.ayush.document.entity.DocStatus;
 import com.capg.ayush.document.entity.DocType;
 import com.capg.ayush.document.entity.DocumentEntity;
 import com.capg.ayush.document.repository.DocumentRepository;
-import com.capg.ayush.document.security.SecurityUtils;
 import com.capg.ayush.document.dto.DocumentDto;
 import com.capg.ayush.document.dto.VerifyDocumentRequest;
 
@@ -33,6 +30,7 @@ import com.capg.ayush.document.dto.VerifyDocumentRequest;
  * Validates document upload and verification logic.
  */
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 class DocumentServiceTest {
 
     @Mock

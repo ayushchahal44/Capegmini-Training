@@ -23,6 +23,7 @@ public class AuthServiceClient {
         this.authBaseUrl = authBaseUrl.replaceAll("/$", "");
     }
 
+    @SuppressWarnings("null")
     public String getUserEmail(Long userId) {
         if (userId == null || userId == 0) return null;
         String url = authBaseUrl + "/api/auth/internal/users/" + userId + "/email";

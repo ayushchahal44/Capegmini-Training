@@ -14,6 +14,7 @@ import { LucideAngularModule, User, Mail, Lock, Loader, CircleCheck } from 'luci
 })
 export class SignupComponent {
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
   
   readonly icons = {
     user: User,
@@ -33,12 +34,22 @@ export class SignupComponent {
     this.error = '';
 
     this.authService.signup(this.data).subscribe({
-      next: () => {
+      next: (res) => {
         this.success = true;
         this.loading = false;
+        const returnUrl = res.user.role === 'ADMIN' ? '/admin/dashboard' : '/applicant/dashboard';
+        this.router.navigate([returnUrl]);
       },
       error: (err) => {
-        this.error = 'Registration failed. The email might already be in use.';
+        if (err.status === 409) {
+          this.error = 'Email already registered. Please use a different email or login.';
+        } else if (err.status === 400) {
+          this.error = 'Invalid input. Please check all fields and try again.';
+        } else if (err.status === 0) {
+          this.error = 'Unable to connect to server. Please check your connection.';
+        } else {
+          this.error = err.error?.message || 'Registration failed. Please try again.';
+        }
         this.loading = false;
       }
     });

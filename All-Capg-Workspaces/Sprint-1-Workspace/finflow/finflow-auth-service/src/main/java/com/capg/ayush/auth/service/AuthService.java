@@ -2,7 +2,6 @@
 package com.capg.ayush.auth.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,9 +99,11 @@ public class AuthService {
 			AuthResponse response = new AuthResponse(token, userResponse);
 			log.debug("=== SIGNUP DEBUG END ===");
 			return response;
-		} catch (Exception e) {
-			log.error("=== SIGNUP ERROR === {}", e.getMessage(), e);
+		} catch (ResponseStatusException e) {
 			throw e;
+		} catch (Exception e) {
+			log.error("Unexpected error during signup for email: {}", request.getEmail(), e);
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Signup failed due to internal error", e);
 		}
 	}
 
@@ -127,7 +128,7 @@ public class AuthService {
 
 	@Transactional(readOnly = true)
 	public List<UserResponse> listUsers() {
-		return userRepository.findAll().stream().map(this::toResponse).collect(Collectors.toList());
+		return userRepository.findAll().stream().map(this::toResponse).toList();
 	}
 
 	/**
@@ -139,6 +140,7 @@ public class AuthService {
 	 * @throws ResponseStatusException if the user is not found
 	 */
 	@Transactional
+	@SuppressWarnings("null")
 	public UserResponse updateUser(Long id, UpdateUserRequest request) {
 		User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		if (request.getRole() != null) {
@@ -156,6 +158,7 @@ public class AuthService {
 		return toResponse(userRepository.save(user));
 	}
 
+	@SuppressWarnings("null")
 	private UserResponse toResponse(User user) {
 		return new UserResponse(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getRole(),
 				user.isEnabled());

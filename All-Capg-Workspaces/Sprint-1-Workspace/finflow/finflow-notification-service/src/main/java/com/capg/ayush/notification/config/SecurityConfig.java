@@ -1,4 +1,4 @@
-/* Build by: Ayush chahal | ayushchahal44@gmail.com */
+/* Build by: Ayush chahal | ayushchahal44@gmail.com - Updated to sync dependencies */
 package com.capg.ayush.notification.config;
 
 import org.springframework.context.annotation.Bean;

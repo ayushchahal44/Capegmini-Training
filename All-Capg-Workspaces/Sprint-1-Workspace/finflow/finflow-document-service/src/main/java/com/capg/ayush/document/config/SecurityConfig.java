@@ -9,8 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.capg.ayush.finflow.common.web.jwt.JwtAuthenticationFilter;
 
@@ -41,7 +39,7 @@ public class SecurityConfig {
 	 */
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable());
+		http.csrf(csrf -> csrf.disable()).httpBasic(hb -> hb.disable()).formLogin(fl -> fl.disable());
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/actuator/**").permitAll()
@@ -53,10 +51,10 @@ public class SecurityConfig {
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring().requestMatchers(
-				new AntPathRequestMatcher("/swagger-ui/**"),
-				new AntPathRequestMatcher("/v3/api-docs/**"),
-				new AntPathRequestMatcher("/api/documents/api-docs/**")
+		return web -> web.ignoring().requestMatchers(
+				"/swagger-ui/**",
+				"/v3/api-docs/**",
+				"/api/documents/api-docs/**"
 		);
 	}
 }

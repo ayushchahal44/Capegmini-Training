@@ -1,7 +1,6 @@
 /* Build by: Ayush chahal | ayushchahal44@gmail.com */
 package com.capg.ayush.document.dto;
 
-import com.capg.ayush.document.entity.DocStatus;
 import jakarta.validation.constraints.NotNull;
 
 /**

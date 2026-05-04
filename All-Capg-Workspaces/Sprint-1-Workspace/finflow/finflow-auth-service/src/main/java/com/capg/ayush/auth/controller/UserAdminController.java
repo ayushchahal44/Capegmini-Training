@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.ayush.auth.dto.UpdateUserRequest;
 import com.capg.ayush.auth.dto.UserResponse;
-import com.capg.ayush.auth.entity.Role;
 import com.capg.ayush.auth.service.AuthService;
 
 import jakarta.validation.Valid;

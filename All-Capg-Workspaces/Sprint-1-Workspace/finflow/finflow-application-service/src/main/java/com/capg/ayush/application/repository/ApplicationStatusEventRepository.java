@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.capg.ayush.application.entity.ApplicationStatusEvent;
-import com.capg.ayush.application.entity.LoanApplication;
 
 /**
  * Repository interface for {@link ApplicationStatusEvent} entities.

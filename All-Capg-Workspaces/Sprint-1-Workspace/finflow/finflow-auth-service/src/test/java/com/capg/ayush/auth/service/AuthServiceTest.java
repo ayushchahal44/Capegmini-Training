@@ -30,6 +30,7 @@ import com.capg.ayush.finflow.common.jwt.JwtTokenProvider;
  * Validates signup, login, and user management logic.
  */
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 class AuthServiceTest {
 
     @Mock

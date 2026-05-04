@@ -1,27 +1,9 @@
-# Simplified Dockerfile for Eureka Server - uses pre-built JAR
+# Single stage: Runtime
 FROM eclipse-temurin:17-jre-alpine
-
-# Install curl for health checks
 RUN apk add --no-cache curl
-
-# Create non-root user for security
-RUN addgroup -g 1001 -S appuser && \
-    adduser -S appuser -u 1001
-
 WORKDIR /app
-
-# Copy pre-built JAR file
-COPY target/*.jar app.jar
-
-# Change ownership to non-root user
-RUN chown -R appuser:appuser /app
-
-USER appuser
-
+COPY finflow-eureka-server/target/*.jar app.jar
 EXPOSE 8761
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8761/actuator/health || exit 1
-
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD curl -f http://127.0.0.1:8761/actuator/health || exit 1
 ENTRYPOINT ["java", "-XX:+UseG1GC", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-jar", "app.jar"]
