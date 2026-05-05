@@ -58,6 +58,9 @@ public class DocumentEntity {
 	@Column(name = "updated_at", nullable = false)
 	private Instant updatedAt;
 
+	@Column(name = "rejection_reason", length = 1000)
+	private String rejectionReason;
+
 	@PrePersist
 	void onCreate() {
 		Instant now = Instant.now();
@@ -148,5 +151,13 @@ public class DocumentEntity {
 
 	public Instant getUpdatedAt() {
 		return updatedAt;
+	}
+
+	public String getRejectionReason() {
+		return rejectionReason;
+	}
+
+	public void setRejectionReason(String rejectionReason) {
+		this.rejectionReason = rejectionReason;
 	}
 }

@@ -14,7 +14,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { LucideAngularModule, LayoutDashboard, FileText, Users, BarChart3, Settings, LogOut, ChevronLeft, ChevronRight, Menu, Bell, User, Search, Mail, Lock, Loader, ArrowRight, CircleCheck, CircleX, Clock, Inbox, Eye, Filter, TrendingUp, Shield, Download, Plus, CircleAlert } from 'lucide-angular';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LucideAngularModule, LayoutDashboard, FileText, Users, BarChart3, Settings, LogOut, ChevronLeft, ChevronRight, Menu, Bell, User, Search, Mail, Lock, Loader, ArrowRight, CircleCheck, CircleX, Clock, Inbox, Eye, Filter, TrendingUp, Shield, Download, Plus, CircleAlert, DollarSign, Briefcase, TrendingUpIcon, AlertTriangle, CheckCircle, XCircle, RefreshCw, MessageSquare, Percent, Calendar, Upload } from 'lucide-angular';
 
 @NgModule({
   imports: [
@@ -34,10 +36,14 @@ import { LucideAngularModule, LayoutDashboard, FileText, Users, BarChart3, Setti
     MatSnackBarModule,
     MatDialogModule,
     MatProgressBarModule,
+    MatTabsModule,
+    MatProgressSpinnerModule,
     LucideAngularModule.pick({
       LayoutDashboard, FileText, Users, BarChart3, Settings, LogOut, ChevronLeft, ChevronRight,
       Menu, Bell, User, Search, Mail, Lock, Loader, ArrowRight, CircleCheck, CircleX,
-      Clock, Inbox, Eye, Filter, TrendingUp, Shield, Download, Plus, CircleAlert
+      Clock, Inbox, Eye, Filter, TrendingUp, Shield, Download, Plus, CircleAlert,
+      DollarSign, Briefcase, TrendingUpIcon, AlertTriangle, CheckCircle, XCircle, RefreshCw,
+      MessageSquare, Percent, Calendar, Upload
     })
   ],
   exports: [
@@ -57,6 +63,8 @@ import { LucideAngularModule, LayoutDashboard, FileText, Users, BarChart3, Setti
     MatSnackBarModule,
     MatDialogModule,
     MatProgressBarModule,
+    MatTabsModule,
+    MatProgressSpinnerModule,
     LucideAngularModule
   ]
 })

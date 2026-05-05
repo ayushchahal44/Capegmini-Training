@@ -29,4 +29,6 @@ public interface DocumentRepository extends JpaRepository<DocumentEntity, Long> 
 	 * @return true if a matching document exists, false otherwise
 	 */
 	boolean existsByApplicationIdAndDocTypeAndStatus(Long applicationId, DocType docType, DocStatus status);
+
+	java.util.Optional<DocumentEntity> findTopByApplicationIdAndDocTypeOrderByCreatedAtDesc(Long applicationId, DocType docType);
 }

@@ -80,6 +80,7 @@ public class AdminService {
 	@Transactional
 	@SuppressWarnings("null")
 	public void decide(Long applicationId, AdminDecisionRequest request, String authorizationHeader) {
+		Long currentUserId = SecurityUtils.currentUserId();
 		HttpHeaders headers = authHeaders(authorizationHeader);
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		String url = applicationBaseUrl + "/api/applications/admin/" + applicationId + "/decision";
@@ -90,7 +91,7 @@ public class AdminService {
 		d.setApproved(Boolean.TRUE.equals(request.getApproved()));
 		d.setTerms(request.getTerms());
 		d.setRejectionReason(request.getRejectionReason());
-		d.setDecidedByUserId(SecurityUtils.currentUserId());
+		d.setDecidedByUserId(currentUserId);
 		d.setDecidedAt(Instant.now());
 		decisionRepository.save(d);
 	}

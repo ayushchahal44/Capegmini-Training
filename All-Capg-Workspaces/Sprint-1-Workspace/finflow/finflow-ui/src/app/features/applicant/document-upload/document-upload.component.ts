@@ -4,17 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentService } from '../../../core/services/document.service';
 import { DocumentInfo } from '../../../core/models/admin.model';
-import { LucideAngularModule, Upload, FileText, Check, X, ArrowLeft, Loader } from 'lucide-angular';
+import { LucideAngularModule } from 'lucide-angular';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-document-upload',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, LucideAngularModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
   template: `
     <div class="upload-container fade-in">
       <div class="upload-header">
-        <button (click)="goBack()" class="btn-icon">
-          <lucide-icon [name]="ArrowLeft" [size]="18"></lucide-icon>
+        <button mat-icon-button (click)="goBack()" class="btn-icon">
+          <mat-icon>arrow_back</mat-icon>
         </button>
         <div class="header-text">
           <h1>Identity & Verification</h1>
@@ -33,7 +36,7 @@ import { LucideAngularModule, Upload, FileText, Check, X, ArrowLeft, Loader } fr
             
             <div class="card-top">
               <div class="icon-box" [class.active]="getDoc(docType.value)">
-                <lucide-icon [name]="FileText" [size]="20"></lucide-icon>
+                <mat-icon>description</mat-icon>
               </div>
               <div class="card-meta">
                 <h3>{{ docType.label }}</h3>
@@ -50,14 +53,18 @@ import { LucideAngularModule, Upload, FileText, Check, X, ArrowLeft, Loader } fr
                 
                 <div class="doc-footer">
                   @if (getDoc(docType.value)!.status === 'REJECTED') {
+                    <div class="rejection-info fade-in" *ngIf="getDoc(docType.value)?.rejectionReason">
+                      <mat-icon>error_outline</mat-icon>
+                      <span>{{ getDoc(docType.value)!.rejectionReason }}</span>
+                    </div>
                     <label class="btn btn-primary btn-sm full-width">
                       <input type="file" (change)="onFileSelected($event, docType.value)" hidden>
-                      <lucide-icon [name]="Upload" [size]="14"></lucide-icon>
-                      Try Again
+                      <mat-icon>upload</mat-icon>
+                      Re-upload Document
                     </label>
                   } @else {
                     <div class="verified-badge" *ngIf="getDoc(docType.value)!.status === 'VERIFIED'">
-                      <lucide-icon [name]="Check" [size]="14"></lucide-icon>
+                      <mat-icon>check_circle</mat-icon>
                       Verified
                     </div>
                   }
@@ -67,10 +74,10 @@ import { LucideAngularModule, Upload, FileText, Check, X, ArrowLeft, Loader } fr
               <label class="dropzone-area" [class.uploading]="uploadingType === docType.value">
                 <input type="file" (change)="onFileSelected($event, docType.value)" hidden [disabled]="uploadingType === docType.value">
                 @if (uploadingType === docType.value) {
-                  <lucide-icon [name]="LoaderIcon" [size]="24" class="spin"></lucide-icon>
+                  <mat-progress-spinner diameter="24"></mat-progress-spinner>
                   <p>Uploading...</p>
                 } @else {
-                  <lucide-icon [name]="Upload" [size]="24" class="upload-icon"></lucide-icon>
+                  <mat-icon class="upload-icon">upload</mat-icon>
                   <p>Click to upload</p>
                   <span class="hint">PDF, JPG or PNG</span>
                 }
@@ -81,7 +88,7 @@ import { LucideAngularModule, Upload, FileText, Check, X, ArrowLeft, Loader } fr
       </div>
 
       <div class="glass-card help-banner fade-in">
-        <lucide-icon [name]="Check" [size]="24" class="text-success"></lucide-icon>
+        <mat-icon class="text-success">check_circle</mat-icon>
         <div class="banner-text">
           <h4>Verification Process</h4>
           <p class="text-muted">Our compliance team will review these documents within 24 hours. You'll be notified once verified.</p>
@@ -90,7 +97,7 @@ import { LucideAngularModule, Upload, FileText, Check, X, ArrowLeft, Loader } fr
 
       @if (error) {
         <div class="error-alert fade-in">
-          <lucide-icon [name]="XIcon" [size]="18"></lucide-icon>
+          <mat-icon>error</mat-icon>
           {{ error }}
         </div>
       }
@@ -101,6 +108,8 @@ import { LucideAngularModule, Upload, FileText, Check, X, ArrowLeft, Loader } fr
     
     .upload-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: var(--gap-lg); }
     .header-text h1 { font-size: 1.75rem; margin-bottom: 2px; }
+    .btn-icon { background: transparent; border: none; padding: 8px; border-radius: 50%; }
+    .btn-icon:hover { background: rgba(0,0,0,0.04); }
 
     .upload-grid { 
       display: grid; 
@@ -220,17 +229,27 @@ import { LucideAngularModule, Upload, FileText, Check, X, ArrowLeft, Loader } fr
     .spin { animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     
+    .rejection-info {
+      padding: 0.75rem;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 8px;
+      color: #ef4444;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 0.5rem;
+    }
+    .rejection-info mat-icon { font-size: 16px; width: 16px; height: 16px; margin-top: 2px; }
+
     .full-width { width: 100%; }
-    .btn-sm { padding: 0.5rem 1rem; font-size: 0.815rem; }
+    .btn-sm { padding: 0.6rem 1rem; font-size: 0.815rem; }
   `]
 })
 export class DocumentUploadComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private docService = inject(DocumentService);
-
-  readonly Upload = Upload; readonly FileText = FileText; readonly Check = Check;
-  readonly XIcon = X; readonly ArrowLeft = ArrowLeft; readonly LoaderIcon = Loader;
 
   applicationId = 0;
   documents: DocumentInfo[] = [];
@@ -261,11 +280,38 @@ export class DocumentUploadComponent implements OnInit {
   onFileSelected(event: any, docType: string) {
     const file: File = event.target.files[0];
     if (!file) return;
+    
+    // Validate file type
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+    if (!allowedTypes.includes(file.type)) {
+      this.error = 'Invalid file type. Please upload PDF, JPG, or PNG files only.';
+      return;
+    }
+    
+    // Validate file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    if (file.size > maxSize) {
+      this.error = 'File size too large. Please upload files smaller than 5MB.';
+      return;
+    }
+    
     this.error = '';
     this.uploadingType = docType;
     this.docService.upload(this.applicationId, docType, file).subscribe({
-      next: () => { this.uploadingType = null; this.loadDocuments(); },
-      error: (err) => { this.uploadingType = null; this.error = 'Upload failed. Please try again.'; }
+      next: (response) => { 
+        console.log('Upload successful:', response);
+        this.uploadingType = null; 
+        this.loadDocuments(); 
+        // Clear the file input
+        event.target.value = '';
+      },
+      error: (err) => { 
+        console.error('Upload error:', err);
+        this.uploadingType = null; 
+        this.error = 'Upload failed. Please try again.'; 
+        // Clear the file input
+        event.target.value = '';
+      }
     });
   }
 

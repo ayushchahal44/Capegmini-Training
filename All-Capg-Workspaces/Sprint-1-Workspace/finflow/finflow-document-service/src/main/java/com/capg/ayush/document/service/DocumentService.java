@@ -13,6 +13,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +26,10 @@ import com.capg.ayush.document.dto.VerifyDocumentRequest;
 import com.capg.ayush.document.entity.DocStatus;
 import com.capg.ayush.document.entity.DocType;
 import com.capg.ayush.document.entity.DocumentEntity;
+import com.capg.ayush.document.messaging.DocumentStatusChangedEvent;
 import com.capg.ayush.document.repository.DocumentRepository;
 import com.capg.ayush.document.security.SecurityUtils;
+import com.capg.ayush.document.config.RabbitMQConfig;
 
 /**
  * Service class for managing KYC documents.
@@ -39,6 +42,7 @@ public class DocumentService {
 
 	private final DocumentRepository documentRepository;
 	private final ApplicationServiceClient applicationServiceClient;
+	private final RabbitTemplate rabbitTemplate;
 
 	@Value("${finflow.storage.root:uploads}")
 	private String storageRoot;
@@ -48,9 +52,12 @@ public class DocumentService {
 	 * @param documentRepository Repository for document metadata
 	 * @param applicationServiceClient Client for communicating with the application service
 	 */
-	public DocumentService(DocumentRepository documentRepository, ApplicationServiceClient applicationServiceClient) {
+	public DocumentService(DocumentRepository documentRepository, 
+			ApplicationServiceClient applicationServiceClient,
+			RabbitTemplate rabbitTemplate) {
 		this.documentRepository = documentRepository;
 		this.applicationServiceClient = applicationServiceClient;
+		this.rabbitTemplate = rabbitTemplate;
 	}
 
 	/**
@@ -77,7 +84,11 @@ public class DocumentService {
 			try (InputStream in = file.getInputStream()) {
 				Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
 			}
-			DocumentEntity doc = new DocumentEntity();
+
+			// Check if a document of this type already exists for this application
+			DocumentEntity doc = documentRepository.findTopByApplicationIdAndDocTypeOrderByCreatedAtDesc(applicationId, docType)
+					.orElse(new DocumentEntity());
+			
 			doc.setApplicationId(applicationId);
 			doc.setUserId(userId);
 			doc.setDocType(docType);
@@ -86,6 +97,7 @@ public class DocumentService {
 			doc.setContentType(file.getContentType());
 			doc.setSizeBytes(file.getSize());
 			doc.setStatus(DocStatus.PENDING);
+			doc.setRejectionReason(null); // Clear any previous rejection reason on re-upload
 			return toDto(documentRepository.save(doc));
 		}
 		catch (IOException e) {
@@ -106,18 +118,39 @@ public class DocumentService {
 	@SuppressWarnings("null")
 	public DocumentDto verify(Long id, VerifyDocumentRequest request, String authorizationHeader) {
 		DocumentEntity doc = documentRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		DocStatus oldStatus = doc.getStatus();
 		if (Boolean.TRUE.equals(request.getVerified())) {
 			doc.setStatus(DocStatus.VERIFIED);
+			doc.setRejectionReason(null);
 		}
 		else {
 			doc.setStatus(DocStatus.REJECTED);
+			doc.setRejectionReason(request.getNotes());
 		}
 		documentRepository.save(doc);
+
+		// Publish event if status changed to REJECTED
+		if (doc.getStatus() == DocStatus.REJECTED) {
+			publishStatusEvent(doc, oldStatus, doc.getStatus(), request.getNotes());
+		}
+
 		boolean allDone = allRequiredVerified(doc.getApplicationId());
 		if (allDone) {
 			applicationServiceClient.notifyDocumentsVerified(doc.getApplicationId(), true, authorizationHeader);
 		}
 		return toDto(doc);
+	}
+
+	private void publishStatusEvent(DocumentEntity doc, DocStatus oldStatus, DocStatus newStatus, String reason) {
+		try {
+			DocumentStatusChangedEvent event = new DocumentStatusChangedEvent(
+					doc.getId(), doc.getApplicationId(), doc.getUserId(), 
+					doc.getDocType(), oldStatus, newStatus, reason);
+			String routingKey = "document.status." + newStatus.name().toLowerCase();
+			rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, routingKey, event);
+		} catch (Exception e) {
+			// Non-blocking
+		}
 	}
 
 	/**
@@ -176,6 +209,7 @@ public class DocumentService {
 		dto.setOriginalName(d.getOriginalName());
 		dto.setStatus(d.getStatus());
 		dto.setCreatedAt(d.getCreatedAt());
+		dto.setRejectionReason(d.getRejectionReason());
 		return dto;
 	}
 }

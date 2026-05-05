@@ -56,7 +56,25 @@ export const routes: Routes = [
       },
       {
         path: 'review/:id',
-        loadComponent: () => import('./features/admin/review-panel/review-panel.component').then(m => m.ReviewPanelComponent)
+        children: [
+          {
+            path: 'summary',
+            loadComponent: () => import('./features/admin/applicant-summary-page/applicant-summary-page.component').then(m => m.ApplicantSummaryPageComponent)
+          },
+          {
+            path: 'documents',
+            loadComponent: () => import('./features/admin/document-verification-page/document-verification-page.component').then(m => m.DocumentVerificationPageComponent)
+          },
+          {
+            path: 'decision',
+            loadComponent: () => import('./features/admin/decision-page/decision-page.component').then(m => m.DecisionPageComponent)
+          },
+          {
+            path: '',
+            redirectTo: 'summary',
+            pathMatch: 'full'
+          }
+        ]
       },
       {
         path: 'reports',

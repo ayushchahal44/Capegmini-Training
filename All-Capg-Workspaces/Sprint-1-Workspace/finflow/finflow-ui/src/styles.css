@@ -54,6 +54,14 @@
   /* Sidebar dimensions */
   --sidebar-width: 280px;
   --sidebar-collapsed: 88px;
+
+  /* Additional Utilities */
+  --accent-light: rgba(99, 102, 241, 0.25);
+  --violet-soft: rgba(139, 92, 246, 0.15);
+  --success-bg: rgba(16, 185, 129, 0.1);
+  --warning-bg: rgba(245, 158, 11, 0.1);
+  --danger-bg: rgba(239, 68, 68, 0.1);
+  --info-bg: rgba(59, 130, 246, 0.1);
 }
 
 * {
@@ -209,8 +217,30 @@ body::before {
 
 .btn-icon:hover {
   background: var(--accent-light);
-  color: var(--accent);
+  color: var(--accent-bright);
   border-color: var(--accent);
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+}
+
+.btn-danger { background: var(--danger); color: white; }
+.btn-success { background: var(--success); color: white; }
+.btn-warning { background: var(--warning); color: white; }
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
 }
 
 /* Badges */

@@ -37,4 +37,15 @@ public class StatusEventListener {
             log.error("❌ Failed to process notification for application {}: {}", event.getApplicationId(), e.getMessage(), e);
         }
     }
+
+    @RabbitListener(queues = "finflow.notifications")
+    public void handleDocumentEvent(DocumentStatusChangedEvent event) {
+        log.info("📩 Received document event: {}", event);
+        try {
+            notificationService.processDocumentEvent(event);
+            log.info("✅ Notification processed for document {} -> {}", event.getDocumentId(), event.getNewStatus());
+        } catch (Exception e) {
+            log.error("❌ Failed to process notification for document {}: {}", event.getDocumentId(), e.getMessage(), e);
+        }
+    }
 }

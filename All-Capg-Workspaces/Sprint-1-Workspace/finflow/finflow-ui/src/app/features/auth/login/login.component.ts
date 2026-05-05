@@ -28,6 +28,10 @@ export class LoginComponent {
   error = '';
 
   onSubmit() {
+    if (this.loading || !this.credentials.email || !this.credentials.password) {
+      return;
+    }
+
     this.loading = true;
     this.error = '';
 
@@ -37,6 +41,7 @@ export class LoginComponent {
         this.router.navigate([returnUrl]);
       },
       error: (err) => {
+        this.loading = false;
         if (err.status === 401) {
           this.error = 'Invalid email or password. Please try again.';
         } else if (err.status === 403) {
@@ -46,6 +51,8 @@ export class LoginComponent {
         } else {
           this.error = err.error?.message || 'Login failed. Please try again.';
         }
+      },
+      complete: () => {
         this.loading = false;
       }
     });

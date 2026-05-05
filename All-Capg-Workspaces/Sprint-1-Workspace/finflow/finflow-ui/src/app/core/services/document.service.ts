@@ -22,8 +22,8 @@ export class DocumentService {
     return this.http.get<DocumentInfo[]>(`${this.baseUrl}/application/${applicationId}`);
   }
 
-  verifyDocument(docId: number, verified: boolean): Observable<DocumentInfo> {
-    return this.http.put<DocumentInfo>(`${this.baseUrl}/${docId}/verify`, { verified });
+  verifyDocument(docId: number, verified: boolean, notes?: string): Observable<DocumentInfo> {
+    return this.http.put<DocumentInfo>(`${this.baseUrl}/${docId}/verify`, { verified, notes });
   }
 
   downloadDocument(docId: number): Observable<Blob> {

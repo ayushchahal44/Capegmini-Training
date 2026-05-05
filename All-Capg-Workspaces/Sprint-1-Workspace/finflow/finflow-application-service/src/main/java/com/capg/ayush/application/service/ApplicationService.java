@@ -234,8 +234,9 @@ public class ApplicationService {
 		LoanApplication app = loanApplicationRepository.findById(applicationId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		ApplicationStatus st = app.getStatus();
-		if (st != ApplicationStatus.DOCS_VERIFIED && st != ApplicationStatus.UNDER_REVIEW) {
-			throw new ResponseStatusException(HttpStatus.CONFLICT, "Decision allowed only when DOCS_VERIFIED or UNDER_REVIEW");
+		if (st != ApplicationStatus.DOCS_VERIFIED && st != ApplicationStatus.UNDER_REVIEW && 
+			st != ApplicationStatus.SUBMITTED && st != ApplicationStatus.DOCS_PENDING) {
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Decision allowed only for active applications");
 		}
 		if (Boolean.TRUE.equals(req.getApproved())) {
 			app.setStatus(ApplicationStatus.APPROVED);

@@ -29,6 +29,17 @@ public class AdminExceptionHandler {
         return new ResponseEntity<>(body, ex.getStatusCode());
     }
 
+    @ExceptionHandler(org.springframework.web.client.HttpStatusCodeException.class)
+    public ResponseEntity<Map<String, Object>> handleHttpStatusCodeException(org.springframework.web.client.HttpStatusCodeException ex) {
+        log.error("Downstream Service Error: {} - {}", ex.getStatusCode(), ex.getResponseBodyAsString());
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", ex.getStatusCode().value());
+        body.put("error", "Downstream Service Error");
+        body.put("message", "Error from downstream service: " + ex.getResponseBodyAsString());
+        return new ResponseEntity<>(body, ex.getStatusCode());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneralException(Exception ex) {
         log.error("Internal Server Error: ", ex);

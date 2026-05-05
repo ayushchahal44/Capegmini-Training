@@ -15,6 +15,7 @@ import com.capg.ayush.notification.dto.NotificationDto;
 import com.capg.ayush.notification.entity.NotificationLog;
 import com.capg.ayush.notification.repository.NotificationLogRepository;
 import com.capg.ayush.notification.messaging.ApplicationStatusChangedEvent;
+import com.capg.ayush.notification.messaging.DocumentStatusChangedEvent;
 import com.capg.ayush.notification.client.AuthServiceClient;
 
 /**
@@ -47,7 +48,7 @@ public class NotificationService {
         String message = buildNotificationMessage(event);
 
         // Simulate EMAIL notification
-        sendMockEmail(event, message);
+        sendMockEmail(event.getUserId(), event.getApplicationId(), message);
 
         // Log the notification
         NotificationLog emailLog = new NotificationLog();
@@ -61,7 +62,7 @@ public class NotificationService {
 
         // Simulate SMS notification for critical events
         if (isCriticalEvent(event.getNewStatus())) {
-            sendMockSms(event, message);
+            sendMockSms(event.getUserId(), message);
 
             NotificationLog smsLog = new NotificationLog();
             smsLog.setApplicationId(event.getApplicationId());
@@ -72,6 +73,29 @@ public class NotificationService {
             smsLog.setSent(true);
             notificationLogRepository.save(smsLog);
         }
+    }
+
+    @Transactional
+    public void processDocumentEvent(DocumentStatusChangedEvent event) {
+        if (!"REJECTED".equals(event.getNewStatus())) {
+            return; // Only notify rejections for now
+        }
+
+        String message = String.format("Action Required: Your %s for application #%d was rejected. Reason: %s. Please re-upload.", 
+            event.getDocType().replace("_", " "), event.getApplicationId(), event.getReason() != null ? event.getReason() : "Incomplete document");
+
+        // Simulate EMAIL notification
+        sendMockEmail(event.getUserId(), event.getApplicationId(), message);
+
+        // Log the notification
+        NotificationLog emailLog = new NotificationLog();
+        emailLog.setApplicationId(event.getApplicationId());
+        emailLog.setUserId(event.getUserId() != null ? event.getUserId() : 0L);
+        emailLog.setEventType("DOC_REJECTED");
+        emailLog.setChannel("EMAIL");
+        emailLog.setMessage(message);
+        emailLog.setSent(true);
+        notificationLogRepository.save(emailLog);
     }
 
     /**
@@ -119,31 +143,31 @@ public class NotificationService {
         return "APPROVED".equals(status) || "REJECTED".equals(status);
     }
 
-    private void sendMockEmail(ApplicationStatusChangedEvent event, String message) {
-        String emailAddress = authServiceClient.getUserEmail(event.getUserId());
+    private void sendMockEmail(Long userId, Long applicationId, String message) {
+        String emailAddress = authServiceClient.getUserEmail(userId);
         if (emailAddress == null || emailAddress.isEmpty()) {
-            log.warn("Could not find email address for userId: {}. Falling back to mock email.", event.getUserId());
+            log.warn("Could not find email address for userId: {}. Falling back to mock email.", userId);
             log.info("📧 [MOCK EMAIL] To: user#{} | Subject: Loan Application #{} Update | Body: {}",
-                    event.getUserId(), event.getApplicationId(), message);
+                    userId, applicationId, message);
             return;
         }
 
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setTo(emailAddress);
-            mailMessage.setSubject("FinFlow Loan Application #" + event.getApplicationId() + " Update");
+            mailMessage.setSubject("FinFlow Loan Application #" + applicationId + " Update");
             mailMessage.setText(message);
             mailSender.send(mailMessage);
-            log.info("📧 Successfully sent email to: {} for application #{}", emailAddress, event.getApplicationId());
+            log.info("📧 Successfully sent email to: {} for application #{}", emailAddress, applicationId);
         } catch (Exception e) {
             log.error("❌ Failed to send SMTP email to {}: {}", emailAddress, e.getMessage());
             log.info("📧 [FALLBACK MOCK EMAIL] To: {} | Subject: Loan Application #{} Update | Body: {}",
-                    emailAddress, event.getApplicationId(), message);
+                    emailAddress, applicationId, message);
         }
     }
 
-    private void sendMockSms(ApplicationStatusChangedEvent event, String message) {
-        log.info("📱 [MOCK SMS] To: user#{} | Message: {}", event.getUserId(), message);
+    private void sendMockSms(Long userId, String message) {
+        log.info("📱 [MOCK SMS] To: user#{} | Message: {}", userId, message);
     }
 
     private NotificationDto toDto(NotificationLog n) {

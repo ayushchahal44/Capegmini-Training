@@ -18,6 +18,7 @@ public class DocumentDto {
 	private String originalName;
 	private DocStatus status;
 	private Instant createdAt;
+	private String rejectionReason;
 
 	public Long getId() {
 		return id;
@@ -73,5 +74,13 @@ public class DocumentDto {
 
 	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public String getRejectionReason() {
+		return rejectionReason;
+	}
+
+	public void setRejectionReason(String rejectionReason) {
+		this.rejectionReason = rejectionReason;
 	}
 }

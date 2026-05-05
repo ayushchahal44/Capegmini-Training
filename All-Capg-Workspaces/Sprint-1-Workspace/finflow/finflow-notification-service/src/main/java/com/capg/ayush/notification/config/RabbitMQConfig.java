@@ -22,6 +22,7 @@ public class RabbitMQConfig {
     public static final String EXCHANGE_NAME = "finflow.exchange";
     public static final String QUEUE_NOTIFICATIONS = "finflow.notifications";
     public static final String ROUTING_KEY = "application.status.#";
+    public static final String ROUTING_KEY_DOC = "document.status.#";
 
     @Bean
     public TopicExchange finflowExchange() {
@@ -36,6 +37,11 @@ public class RabbitMQConfig {
     @Bean
     public Binding notificationBinding(Queue notificationQueue, TopicExchange finflowExchange) {
         return BindingBuilder.bind(notificationQueue).to(finflowExchange).with(ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding notificationDocBinding(Queue notificationQueue, TopicExchange finflowExchange) {
+        return BindingBuilder.bind(notificationQueue).to(finflowExchange).with(ROUTING_KEY_DOC);
     }
 
     @Bean

@@ -6,6 +6,7 @@ export interface DocumentInfo {
   originalName: string;
   status: 'PENDING' | 'VERIFIED' | 'REJECTED';
   createdAt: string;
+  rejectionReason?: string;
 }
 
 export interface TimelineEntry {
