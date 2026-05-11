@@ -23,76 +23,8 @@ import { Observable, combineLatest, map } from 'rxjs';
     LucideAngularModule,
     DecisionPanelComponent
   ],
-  template: `
-    <div class="decision-container fade-in">
-      <div class="page-header">
-        <button (click)="navigateBack()" class="btn-icon-large">
-          <lucide-icon [name]="ArrowLeft" [size]="20"></lucide-icon>
-        </button>
-        <div class="header-content">
-          <h1>Decision Panel #{{application?.id}}</h1>
-          <p class="header-subtitle">Page 3 of 3 - Final Decision</p>
-        </div>
-        <div class="page-navigation">
-          <button (click)="goToDocuments()" class="btn btn-ghost nav-btn">
-            <lucide-icon [name]="ArrowLeft" [size]="18"></lucide-icon>
-            Previous: Docs
-          </button>
-        </div>
-      </div>
-
-      <div class="content-grid" *ngIf="application">
-        <div class="main-section">
-          <app-decision-panel 
-            [application]="application"
-            [allDocumentsVerified]="allDocumentsVerified"
-            [pendingDocuments]="pendingDocuments"
-            (approve)="onApprove($event)"
-            (reject)="onReject($event)">
-          </app-decision-panel>
-        </div>
-      </div>
-
-      <div class="loading-state" *ngIf="!application">
-        <div class="spinner"></div>
-        <p>Loading application details...</p>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .decision-container { max-width: 1200px; margin: 0 auto; padding: 2.5rem; }
-    
-    .page-header { 
-      display: flex; 
-      align-items: center; 
-      gap: 2rem; 
-      margin-bottom: 3rem;
-      position: relative;
-    }
-    
-    .header-content h1 { font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 4px; }
-    .header-subtitle { color: var(--text-muted); font-weight: 600; font-size: 0.9rem; }
-    
-    .btn-icon-large {
-      width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: var(--text-secondary);
-      cursor: pointer; transition: var(--transition);
-    }
-    .btn-icon-large:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); border-color: rgba(255,255,255,0.2); }
-    
-    .page-navigation { margin-left: auto; display: flex; gap: 1rem; }
-    .nav-btn { min-width: 160px; display: flex; align-items: center; gap: 10px; justify-content: center; }
-
-    .content-grid { display: flex; gap: 2.5rem; }
-    .main-section { flex: 1; }
-
-    .loading-state {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 6rem; gap: 1.5rem;
-    }
-    .spinner { width: 50px; height: 50px; border: 3px solid rgba(99, 102, 241, 0.1); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  `]
+  templateUrl: './decision-page.component.html',
+  styleUrl: './decision-page.component.css'
 })
 export class DecisionPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -171,7 +103,16 @@ export class DecisionPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed && this.application) {
         this.adminService.decide(this.application.id, true)
-          .subscribe(() => this.goBack());
+          .subscribe({
+            next: () => this.goBack(),
+            error: (err) => {
+              if (err.status === 409) {
+                alert('This application has already been processed and cannot be modified.');
+              } else {
+                alert(err.error?.message || 'An error occurred while processing the decision.');
+              }
+            }
+          });
       }
     });
   }
@@ -191,7 +132,16 @@ export class DecisionPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed && this.application) {
         this.adminService.decide(this.application.id, false)
-          .subscribe(() => this.navigateBack());
+          .subscribe({
+            next: () => this.navigateBack(),
+            error: (err) => {
+              if (err.status === 409) {
+                alert('This application has already been processed and cannot be modified.');
+              } else {
+                alert(err.error?.message || 'An error occurred while processing the decision.');
+              }
+            }
+          });
       }
     });
   }

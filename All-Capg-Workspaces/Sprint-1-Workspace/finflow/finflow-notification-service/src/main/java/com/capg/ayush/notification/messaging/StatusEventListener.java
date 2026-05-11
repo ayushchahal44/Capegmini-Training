@@ -48,4 +48,5 @@ public class StatusEventListener {
             log.error("❌ Failed to process notification for document {}: {}", event.getDocumentId(), e.getMessage(), e);
         }
     }
+
 }

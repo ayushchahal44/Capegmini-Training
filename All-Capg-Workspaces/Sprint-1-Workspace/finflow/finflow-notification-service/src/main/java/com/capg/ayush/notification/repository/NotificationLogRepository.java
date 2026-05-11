@@ -14,6 +14,7 @@ public interface NotificationLogRepository extends JpaRepository<NotificationLog
 
     List<NotificationLog> findByApplicationIdOrderByCreatedAtDesc(Long applicationId);
 
+
     List<NotificationLog> findAllByOrderByCreatedAtDesc();
 
     long countByEventType(String eventType);

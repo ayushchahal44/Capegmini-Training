@@ -112,17 +112,6 @@
   color: var(--text-primary);
 }
 
-.notification-badge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 10px;
-  height: 10px;
-  background: linear-gradient(135deg, var(--danger), #ff8080);
-  border: 2px solid var(--bg-primary);
-  border-radius: 50%;
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
-}
 
 .user-profile {
   display: flex;

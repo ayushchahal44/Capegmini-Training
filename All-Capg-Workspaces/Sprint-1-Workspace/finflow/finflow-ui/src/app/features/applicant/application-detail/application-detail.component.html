@@ -1,0 +1,173 @@
+<div class="detail-container fade-in">
+  <button (click)="goBack()" class="btn-icon">
+    <lucide-icon [name]="ArrowLeft" [size]="18"></lucide-icon>
+  </button>
+
+  @if (application) {
+    <div class="detail-header">
+      <div class="header-main">
+        <h1>Loan Application #{{ application.id }}</h1>
+        <div class="badge-wrapper">
+          <span class="status-badge" [class]="application.status.toLowerCase()">{{ application.status.replace('_', ' ') }}</span>
+        </div>
+      </div>
+      @if (application.status === 'DRAFT') {
+        <button [routerLink]="['/applicant/loan-wizard', application.id]" class="btn btn-primary">
+          <lucide-icon [name]="FileText" [size]="18"></lucide-icon> Continue Editing
+        </button>
+      }
+    </div>
+
+    <div class="detail-grid">
+      <!-- Application Summary -->
+      <div class="glass-card detail-card card-hover">
+        <h3><lucide-icon [name]="UserIcon" [size]="20"></lucide-icon> Personal Info</h3>
+        <div class="info-grid">
+          <div class="info-item"><span class="label">Full Name</span><span class="value">{{ application.fullName || '—' }}</span></div>
+          <div class="info-item"><span class="label">Phone</span><span class="value">{{ application.phone || '—' }}</span></div>
+          <div class="info-item"><span class="label">Date of Birth</span><span class="value">{{ application.dateOfBirth || '—' }}</span></div>
+          <div class="info-item full"><span class="label">Address</span><span class="value">{{ application.address || '—' }}</span></div>
+        </div>
+      </div>
+
+      <div class="glass-card detail-card card-hover">
+        <h3><lucide-icon [name]="Briefcase" [size]="20"></lucide-icon> Employment</h3>
+        <div class="info-grid">
+          <div class="info-item"><span class="label">Employer</span><span class="value">{{ application.employer || '—' }}</span></div>
+          <div class="info-item"><span class="label">Type</span><span class="value">{{ application.employmentType || '—' }}</span></div>
+          <div class="info-item"><span class="label">Annual Income</span><span class="value amount">{{ application.annualIncome | currency:'INR':'symbol':'1.0-0' }}</span></div>
+        </div>
+      </div>
+
+      <div class="glass-card detail-card card-hover">
+        <h3><lucide-icon [name]="Banknote" [size]="20"></lucide-icon> Loan Details</h3>
+        <div class="info-grid">
+          <div class="info-item"><span class="label">Loan Amount</span><span class="value amount-hero">{{ application.loanAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+          <div class="info-item"><span class="label">Tenure</span><span class="value">{{ application.tenureMonths }} months</span></div>
+          <div class="info-item full"><span class="label">Purpose</span><span class="value">{{ application.loanPurpose || '—' }}</span></div>
+        </div>
+      </div>
+
+      <!-- Documents Section -->
+      <div class="glass-card detail-card doc-card-full">
+        <div class="card-header">
+          <div class="title-with-subtitle">
+            <h3><lucide-icon [name]="FileText" [size]="20"></lucide-icon> Documents</h3>
+            <p class="subtitle">Verification status of your uploads</p>
+          </div>
+          @if (!allDocsVerified && (application.status === 'DOCS_PENDING' || application.status === 'REJECTED')) {
+            <button [routerLink]="['/applicant/documents', application.id]" class="btn btn-primary btn-sm">
+              <lucide-icon [name]="Upload" [size]="16"></lucide-icon> 
+              {{ hasRejectedDocs ? 'Resolve Issues' : 'Upload Documents' }}
+            </button>
+          }
+        </div>
+
+        @if (documents.length === 0) {
+          <div class="empty-state">
+            <lucide-icon [name]="FileText" [size]="48" class="text-muted"></lucide-icon>
+            <p class="empty-text">No documents have been uploaded yet.</p>
+            <button [routerLink]="['/applicant/documents', application.id]" class="btn btn-ghost btn-sm">
+              Upload Now
+            </button>
+          </div>
+        } @else {
+          <div class="doc-list-enhanced">
+            @for (doc of documents; track doc.id) {
+              <div class="enhanced-doc-item" [class.rejected]="doc.status === 'REJECTED'">
+                <div class="doc-main-content">
+                  <div class="doc-type-icon">
+                    <lucide-icon [name]="FileText" [size]="24"></lucide-icon>
+                  </div>
+                  <div class="doc-details-text">
+                    <span class="doc-type-label">{{ doc.docType.replace('_', ' ') }}</span>
+                    <span class="doc-filename">{{ doc.originalName }}</span>
+                    <span class="doc-date">Uploaded {{ doc.createdAt | date:'MMM d, y' }}</span>
+                  </div>
+                  <div class="doc-status-col">
+                    <span class="status-pill" [class]="doc.status.toLowerCase()">
+                      <lucide-icon [name]="getTimelineIcon(doc.status)" [size]="12"></lucide-icon>
+                      {{ doc.status }}
+                    </span>
+                  </div>
+                </div>
+
+                @if (doc.status === 'REJECTED') {
+                  <div class="rejection-alert">
+                    <div class="rejection-header">
+                      <lucide-icon [name]="CircleX" [size]="16"></lucide-icon>
+                      <span>Action Required: Re-upload Needed</span>
+                    </div>
+                    <p class="rejection-reason">{{ doc.rejectionReason || 'The document provided is unclear or invalid. Please re-upload a high-quality copy.' }}</p>
+                    <button [routerLink]="['/applicant/documents', application.id]" class="btn btn-danger btn-sm">
+                      <lucide-icon [name]="Upload" [size]="14"></lucide-icon> Re-upload Document
+                    </button>
+                  </div>
+                }
+
+                <div class="doc-footer">
+                  <button (click)="downloadDoc(doc)" class="btn btn-ghost btn-xs">
+                    <lucide-icon [name]="Download" [size]="14"></lucide-icon> Download
+                  </button>
+                  <button (click)="previewDoc(doc)" class="btn btn-ghost btn-xs">
+                    <lucide-icon [name]="Eye" [size]="14"></lucide-icon> View
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Timeline -->
+      <div class="glass-card detail-card timeline-card">
+        <h3><lucide-icon [name]="Clock" [size]="20"></lucide-icon> Application Journey</h3>
+        @if (timeline.length > 0) {
+          <div class="timeline">
+            @for (entry of timeline; track $index; let last = $last) {
+              <div class="timeline-item" [class.last]="last">
+                <div class="timeline-dot" [class]="entry.status.toLowerCase()">
+                  <lucide-icon [name]="getTimelineIcon(entry.status)" [size]="14"></lucide-icon>
+                </div>
+                <div class="timeline-content">
+                  <div class="timeline-header">
+                    <span class="timeline-status">{{ entry.status.replace('_', ' ') }}</span>
+                    <span class="timeline-date">{{ entry.occurredAt | date:'medium' }}</span>
+                  </div>
+                  <p class="timeline-note">{{ entry.note }}</p>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <p class="empty-text">No status updates yet.</p>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Analyzing your application...</p>
+    </div>
+  }
+
+  <!-- Document Preview Modal -->
+  @if (isPreviewing && previewUrl) {
+    <div class="preview-modal-overlay fade-in" (click)="closePreview()" (keydown.escape)="closePreview()">
+      <div class="preview-modal-content" (click)="$event.stopPropagation()" (keydown.escape)="closePreview()">
+        <div class="preview-modal-header">
+          <div class="preview-title">
+            <lucide-icon [name]="FileText" [size]="20"></lucide-icon>
+            <span>{{ selectedPreviewDoc?.originalName }}</span>
+          </div>
+          <button class="btn-close" (click)="closePreview()">
+            <lucide-icon [name]="X" [size]="20"></lucide-icon>
+          </button>
+        </div>
+        <div class="preview-modal-body">
+          <iframe [src]="previewUrl" class="preview-iframe" title="Document Preview"></iframe>
+        </div>
+      </div>
+    </div>
+  }
+</div>

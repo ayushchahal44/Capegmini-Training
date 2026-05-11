@@ -50,28 +50,31 @@ public class NotificationService {
         // Simulate EMAIL notification
         sendMockEmail(event.getUserId(), event.getApplicationId(), message);
 
-        // Log the notification
-        NotificationLog emailLog = new NotificationLog();
-        emailLog.setApplicationId(event.getApplicationId());
-        emailLog.setUserId(event.getUserId() != null ? event.getUserId() : 0L);
-        emailLog.setEventType(event.getNewStatus() != null ? event.getNewStatus() : "UNKNOWN");
-        emailLog.setChannel("EMAIL");
-        emailLog.setMessage(message);
-        emailLog.setSent(true);
-        notificationLogRepository.save(emailLog);
+        // Log the notification for the Applicant
+        NotificationLog appLog = new NotificationLog();
+        appLog.setApplicationId(event.getApplicationId());
+        appLog.setUserId(event.getUserId() != null ? event.getUserId() : 0L);
+        appLog.setEventType(event.getNewStatus() != null ? event.getNewStatus() : "UNKNOWN");
+        appLog.setChannel("EMAIL");
+        appLog.setMessage(message);
+        appLog.setSent(true);
+        notificationLogRepository.save(appLog);
+
+        // If it's a new submission, also notify Admin
+        if ("SUBMITTED".equals(event.getNewStatus())) {
+            NotificationLog adminLog = new NotificationLog();
+            adminLog.setApplicationId(event.getApplicationId());
+            adminLog.setUserId(0L); // System/Admin user ID
+            adminLog.setEventType("NEW_APPLICATION");
+            adminLog.setChannel("SYSTEM");
+            adminLog.setMessage("New application received: #" + event.getApplicationId());
+            adminLog.setSent(true);
+            notificationLogRepository.save(adminLog);
+        }
 
         // Simulate SMS notification for critical events
         if (isCriticalEvent(event.getNewStatus())) {
             sendMockSms(event.getUserId(), message);
-
-            NotificationLog smsLog = new NotificationLog();
-            smsLog.setApplicationId(event.getApplicationId());
-            smsLog.setUserId(event.getUserId() != null ? event.getUserId() : 0L);
-            smsLog.setEventType(event.getNewStatus() != null ? event.getNewStatus() : "UNKNOWN");
-            smsLog.setChannel("SMS");
-            smsLog.setMessage("SMS: " + message);
-            smsLog.setSent(true);
-            notificationLogRepository.save(smsLog);
         }
     }
 
@@ -98,6 +101,7 @@ public class NotificationService {
         notificationLogRepository.save(emailLog);
     }
 
+
     /**
      * Retrieves all notification logs ordered by most recent.
      * @return List of notification DTOs
@@ -108,16 +112,12 @@ public class NotificationService {
                 .stream().map(this::toDto).collect(Collectors.toList());
     }
 
-    /**
-     * Retrieves notifications for a specific application.
-     * @param applicationId The application ID
-     * @return List of notification DTOs
-     */
     @Transactional(readOnly = true)
     public List<NotificationDto> getNotificationsForApplication(Long applicationId) {
         return notificationLogRepository.findByApplicationIdOrderByCreatedAtDesc(applicationId)
                 .stream().map(this::toDto).collect(Collectors.toList());
     }
+
 
     private String buildNotificationMessage(ApplicationStatusChangedEvent event) {
         String status = event.getNewStatus() != null ? event.getNewStatus() : "UNKNOWN";

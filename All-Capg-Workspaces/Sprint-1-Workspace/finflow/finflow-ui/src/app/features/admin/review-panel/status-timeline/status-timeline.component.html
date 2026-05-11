@@ -1,0 +1,55 @@
+<div class="status-timeline">
+  <div class="timeline-container">
+    @for (step of timelineSteps; track step.status; let i = $index) {
+      <div 
+        class="timeline-step"
+        [class.completed]="step.completed"
+        [class.active]="step.active"
+        [class.failed]="step.failed">
+        
+        <div class="step-icon">
+          <lucide-icon [name]="step.icon" [size]="20"></lucide-icon>
+        </div>
+        
+        <div class="step-content">
+          <div class="step-label">{{step.label}}</div>
+          <div class="step-status" *ngIf="step.completed || step.active || step.failed">
+            @if (step.failed) { 
+              <span class="status-text failed">Failed</span> 
+            } @else if (step.completed) { 
+              <span class="status-text completed">Completed</span> 
+            } @else if (step.active) { 
+              <span class="status-text active">In Progress</span> 
+            }
+          </div>
+        </div>
+        
+        @if (i < timelineSteps.length - 1) {
+          <div class="step-connector">
+            <div class="connector-line" [class.completed]="step.completed && !step.failed"></div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+  
+  <div class="timeline-summary">
+    <div class="current-status">
+      <span class="status-label">Current Status:</span>
+      <span class="status-value" [ngClass]="getCurrentStatusClass()">
+        {{getCurrentStatusText()}}
+      </span>
+    </div>
+    
+    <div class="progress-info">
+      <div class="progress-bar">
+        <div 
+          class="progress-fill" 
+          [style.width.%]="getProgressPercentage()"
+          [ngClass]="getProgressClass()">
+        </div>
+      </div>
+      <span class="progress-text">{{getProgressPercentage()}}% Complete</span>
+    </div>
+  </div>
+</div>

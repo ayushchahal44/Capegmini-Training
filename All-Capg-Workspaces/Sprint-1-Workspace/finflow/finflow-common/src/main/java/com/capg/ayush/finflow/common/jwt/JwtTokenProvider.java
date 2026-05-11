@@ -1,4 +1,3 @@
-/* Build by: Ayush chahal | ayushchahal44@gmail.com */
 package com.capg.ayush.finflow.common.jwt;
 
 import java.util.Date;

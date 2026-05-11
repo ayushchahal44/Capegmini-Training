@@ -32,6 +32,10 @@ import com.capg.ayush.finflow.common.jwt.JwtTokenProvider;
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings("null")
 class AuthServiceTest {
+    private static final String TEST_EMAIL = "test@example.com";
+    private static final String TEST_PASSWORD = "password";
+    private static final String ENCODED_PASSWORD = "encodedPassword";
+    private static final String TEST_TOKEN = "testToken";
 
     @Mock
     private UserRepository userRepository;
@@ -52,40 +56,40 @@ class AuthServiceTest {
     @BeforeEach
     void setUp() {
         signupRequest = new SignupRequest();
-        signupRequest.setEmail("test@example.com");
-        signupRequest.setPassword("password");
+        signupRequest.setEmail(TEST_EMAIL);
+        signupRequest.setPassword(TEST_PASSWORD);
         signupRequest.setFirstName("Test");
         signupRequest.setLastName("User");
 
         loginRequest = new LoginRequest();
-        loginRequest.setEmail("test@example.com");
-        loginRequest.setPassword("password");
+        loginRequest.setEmail(TEST_EMAIL);
+        loginRequest.setPassword(TEST_PASSWORD);
 
         user = new User();
         user.setId(1L);
-        user.setEmail("test@example.com");
-        user.setPasswordHash("encodedPassword");
+        user.setEmail(TEST_EMAIL);
+        user.setPasswordHash(ENCODED_PASSWORD);
         user.setRole(Role.APPLICANT);
         user.setEnabled(true);
     }
 
     @Test
-    void signup_Success() {
+    void signupSuccess() {
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+        when(passwordEncoder.encode(anyString())).thenReturn(ENCODED_PASSWORD);
         when(userRepository.save(any(User.class))).thenReturn(user);
-        when(jwtTokenProvider.generateToken(anyLong(), anyString(), anyString())).thenReturn("testToken");
+        when(jwtTokenProvider.generateToken(anyLong(), anyString(), anyString())).thenReturn(TEST_TOKEN);
 
         AuthResponse response = authService.signup(signupRequest);
 
         assertNotNull(response);
-        assertEquals("testToken", response.getToken());
-        assertEquals("test@example.com", response.getUser().getEmail());
+        assertEquals(TEST_TOKEN, response.getToken());
+        assertEquals(TEST_EMAIL, response.getUser().getEmail());
         verify(userRepository).save(any(User.class));
     }
 
     @Test
-    void signup_EmailConflict() {
+    void signupEmailConflict() {
         when(userRepository.existsByEmail(anyString())).thenReturn(true);
 
         ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> authService.signup(signupRequest));
@@ -94,19 +98,19 @@ class AuthServiceTest {
     }
 
     @Test
-    void login_Success() {
+    void loginSuccess() {
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
-        when(jwtTokenProvider.generateToken(anyLong(), anyString(), anyString())).thenReturn("testToken");
+        when(jwtTokenProvider.generateToken(anyLong(), anyString(), anyString())).thenReturn(TEST_TOKEN);
 
         AuthResponse response = authService.login(loginRequest);
 
         assertNotNull(response);
-        assertEquals("testToken", response.getToken());
+        assertEquals(TEST_TOKEN, response.getToken());
     }
 
     @Test
-    void login_InvalidCredentials() {
+    void loginInvalidCredentials() {
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(false);
 
@@ -115,7 +119,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void login_UserDisabled() {
+    void loginUserDisabled() {
         user.setEnabled(false);
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
 
@@ -124,7 +128,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void listUsers_Success() {
+    void listUsersSuccess() {
         when(userRepository.findAll()).thenReturn(java.util.List.of(user));
         
         java.util.List<com.capg.ayush.auth.dto.UserResponse> result = authService.listUsers();
@@ -135,7 +139,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void updateUser_Success() {
+    void updateUserSuccess() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(user);
         
@@ -149,5 +153,68 @@ class AuthServiceTest {
         assertEquals("Updated", user.getFirstName());
         assertEquals(Role.ADMIN, user.getRole());
         verify(userRepository).save(user);
+    }
+
+    @Test
+    void signupAdminEmailSetsAdminRole() {
+        SignupRequest adminRequest = new SignupRequest();
+        adminRequest.setEmail("admin@example.com");
+        adminRequest.setPassword(TEST_PASSWORD);
+        adminRequest.setFirstName("Admin");
+        adminRequest.setLastName("User");
+
+        User adminUser = new User();
+        adminUser.setId(2L);
+        adminUser.setEmail("admin@example.com");
+        adminUser.setRole(Role.ADMIN);
+        adminUser.setEnabled(true);
+
+        when(userRepository.existsByEmail(anyString())).thenReturn(false);
+        when(passwordEncoder.encode(anyString())).thenReturn(ENCODED_PASSWORD);
+        when(userRepository.save(any(User.class))).thenReturn(adminUser);
+        when(jwtTokenProvider.generateToken(anyLong(), anyString(), anyString())).thenReturn("adminToken");
+
+        AuthResponse response = authService.signup(adminRequest);
+
+        assertNotNull(response);
+        assertEquals("adminToken", response.getToken());
+    }
+
+    @Test
+    void loginUserNotFound() {
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> authService.login(loginRequest));
+        assertEquals(HttpStatus.UNAUTHORIZED, ex.getStatusCode());
+    }
+
+    @Test
+    void updateUserNotFound() {
+        when(userRepository.findById(999L)).thenReturn(Optional.empty());
+
+        com.capg.ayush.auth.dto.UpdateUserRequest req = new com.capg.ayush.auth.dto.UpdateUserRequest();
+        req.setFirstName("Test");
+
+        assertThrows(ResponseStatusException.class, () -> authService.updateUser(999L, req));
+    }
+
+    @Test
+    void updateUserAllFields() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.save(any(User.class))).thenReturn(user);
+        
+        com.capg.ayush.auth.dto.UpdateUserRequest req = new com.capg.ayush.auth.dto.UpdateUserRequest();
+        req.setFirstName("New");
+        req.setLastName("Name");
+        req.setRole(Role.ADMIN);
+        req.setEnabled(false);
+        
+        com.capg.ayush.auth.dto.UserResponse result = authService.updateUser(1L, req);
+        
+        assertNotNull(result);
+        assertEquals("New", user.getFirstName());
+        assertEquals("Name", user.getLastName());
+        assertEquals(Role.ADMIN, user.getRole());
+        assertFalse(user.isEnabled());
     }
 }

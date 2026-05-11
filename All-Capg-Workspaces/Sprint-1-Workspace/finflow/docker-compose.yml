@@ -48,7 +48,7 @@ services:
     networks:
       - finflow-network
     healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "check_running"]
+      test: [ "CMD", "rabbitmq-diagnostics", "-q", "check_running" ]
       interval: 15s
       timeout: 30s
       retries: 10
@@ -67,7 +67,7 @@ services:
     ports:
       - "3307:3306"
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -90,14 +90,15 @@ services:
     networks:
       - finflow-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://127.0.0.1:8761/actuator/health/liveness"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:8761/actuator/health/liveness" ]
+      interval: 15s
+      timeout: 10s
+      retries: 15
+      start_period: 90s
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 640M
 
   finflow-auth-service:
     build:
@@ -116,15 +117,15 @@ services:
     networks:
       - finflow-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://127.0.0.1:8081/actuator/health/liveness"]
-      interval: 20s
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:8081/actuator/health/liveness" ]
+      interval: 25s
       timeout: 15s
-      retries: 10
-      start_period: 300s
+      retries: 12
+      start_period: 360s
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 1024M
 
   finflow-application-service:
     build:
@@ -143,11 +144,11 @@ services:
     networks:
       - finflow-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://127.0.0.1:8082/actuator/health/liveness"]
-      interval: 20s
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:8082/actuator/health/liveness" ]
+      interval: 25s
       timeout: 15s
-      retries: 10
-      start_period: 300s
+      retries: 12
+      start_period: 360s
     deploy:
       resources:
         limits:
@@ -173,11 +174,11 @@ services:
     networks:
       - finflow-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://127.0.0.1:8083/actuator/health/liveness"]
-      interval: 20s
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:8083/actuator/health/liveness" ]
+      interval: 25s
       timeout: 15s
-      retries: 10
-      start_period: 300s
+      retries: 12
+      start_period: 360s
     deploy:
       resources:
         limits:
@@ -200,11 +201,11 @@ services:
     networks:
       - finflow-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://127.0.0.1:8084/actuator/health/liveness"]
-      interval: 20s
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:8084/actuator/health/liveness" ]
+      interval: 25s
       timeout: 15s
-      retries: 10
-      start_period: 300s
+      retries: 12
+      start_period: 360s
     deploy:
       resources:
         limits:
@@ -229,11 +230,11 @@ services:
     networks:
       - finflow-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://127.0.0.1:8085/actuator/health/liveness"]
-      interval: 20s
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:8085/actuator/health/liveness" ]
+      interval: 25s
       timeout: 15s
-      retries: 10
-      start_period: 300s
+      retries: 12
+      start_period: 360s
     deploy:
       resources:
         limits:
@@ -263,7 +264,7 @@ services:
     networks:
       - finflow-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://127.0.0.1:8090/actuator/health/liveness"]
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:8090/actuator/health/liveness" ]
       interval: 20s
       timeout: 15s
       retries: 6
@@ -290,6 +291,32 @@ services:
         limits:
           memory: 256M
 
+#  # ─── SonarQube (Code Quality) ──────────────────────────────────
+#  sonarqube:
+#    image: sonarqube:lts-community
+#    container_name: finflow-sonarqube
+#    ports:
+#      - "9000:9000"
+#    environment:
+#      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+#    volumes:
+#      - sonarqube_data:/opt/sonarqube/data
+#      - sonarqube_logs:/opt/sonarqube/logs
+#      - sonarqube_extensions:/opt/sonarqube/extensions
+#    networks:
+#      - finflow-network
+#    deploy:
+#      resources:
+#        limits:
+#          memory: 2G
+
 volumes:
   document-uploads:
     driver: local
+
+#  sonarqube_data:
+#    driver: local
+#  sonarqube_logs:
+#    driver: local
+#  sonarqube_extensions:
+#    driver: local

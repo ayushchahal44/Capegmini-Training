@@ -1,0 +1,96 @@
+<div class="dashboard-container fade-in">
+  <header class="dashboard-header">
+    <div class="header-text">
+      <h1>Welcome back, {{ authService.currentUser()?.firstName }}</h1>
+      <p class="text-muted">Your financial journey at a glance</p>
+    </div>
+    <button (click)="createNewApplication()" class="btn btn-primary" [disabled]="creating">
+      <lucide-icon [name]="Plus" [size]="18"></lucide-icon>
+      New Application
+    </button>
+  </header>
+
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p class="text-muted">Fetching your applications...</p>
+    </div>
+  } @else if (applications.length === 0) {
+    <div class="glass-card empty-state">
+      <div class="empty-icon-wrapper">
+        <lucide-icon [name]="FileText" [size]="48" class="empty-icon"></lucide-icon>
+      </div>
+      <h3>Ready to start?</h3>
+      <p class="text-muted">Apply for a new loan in just a few minutes.</p>
+      <button (click)="createNewApplication()" class="btn btn-primary">Start Application</button>
+    </div>
+  } @else {
+    <div class="stats-grid">
+      <div class="glass-card stat-card mesh-blue">
+        <div class="stat-info">
+          <span class="stat-label">Total Applications</span>
+          <span class="stat-value">{{ applications.length }}</span>
+        </div>
+      </div>
+      <div class="glass-card stat-card mesh-purple">
+        <div class="stat-info">
+          <span class="stat-label">In Progress</span>
+          <span class="stat-value text-warning">{{ getInProgressCount() }}</span>
+        </div>
+      </div>
+      <div class="glass-card stat-card mesh-green">
+        <div class="stat-info">
+          <span class="stat-label">Approved</span>
+          <span class="stat-value text-success">{{ getApprovedCount() }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="applications-list" class="applications-section">
+      <div class="section-header">
+        <h2>Recent Applications</h2>
+        <div class="search-bar">
+          <lucide-icon [name]="Search" [size]="18"></lucide-icon>
+          <input type="text" placeholder="Search by ID or status..." (input)="onSearch($event)">
+        </div>
+      </div>
+      
+      <div class="applications-grid">
+        @for (app of filteredApplications; track app.id) {
+          <div class="glass-card app-card card-hover" (click)="openApplication(app)">
+            <div class="app-status-indicator" [class]="app.status.toLowerCase()"></div>
+            <div class="app-card-content">
+              <div class="app-top">
+                <div class="app-icon-box" [class]="app.status.toLowerCase()">
+                  <lucide-icon [name]="getStatusIcon(app.status)" [size]="20"></lucide-icon>
+                </div>
+                <div class="app-meta">
+                  <h3>Loan #{{ app.id }}</h3>
+                  <span class="app-date">{{ app.updatedAt | date:'MMM d, y' }}</span>
+                </div>
+              </div>
+              
+              <div class="app-bottom">
+                <div class="app-amount-box">
+                  <span class="label">Amount</span>
+                  <span class="value">{{ app.loanAmount | currency:'INR':'symbol':'1.0-0' }}</span>
+                </div>
+                <span class="badge" [class]="'badge-' + getStatusClass(app.status)">
+                  {{ app.status.replace('_', ' ') }}
+                </span>
+              </div>
+            </div>
+            <div class="app-card-overlay">
+              <span>View Details</span>
+              <lucide-icon [name]="ChevronRight" [size]="16"></lucide-icon>
+            </div>
+          </div>
+        } @empty {
+          <div class="glass-card empty-search">
+            <p>No applications found matching "{{ searchTerm }}"</p>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

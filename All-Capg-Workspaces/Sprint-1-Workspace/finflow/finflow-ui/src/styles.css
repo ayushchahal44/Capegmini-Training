@@ -267,3 +267,27 @@ h3 { font-size: 1.125rem; font-weight: 600; }
 .text-warning { color: var(--warning); }
 .text-danger { color: var(--danger); }
 .text-muted { color: var(--text-muted); }
+
+/* ═══════════════════════════════════════════
+   MATERIAL OVERRIDES
+   ═══════════════════════════════════════════ */
+
+.cdk-overlay-backdrop {
+  backdrop-filter: blur(8px);
+  background: rgba(2, 6, 23, 0.8) !important;
+}
+
+.cdk-overlay-pane {
+  max-width: 95vw !important;
+}
+
+/* Fix for the white background on Dialogs */
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 24px !important;
+}
+
+.mat-mdc-dialog-content {
+  padding: 0 !important;
+}

@@ -1,0 +1,88 @@
+<div class="upload-container fade-in">
+  <div class="upload-header">
+    <button mat-icon-button (click)="goBack()" class="btn-icon">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-text">
+      <h1>Identity & Verification</h1>
+      <p class="text-muted">Upload required KYC documents for Application #{{ applicationId }}</p>
+    </div>
+  </div>
+
+  <div class="upload-grid">
+    @for (docType of docTypes; track docType.value) {
+      <div class="glass-card upload-card card-hover" 
+           [class.uploaded]="getDoc(docType.value)"
+           [class.verified]="getDoc(docType.value)?.status === 'VERIFIED'"
+           [class.rejected]="getDoc(docType.value)?.status === 'REJECTED'">
+        
+        <div class="card-status-dot" [class]="getDoc(docType.value)?.status?.toLowerCase() || 'pending'"></div>
+        
+        <div class="card-top">
+          <div class="icon-box" [class.active]="getDoc(docType.value)">
+            <mat-icon>description</mat-icon>
+          </div>
+          <div class="card-meta">
+            <h3>{{ docType.label }}</h3>
+            <span class="status-text">{{ getDoc(docType.value)?.status || 'Awaiting Upload' }}</span>
+          </div>
+        </div>
+
+        @if (getDoc(docType.value)) {
+          <div class="doc-preview fade-in">
+            <div class="file-info">
+              <span class="filename">{{ getDoc(docType.value)!.originalName }}</span>
+              <span class="filesize">Uploaded {{ getDoc(docType.value)!.createdAt | date:'MMM d' }}</span>
+            </div>
+            
+            <div class="doc-footer">
+              @if (getDoc(docType.value)!.status === 'REJECTED') {
+                <div class="rejection-info fade-in" *ngIf="getDoc(docType.value)?.rejectionReason">
+                  <mat-icon>error_outline</mat-icon>
+                  <span>{{ getDoc(docType.value)!.rejectionReason }}</span>
+                </div>
+                <label class="btn btn-primary btn-sm full-width">
+                  <input type="file" (change)="onFileSelected($event, docType.value)" hidden>
+                  <mat-icon>upload</mat-icon>
+                  Re-upload Document
+                </label>
+              } @else {
+                <div class="verified-badge" *ngIf="getDoc(docType.value)!.status === 'VERIFIED'">
+                  <mat-icon>check_circle</mat-icon>
+                  Verified
+                </div>
+              }
+            </div>
+          </div>
+        } @else {
+          <label class="dropzone-area" [class.uploading]="uploadingType === docType.value">
+            <input type="file" (change)="onFileSelected($event, docType.value)" hidden [disabled]="uploadingType === docType.value">
+            @if (uploadingType === docType.value) {
+              <mat-progress-spinner diameter="24"></mat-progress-spinner>
+              <p>Uploading...</p>
+            } @else {
+              <mat-icon class="upload-icon">upload</mat-icon>
+              <p>Click to upload</p>
+              <span class="hint">PDF, JPG or PNG</span>
+            }
+          </label>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="glass-card help-banner fade-in">
+    <mat-icon class="text-success">check_circle</mat-icon>
+    <div class="banner-text">
+      <h4>Verification Process</h4>
+      <p class="text-muted">Our compliance team will review these documents within 24 hours. You'll be notified once verified.</p>
+    </div>
+  </div>
+
+  @if (error) {
+    <div class="error-alert fade-in">
+      <mat-icon>error</mat-icon>
+      {{ error }}
+    </div>
+  }
+</div>

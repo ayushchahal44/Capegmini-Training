@@ -1,0 +1,49 @@
+<div class="review-container">
+  <div class="page-header">
+    <button mat-icon-button (click)="goBack()" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-content">
+      <h1>Review Application #{{application?.id}}</h1>
+      <p class="header-subtitle">Loan Underwriting System</p>
+    </div>
+  </div>
+
+  <div class="status-timeline-section" *ngIf="application">
+    <app-status-timeline [application]="application"></app-status-timeline>
+  </div>
+
+  <div class="main-content" *ngIf="application">
+    <div class="content-grid">
+      <!-- Left Section: Applicant Summary (30%) -->
+      <div class="left-section">
+        <app-applicant-summary [application]="application"></app-applicant-summary>
+      </div>
+
+      <!-- Center Section: Document Verification (40%) -->
+      <div class="center-section">
+        <app-document-panel 
+          [documents]="documents"
+          (documentVerified)="onDocumentVerified($event)"
+          (documentRejected)="onDocumentRejected($event)"
+          (reuploadRequested)="onReuploadRequested($event)">
+        </app-document-panel>
+      </div>
+
+      <!-- Right Section: Decision Panel (30%) -->
+      <div class="right-section">
+        <app-decision-panel 
+          [application]="application"
+          [allDocumentsVerified]="allDocumentsVerified"
+          (approve)="onApprove($event)"
+          (reject)="onReject($event)">
+        </app-decision-panel>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="!application">
+    <mat-spinner></mat-spinner>
+    <p>Loading application details...</p>
+  </div>
+</div>

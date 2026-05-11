@@ -1,0 +1,64 @@
+<div class="reports-container fade-in">
+  <header class="section-header">
+    <div>
+      <h1>Analytical Reports</h1>
+      <p class="text-muted">System-wide performance and application metrics.</p>
+    </div>
+  </header>
+
+  @if (report) {
+    <div class="stats-grid">
+      <div class="glass report-card">
+        <div class="card-header">
+          <lucide-icon [name]="FileText" [size]="24" class="icon-primary"></lucide-icon>
+          <h3>Volume</h3>
+        </div>
+        <div class="card-body">
+          <span class="value">{{report.totalApplications}}</span>
+          <span class="label">Total Applications</span>
+        </div>
+      </div>
+
+      <div class="glass report-card">
+        <div class="card-header">
+          <lucide-icon [name]="TrendingUp" [size]="24" class="icon-success"></lucide-icon>
+          <h3>Approvals</h3>
+        </div>
+        <div class="card-body">
+          <span class="value success">{{report.approvedDecisions}}</span>
+          <span class="label">Approved Decisions</span>
+        </div>
+      </div>
+
+      <div class="glass report-card">
+        <div class="card-header">
+          <lucide-icon [name]="TrendingDown" [size]="24" class="icon-danger"></lucide-icon>
+          <h3>Rejections</h3>
+        </div>
+        <div class="card-body">
+          <span class="value danger">{{report.rejectedDecisions}}</span>
+          <span class="label">Rejected Decisions</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass charts-section">
+      <h3>Approval Rate Visualization</h3>
+      <div class="simple-chart">
+        <div class="bar-container">
+          <div class="bar approved" [style.width.%]="(report.approvedDecisions / report.totalApplications) * 100 || 0"></div>
+          <div class="bar rejected" [style.width.%]="(report.rejectedDecisions / report.totalApplications) * 100 || 0"></div>
+        </div>
+        <div class="legend">
+          <span class="legend-item"><span class="dot approved"></span> Approved</span>
+          <span class="legend-item"><span class="dot rejected"></span> Rejected</span>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Generating reports...</p>
+    </div>
+  }
+</div>

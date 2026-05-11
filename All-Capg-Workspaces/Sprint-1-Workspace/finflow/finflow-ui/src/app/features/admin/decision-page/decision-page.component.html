@@ -1,0 +1,34 @@
+<div class="decision-container fade-in">
+  <div class="page-header">
+    <button (click)="navigateBack()" class="btn-icon-large">
+      <lucide-icon [name]="ArrowLeft" [size]="20"></lucide-icon>
+    </button>
+    <div class="header-content">
+      <h1>Decision Panel #{{application?.id}}</h1>
+      <p class="header-subtitle">Page 3 of 3 - Final Decision</p>
+    </div>
+    <div class="page-navigation">
+      <button (click)="goToDocuments()" class="btn btn-ghost nav-btn">
+        <lucide-icon [name]="ArrowLeft" [size]="18"></lucide-icon>
+        Previous: Docs
+      </button>
+    </div>
+  </div>
+
+  <div class="content-grid" *ngIf="application">
+    <div class="main-section">
+      <app-decision-panel 
+        [application]="application"
+        [allDocumentsVerified]="allDocumentsVerified"
+        [pendingDocuments]="pendingDocuments"
+        (approve)="onApprove($event)"
+        (reject)="onReject($event)">
+      </app-decision-panel>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="!application">
+    <div class="spinner"></div>
+    <p>Loading application details...</p>
+  </div>
+</div>

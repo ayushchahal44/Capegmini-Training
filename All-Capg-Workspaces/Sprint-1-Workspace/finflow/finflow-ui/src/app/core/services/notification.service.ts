@@ -6,12 +6,16 @@ export interface Toast {
   id: number;
 }
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
   private readonly toastsSignal = signal<Toast[]>([]);
   readonly toasts = this.toastsSignal.asReadonly();
+  
+  constructor() {}
+
 
   show(message: string, type: 'success' | 'error' | 'info' = 'info') {
     const id = Date.now();

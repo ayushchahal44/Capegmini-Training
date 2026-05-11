@@ -1,0 +1,114 @@
+<div class="glass-card decision-panel-card">
+  <div class="card-header">
+    <h3 class="card-title">
+      <lucide-icon [name]="MessageIcon" [size]="20"></lucide-icon>
+      Decision Panel
+    </h3>
+  </div>
+  
+  <div class="card-content">
+    <form [formGroup]="decisionForm" class="decision-form">
+      <div class="form-section">
+        <label class="section-label">Reviewer Notes *</label>
+        <div class="textarea-wrapper">
+          <textarea 
+            placeholder="Enter detailed notes about your decision..."
+            formControlName="notes"
+            rows="4">
+          </textarea>
+        </div>
+        @if (decisionForm.get('notes')?.invalid && decisionForm.get('notes')?.touched) {
+          <span class="error-text">Notes are required for decision (min 10 chars)</span>
+        }
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="form-section">
+        <h4 class="section-subtitle">Proposed Loan Terms</h4>
+        
+        <div class="input-grid">
+          <div class="input-group">
+            <label><lucide-icon [name]="BanknoteIcon" [size]="14"></lucide-icon> Approved Amount</label>
+            <input type="number" formControlName="approvedAmount" placeholder="0">
+            <span class="hint">{{application?.loanAmount | currency:'INR':'symbol':'1.0-0'}} requested</span>
+          </div>
+
+          <div class="input-group">
+            <label><lucide-icon [name]="PercentIcon" [size]="14"></lucide-icon> Interest Rate (%)</label>
+            <input type="number" formControlName="interestRate" placeholder="0" step="0.1">
+            <span class="hint">Annual interest rate</span>
+          </div>
+
+          <div class="input-group">
+            <label><lucide-icon [name]="CalendarIcon" [size]="14"></lucide-icon> Tenure (Months)</label>
+            <input type="number" formControlName="tenure" placeholder="0">
+            <span class="hint">{{application?.tenureMonths}} months requested</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="validation-summary" *ngIf="!isActive">
+        <div class="validation-item info-item">
+          <lucide-icon [name]="CheckIcon" [size]="14" *ngIf="application?.status === 'APPROVED'"></lucide-icon>
+          <lucide-icon [name]="XIcon" [size]="14" *ngIf="application?.status === 'REJECTED'"></lucide-icon>
+          <span>This application has already been <strong>{{application?.status}}</strong>. No further actions are allowed.</span>
+        </div>
+      </div>
+
+      <div class="validation-summary" *ngIf="isActive && !canApprove">
+        <div class="validation-item" *ngIf="decisionForm.get('notes')?.invalid">
+          <lucide-icon [name]="AlertIcon" [size]="14"></lucide-icon>
+          <span>Reviewer notes are required</span>
+        </div>
+        <div class="validation-item" *ngIf="!allDocumentsVerified">
+          <lucide-icon [name]="AlertIcon" [size]="14"></lucide-icon>
+          <div class="validation-details">
+            <span>The following documents require verification:</span>
+            <ul class="pending-list">
+              @for (doc of pendingDocuments; track doc.id) {
+                <li>{{doc.docType.replace('_', ' ')}} ({{doc.originalName}})</li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button 
+          class="btn btn-primary approve-btn"
+          (click)="onApprove()"
+          [disabled]="!canApprove || decisionForm.invalid">
+          <lucide-icon [name]="CheckIcon" [size]="18"></lucide-icon>
+          Approve Application
+        </button>
+        
+        <button 
+          class="btn btn-danger reject-btn"
+          (click)="onReject()"
+          [disabled]="!isActive || !decisionForm.get('notes')?.valid">
+          <lucide-icon [name]="XIcon" [size]="18"></lucide-icon>
+          Reject Application
+        </button>
+      </div>
+    </form>
+
+    <div class="quick-actions" *ngIf="application">
+      <h5><lucide-icon [name]="MagicIcon" [size]="14"></lucide-icon> Quick Tools</h5>
+      <div class="action-grid">
+        <button class="btn btn-ghost btn-sm" (click)="setMaximumAmount()">
+          Max Amount (60% Income)
+        </button>
+        <button class="btn btn-ghost btn-sm" (click)="setStandardRate()">
+          Standard Rate (12.5%)
+        </button>
+        <button class="btn btn-ghost btn-sm" (click)="setRequestedTenure()">
+          Requested Tenure
+        </button>
+        <button class="btn btn-ghost btn-sm" (click)="resetForm()">
+          Reset Form
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

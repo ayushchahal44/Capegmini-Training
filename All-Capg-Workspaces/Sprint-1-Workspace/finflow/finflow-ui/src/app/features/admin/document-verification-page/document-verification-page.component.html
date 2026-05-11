@@ -1,0 +1,37 @@
+<div class="documents-container fade-in">
+  <div class="page-header">
+    <button (click)="goBack()" class="btn-icon-large">
+      <lucide-icon [name]="ArrowLeft" [size]="20"></lucide-icon>
+    </button>
+    <div class="header-content">
+      <h1>Document Verification #{{application?.id}}</h1>
+      <p class="header-subtitle">Page 2 of 3 - Document Review</p>
+    </div>
+    <div class="page-navigation">
+      <button (click)="goToSummary()" class="btn btn-ghost nav-btn">
+        <lucide-icon [name]="ArrowLeft" [size]="18"></lucide-icon>
+        Previous: Info
+      </button>
+      <button (click)="goToDecision()" class="btn btn-primary nav-btn">
+        Next: Decision
+        <lucide-icon [name]="ArrowRight" [size]="18"></lucide-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="content-grid" *ngIf="application">
+    <div class="main-section">
+      <app-document-panel 
+        [documents]="documents"
+        (documentVerified)="onDocumentVerified($event)"
+        (documentRejected)="onDocumentRejected($event)"
+        (reuploadRequested)="onReuploadRequested($event)">
+      </app-document-panel>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="!application">
+    <div class="spinner"></div>
+    <p>Loading application details...</p>
+  </div>
+</div>

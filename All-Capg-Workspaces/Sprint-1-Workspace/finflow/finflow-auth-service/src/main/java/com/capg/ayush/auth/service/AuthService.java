@@ -4,7 +4,6 @@ package com.capg.ayush.auth.service;
 import java.util.List;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,12 +33,6 @@ public class AuthService {
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenProvider jwtTokenProvider;
 
-	/**
-	 * Constructs a new AuthService.
-	 * @param userRepository Repository for user data
-	 * @param passwordEncoder Encoder for password hashing and verification
-	 * @param jwtTokenProvider Provider for generating JWT tokens
-	 */
 	public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
@@ -88,6 +81,7 @@ public class AuthService {
 			
 			user = userRepository.save(user);
 			log.debug("Saved user with ID: {}", user.getId());
+
 			
 			String token = jwtTokenProvider.generateToken(user.getId(), user.getEmail(), user.getRole().name());
 			// Avoid logging JWT token in production.

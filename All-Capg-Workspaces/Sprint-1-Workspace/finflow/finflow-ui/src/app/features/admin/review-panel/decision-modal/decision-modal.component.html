@@ -1,0 +1,87 @@
+<div class="glass-modal decision-modal fade-in">
+  <div class="modal-header">
+    <div class="header-icon-container" [class.approve]="data.decisionType === 'approve'" [class.reject]="data.decisionType === 'reject'">
+      <lucide-icon [name]="data.decisionType === 'approve' ? CheckIcon : XIcon" [size]="32"></lucide-icon>
+    </div>
+    <h2 class="modal-title">
+      {{data.decisionType === 'approve' ? 'Approve Application' : 'Reject Application'}}
+    </h2>
+    <p class="modal-subtitle">
+      Please review the details before confirming your decision
+    </p>
+  </div>
+
+  <div class="modal-content">
+    <div class="info-section">
+      <h3 class="section-title">Applicant Information</h3>
+      <div class="info-grid">
+        <div class="info-card">
+          <lucide-icon [name]="UserIcon" [size]="16" class="card-icon"></lucide-icon>
+          <div class="card-body">
+            <span class="card-label">Name</span>
+            <span class="card-value">{{data.application.fullName}}</span>
+          </div>
+        </div>
+        <div class="info-card">
+          <lucide-icon [name]="HashIcon" [size]="16" class="card-icon"></lucide-icon>
+          <div class="card-body">
+            <span class="card-label">Application ID</span>
+            <span class="card-value">#{{data.application.id}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3 class="section-title">Loan Details</h3>
+      <div class="info-grid" [class.single-col]="data.decisionType === 'reject'">
+        <div class="info-card">
+          <lucide-icon [name]="BanknoteIcon" [size]="16" class="card-icon"></lucide-icon>
+          <div class="card-body">
+            <span class="card-label">Requested Amount</span>
+            <span class="card-value">{{data.application.loanAmount | currency:'INR':'symbol':'1.0-0'}}</span>
+          </div>
+        </div>
+        @if (data.decisionType === 'approve' && data.decisionData.approvedAmount) {
+          <div class="info-card highlight-success">
+            <lucide-icon [name]="BanknoteIcon" [size]="16" class="card-icon"></lucide-icon>
+            <div class="card-body">
+              <span class="card-label">Approved Amount</span>
+              <span class="card-value">{{data.decisionData.approvedAmount | currency:'INR':'symbol':'1.0-0'}}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3 class="section-title">
+        <lucide-icon [name]="MessageIcon" [size]="16"></lucide-icon>
+        Reviewer Notes
+      </h3>
+      <div class="notes-card">
+        <p>{{data.decisionData.notes}}</p>
+      </div>
+    </div>
+
+    <div class="warning-banner" [class.reject]="data.decisionType === 'reject'">
+      <lucide-icon [name]="AlertIcon" [size]="18"></lucide-icon>
+      <div class="warning-text">
+        @if (data.decisionType === 'approve') {
+          <p>This action will approve the loan application and notify the applicant.</p>
+          <p>Once approved, this decision cannot be easily reversed.</p>
+        } @else {
+          <p>This action will reject the loan application permanently.</p>
+          <p>The applicant will need to submit a new application if they wish to reapply.</p>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-actions">
+    <button (click)="onCancel()" class="btn btn-ghost">Cancel</button>
+    <button (click)="onConfirm()" class="btn" [class.btn-primary]="data.decisionType === 'approve'" [class.btn-danger]="data.decisionType === 'reject'">
+      {{data.decisionType === 'approve' ? 'Confirm Approval' : 'Confirm Rejection'}}
+    </button>
+  </div>
+</div>

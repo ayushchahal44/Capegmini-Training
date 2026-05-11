@@ -19,87 +19,8 @@ import { Observable, combineLatest, map } from 'rxjs';
     LucideAngularModule,
     DocumentPanelComponent
   ],
-  template: `
-    <div class="documents-container fade-in">
-      <div class="page-header">
-        <button (click)="goBack()" class="btn-icon-large">
-          <lucide-icon [name]="ArrowLeft" [size]="20"></lucide-icon>
-        </button>
-        <div class="header-content">
-          <h1>Document Verification #{{application?.id}}</h1>
-          <p class="header-subtitle">Page 2 of 3 - Document Review</p>
-        </div>
-        <div class="page-navigation">
-          <button (click)="goToSummary()" class="btn btn-ghost nav-btn">
-            <lucide-icon [name]="ArrowLeft" [size]="18"></lucide-icon>
-            Previous: Info
-          </button>
-          <button (click)="goToDecision()" class="btn btn-primary nav-btn">
-            Next: Decision
-            <lucide-icon [name]="ArrowRight" [size]="18"></lucide-icon>
-          </button>
-        </div>
-      </div>
-
-      <div class="content-grid" *ngIf="application">
-        <div class="main-section">
-          <app-document-panel 
-            [documents]="documents"
-            (documentVerified)="onDocumentVerified($event)"
-            (documentRejected)="onDocumentRejected($event)"
-            (reuploadRequested)="onReuploadRequested($event)">
-          </app-document-panel>
-        </div>
-      </div>
-
-      <div class="loading-state" *ngIf="!application">
-        <div class="spinner"></div>
-        <p>Loading application details...</p>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .documents-container { max-width: 1200px; margin: 0 auto; padding: 2.5rem; }
-    
-    .page-header { 
-      display: flex; 
-      align-items: center; 
-      gap: 2rem; 
-      margin-bottom: 3rem;
-      position: relative;
-    }
-    
-    @media (max-width: 768px) {
-      .page-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-      }
-    }
-    
-    .header-content h1 { font-size: 2.25rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 4px; }
-    .header-subtitle { color: var(--text-muted); font-weight: 600; font-size: 0.9rem; }
-    
-    .btn-icon-large {
-      width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: var(--text-secondary);
-      cursor: pointer; transition: var(--transition);
-    }
-    .btn-icon-large:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); border-color: rgba(255,255,255,0.2); }
-    
-    .page-navigation { margin-left: auto; display: flex; gap: 1rem; }
-    .nav-btn { min-width: 160px; display: flex; align-items: center; gap: 10px; justify-content: center; }
-    
-    .content-grid { display: flex; gap: 2.5rem; }
-    .main-section { flex: 1; }
-
-    .loading-state {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 6rem; gap: 1.5rem;
-    }
-    .spinner { width: 50px; height: 50px; border: 3px solid rgba(99, 102, 241, 0.1); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  `]
+  templateUrl: './document-verification-page.component.html',
+  styleUrl: './document-verification-page.component.css'
 })
 export class DocumentVerificationPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
